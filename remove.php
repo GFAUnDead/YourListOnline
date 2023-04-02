@@ -67,12 +67,7 @@
             }
 
             // Connect to the database
-            $servername = "(REDACTED)";
-            $username = "(REDACTED)";
-            $password = "(REDACTED)";
-            $dbname = "(REDACTED)";
-
-            $conn = new mysqli($servername, $username, $password, $dbname);
+			include('db_connect.php');
 
             // Check if the connection is successful
             if ($conn->connect_error) {
@@ -128,12 +123,9 @@
 
             // Close the statement
             $stmt->close();
+            
             // Connect to the database
-            $servername = "(REDACTED)";
-            $username = "(REDACTED)";
-            $password = "(REDACTED)";
-            $dbname = "(REDACTED)";
-            $conn = new mysqli($servername, $username, $password, $dbname);
+			include('db_connect.php');
 
             // Check if the connection is successful
             if ($conn->connect_error) {
