@@ -1,10 +1,12 @@
 body {
 	font-family: Arial, sans-serif;
+    color: #333333;
+    background-color: #F0F0F0;
 }
 
 header {
 	background-color: #292b2c;
-	color: #fff;
+	color: #FFFFFF;
 	padding: 20px;
 }
 
@@ -42,4 +44,86 @@ footer p {
 
 .twitch-button:hover {
 	background-color: #7535cc;
+}
+
+/* Style the form */
+form {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 10px;
+    margin: 10px;
+}
+
+/* Style the form inputs */
+input[type=text], select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    display: inline-block;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Style the form submit button */
+input[type=submit] {
+    background-color: #333333;
+    color: #FFFFFF;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #555555;
+}
+
+/* Style the table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td, table th {
+    border: 1px solid #CCCCCC;
+    padding: 8px;
+    text-align: left;
+}
+
+table th {
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+table tr:nth-child(even) {
+    background-color: #F0F0F0;
+}
+
+table tr:hover {
+    background-color: #CCCCCC;
+    cursor: pointer;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.button:first-child {
+  margin-left: 0;
+}
+
+.button:hover {
+  background-color: #3e8e41;
+}
+
+.nav-button {
+  text-decoration: none;
 }
