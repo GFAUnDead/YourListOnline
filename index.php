@@ -17,7 +17,7 @@
 	</main>
 
 	<footer>
-		<p>&copy; <?php echo date("Y"); ?> My To-Do List. All rights reserved.</p>
+		<p>&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
 	</footer>
 </body>
 </html>
