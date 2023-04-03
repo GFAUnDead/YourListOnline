@@ -36,6 +36,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>YourListOnline - Remove Item</title>
 </head>
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.php">YourListOnline</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="dashboard.php">Dashboard</a></li>
+                <li><a href="insert.php">Add</a></li>
+                <li><a href="completed.php">Completed</a></li>
+                <li><a href="update.php">Update</a></li>
+                <li class="active"><a href="remove.php">Remove</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
     <h1>Remove Item</h1>
 
     <table>
