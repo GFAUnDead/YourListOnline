@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>User Login and Registration</title>
+	<title>YourListOnline - User Account</title>
 </head>
 <body>
 	<h2>Login</h2>
