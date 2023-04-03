@@ -39,8 +39,20 @@ $stmt->close();
     <title>YourListOnline - Completed</title>
 </head>
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.php">YourListOnline</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="dashboard.php">Dashboard</a></li>
+                <li class="active"><a href="completed.php">Completed</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    
     <h1>My To-Do List</h1>
-
     <table>
         <thead>
             <tr>
