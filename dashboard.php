@@ -31,22 +31,31 @@ if (!$result) {
   <title>YourListOnline - Dashboard</title>
 </head>
 <body>
-  <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.php">YourListOnline</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="dashboard.php">Dashboard</a></li>
+                <li><a href="completed.php">Completed</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    <h2>Your to-do list:</h2>
+    <ul>
+     <?php while ($row = mysqli_fetch_assoc($result)): ?>
+          <li>
+            <h3><?php echo $row['title']; ?></h3>
+            <p><?php echo $row['description']; ?></p>
+            <p>Created at: <?php echo $row['created_at']; ?></p>
+            <p>Updated at: <?php echo $row['updated_at']; ?></p>
+            <p>Completed: <?php echo $row['completed'] ? 'Yes' : 'No'; ?></p>
+          </li>
+     <?php endwhile; ?>
+     </ul>
   
-  <h2>Your to-do list:</h2>
-  
-  <ul>
-    <?php while ($row = mysqli_fetch_assoc($result)): ?>
-      <li>
-        <h3><?php echo $row['title']; ?></h3>
-        <p><?php echo $row['description']; ?></p>
-        <p>Created at: <?php echo $row['created_at']; ?></p>
-        <p>Updated at: <?php echo $row['updated_at']; ?></p>
-        <p>Completed: <?php echo $row['completed'] ? 'Yes' : 'No'; ?></p>
-      </li>
-    <?php endwhile; ?>
-  </ul>
-  
-  <a href="logout.php">Logout</a>
 </body>
 </html>
