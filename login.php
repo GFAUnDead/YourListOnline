@@ -100,6 +100,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.php">YourListOnline</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="index.php">Home</a></li>
+                <li class="active"><a href="login.php">Login</a></li>
+                <li><a href="register.php">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="wrapper">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
