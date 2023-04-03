@@ -1,31 +1,34 @@
 <?php
-// Include config file
+// start session
+session_start();
+
+// include database connection
 require_once "db_connect.php";
 
-// Define variables and initialize with empty values
+// define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = "";
 
-// Processing form data when form is submitted
+// process form data when the form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    // Validate username
+    // validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter a username.";
     } else{
-        // Prepare a select statement
+        // prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
 
         if($stmt = $conn->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
+            // bind variables to the prepared statement as parameters
             $stmt->bind_param("s", $param_username);
 
-            // Set parameters
+            // set parameters
             $param_username = trim($_POST["username"]);
 
-            // Attempt to execute the prepared statement
+            // attempt to execute the prepared statement
             if($stmt->execute()){
-                /* store result */
+                // store result
                 $stmt->store_result();
 
                 if($stmt->num_rows == 1){
@@ -37,49 +40,52 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Oops! Something went wrong. Please try again later.";
             }
 
-            // Close statement
+            // close statement
             $stmt->close();
         }
     }
 
-    // Validate password
+    // validate password
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter a password.";
     } else{
         $password = trim($_POST["password"]);
     }
 
-    // Check input errors before inserting in database
+    // check input errors before inserting into database
     if(empty($username_err) && empty($password_err)){
 
-        // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        // prepare an insert statement
+        $sql = "INSERT INTO users (username, password, api_key, is_admin) VALUES (?, ?, ?, ?)";
 
         if($stmt = $conn->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ss", $param_username, $param_password);
+            // bind variables to the prepared statement as parameters
+            $stmt->bind_param("sssi", $param_username, $param_password, $param_api_key, $param_is_admin);
 
-            // Set parameters
-            $param_username = htmlspecialchars(strip_tags($username));
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            // set parameters
+            $param_username = $username;
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // creates a password hash
+            $param_api_key = bin2hex(random_bytes(16)); // generate api key
+            $param_is_admin = 0; // set is_admin to false
 
-            // Attempt to execute the prepared statement
+            // attempt to execute the prepared statement
             if($stmt->execute()){
-                // Redirect to login page
-                header("location: dashboard.php");
+                // redirect to login page
+                header("location: login.php");
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
 
-            // Close statement
+            // close statement
             $stmt->close();
         }
     }
 
-    // Close connection
+    // close connection
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
