@@ -2,7 +2,7 @@
 // Initialize the session
 session_start();
 
-// Check if the user is already logged in, if yes then redirect him to todo page
+// Check if the user is already logged in, if yes then redirect him to dashboard page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: dashboard.php");
     exit;
@@ -63,8 +63,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
 
-                            // Redirect user to todo page
-                            header("location: todo.php");
+                            // Redirect user to dashboard page
+                            header("location: dashboard.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";
