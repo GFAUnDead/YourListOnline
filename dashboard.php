@@ -38,7 +38,10 @@ if (!$result) {
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="dashboard.php">Dashboard</a></li>
+                <li><a href="insert.php">Add</a></li>
                 <li><a href="completed.php">Completed</a></li>
+                <li><a href="update.php">Update</a></li>
+                <li><a href="remove.php">Remove</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
         </div>
