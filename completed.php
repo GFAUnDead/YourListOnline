@@ -36,7 +36,7 @@ $stmt->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My To-Do List</title>
+    <title>YourListOnline - Completed</title>
 </head>
 <body>
     <h1>My To-Do List</h1>
