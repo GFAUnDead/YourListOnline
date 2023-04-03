@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>To Do List - Remove</title>
+	<title>YourListOnline - Remove</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="icon" href="../../images/logo.png" type="image/png" />
 </head>
