@@ -78,7 +78,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endwhile; ?>
         </tbody>
     </table>
-
-    <p><a href="dashboard.php">Back to Dashboard</a></p>
 </body>
 </html>
