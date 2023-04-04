@@ -2,8 +2,8 @@
 // Initialize the session
 session_start();
 
-// Check if the user is already logged in and not on dashboard page, if yes then redirect them to dashboard page
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true && basename($_SERVER['PHP_SELF']) !== 'dashboard.php'){
+// Check if the user is already logged in, if yes then redirect him to dashboard page
+if(isset($_SESSION["user_id"]) && $_SESSION["user_id"] === true){
     header("location: dashboard.php");
     exit;
 }
@@ -37,31 +37,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Prepare a select statement
         $sql = "SELECT id, username, password FROM users WHERE username = ?";
 
-        if($stmt = $conn->prepare($sql)){
+        if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_username);
+            mysqli_stmt_bind_param($stmt, "s", $param_username);
 
             // Set parameters
             $param_username = $username;
 
             // Attempt to execute the prepared statement
-            if($stmt->execute()){
+            if(mysqli_stmt_execute($stmt)){
                 // Store result
-                $stmt->store_result();
+                mysqli_stmt_store_result($stmt);
 
                 // Check if username exists, if yes then verify password
-                if($stmt->num_rows == 1){
+                if(mysqli_stmt_num_rows($stmt) == 1){                    
                     // Bind result variables
-                    $stmt->bind_result($id, $username, $hashed_password);
-                    if($stmt->fetch()){
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                    if(mysqli_stmt_fetch($stmt)){
                         if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
                             session_start();
 
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;
+                            $_SESSION["user_id"] = $id;
+                            $_SESSION["username"] = $username;                            
 
                             // Redirect user to dashboard page
                             header("location: dashboard.php");
@@ -79,12 +79,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
 
             // Close statement
-            $stmt->close();
+            mysqli_stmt_close($stmt);
         }
     }
 
     // Close connection
-    $conn->close();
+    mysqli_close($link);
 }
 ?>
 
