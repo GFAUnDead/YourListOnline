@@ -3,7 +3,7 @@
 session_start();
 
 // Check if the user is already logged in, if yes then redirect him to dashboard page
-if(isset($_SESSION["user_id"]) && $_SESSION["user_id"] === true){
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: dashboard.php");
     exit;
 }
