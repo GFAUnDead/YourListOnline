@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <li class="active"><a href="remove.php">Remove</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
+            <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
         </div>
     </nav>
     <h1>Remove Item</h1>
