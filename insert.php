@@ -11,7 +11,7 @@ if (!isset($_SESSION['loggedin'])) {
 require_once 'db_connect.php';
 
 // get user ID from session
-$user_id = $_SESSION['user_id'];
+$user_id = $_POST['user_id'];
 
 // get form data
 $title = $_POST['title'];
