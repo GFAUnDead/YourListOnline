@@ -109,6 +109,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <li><a href="login.php">Login</a></li>
                 <li class="active"><a href="register.php">Sign Up</a></li>
             </ul>
+            <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
         </div>
     </nav>
     <div class="wrapper">
