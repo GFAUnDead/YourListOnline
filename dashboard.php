@@ -1,5 +1,4 @@
 <?php
-// Start session
 session_start();
 
 // Check if user is logged in
@@ -13,7 +12,7 @@ require_once "db_connect.php";
 
 // Get user's to-do list
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY created_at DESC";
+$sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY created_at DESC";
 $result = mysqli_query($conn, $sql);
 
 // Handle errors
@@ -29,6 +28,11 @@ if (!$result) {
 <html>
 <head>
   <title>YourListOnline - Dashboard</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 350px; padding: 20px; }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default">
