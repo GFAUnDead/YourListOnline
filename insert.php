@@ -21,16 +21,17 @@ $description = $_POST['description'];
 $stmt = $conn->prepare("INSERT INTO todos (user_id, title, description) VALUES (?, ?, ?)");
 $stmt->bind_param("iss", $user_id, $title, $description);
 $stmt->execute();
-
-// redirect back to dashboard
-header('Location: dashboard.php');
-exit();
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
   <title>YourListOnline - Add New Items</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 350px; padding: 20px; }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default">
