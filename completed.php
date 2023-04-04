@@ -10,12 +10,12 @@ if (!isset($_SESSION['loggedin'])) {
 require_once "db_connect.php";
 
 // Mark task as completed
-if (isset($_GET['task_id'])) {
-    $task_id = $_GET['task_id'];
+if (isset($_POST['task_id'])) {
+    $task_id = $_POST['task_id'];
     $user_id = $_SESSION['user_id'];
 
     $sql = "UPDATE todos SET completed = 1 WHERE id = ? AND user_id = ?";
-    $stmt = $mysqli->prepare($sql);
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $task_id, $user_id);
     $stmt->execute();
     $stmt->close();
@@ -25,18 +25,22 @@ if (isset($_GET['task_id'])) {
 $user_id = $_SESSION['user_id'];
 
 $sql = "SELECT * FROM todos WHERE user_id = ?";
-$stmt = $mysqli->prepare($sql);
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>YourListOnline - Completed</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <style type="text/css">
+        body{ font: 14px sans-serif; }
+        .wrapper{ width: 350px; padding: 20px; }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default">
