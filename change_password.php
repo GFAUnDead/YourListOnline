@@ -1,6 +1,12 @@
 <?php
 // Initialize the session
 session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['loggedin'])) {
+    header("Location: login.php");
+    exit;
+}
  
 // Include config file
 require_once "db_connect.php";
@@ -104,3 +110,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Close connection
     $conn->close();
 }
+?>
