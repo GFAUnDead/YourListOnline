@@ -7,7 +7,18 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
+// Require database connection
 require_once "db_connect.php";
+
+// Get user's to-do list
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM todos WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
 
 // Mark task as completed
 if (isset($_POST['task_id'])) {
@@ -20,16 +31,6 @@ if (isset($_POST['task_id'])) {
     $stmt->execute();
     $stmt->close();
 }
-
-// Get user's to-do list
-$user_id = $_SESSION['user_id'];
-
-$sql = "SELECT * FROM todos WHERE user_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -77,8 +78,6 @@ $stmt->close();
           <tr>
               <th>Task ID</th>
               <th>Objective</th>
-              <th>Created</th>
-              <th>Last Updated</th>
               <th>Completed</th>
               <th>Action</th>
           </tr>
@@ -88,16 +87,12 @@ $stmt->close();
           <tr>
               <td><?php echo htmlspecialchars($row['id']) ?></td>
               <td><?php echo htmlspecialchars($row['objective']) ?></td>
-              <td><?php echo htmlspecialchars($row['created_at']) ?></td>
-              <td><?php echo htmlspecialchars($row['updated_at']) ?></td>
-              <td><?php echo $row['completed'] ? 'Yes' : 'No' ?></td>
+              <td><?php echo $row['completed']; ?></td>
               <td>
-                  <?php if (!$row['completed']): ?>
-                  <form method="post" action="completed.php">
-                      <input type="hidden" name="task_id" value="<?php echo $row['id'] ?>">
-                      <button type="submit">Mark as Completed</button>
-                  </form>
-                  <?php endif ?>
+                <form method="post" action="completed.php">
+                    <input type="hidden" name="task_id" value="<?php echo $row['id'] ?>">
+                    <button type="submit">Mark as Completed</button>
+                </form>
               </td>
           </tr>
           <?php endwhile ?>
