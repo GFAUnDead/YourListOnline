@@ -1,113 +1,130 @@
 <?php
-// Initialize the session
 session_start();
-
-// Check if user is logged in
-if (!isset($_SESSION['loggedin'])) {
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
-    exit;
+    exit();
 }
- 
-// Include config file
-require_once "db_connect.php";
- 
+
 // Define variables and initialize with empty values
 $current_password = $new_password = $confirm_password = "";
 $current_password_err = $new_password_err = $confirm_password_err = "";
- 
+
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
- 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     // Validate current password
-    if(empty(trim($_POST["current_password"]))){
+    if (empty(trim($_POST["current_password"]))) {
         $current_password_err = "Please enter your current password.";
-    } else{
+    } else {
         $current_password = trim($_POST["current_password"]);
     }
-    
+
     // Validate new password
-    if(empty(trim($_POST["new_password"]))){
-        $new_password_err = "Please enter a new password.";     
-    } elseif(strlen(trim($_POST["new_password"])) < 6){
-        $new_password_err = "Password must have at least 6 characters.";
-    } else{
+    if (empty(trim($_POST["new_password"]))) {
+        $new_password_err = "Please enter a new password.";
+    } elseif (strlen(trim($_POST["new_password"])) < 8) {
+        $new_password_err = "Password must have at least 8 characters.";
+    } else {
         $new_password = trim($_POST["new_password"]);
     }
-    
+
     // Validate confirm password
-    if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confirm the password.";
-    } else{
+    if (empty(trim($_POST["confirm_password"]))) {
+        $confirm_password_err = "Please confirm the new password.";
+    } else {
         $confirm_password = trim($_POST["confirm_password"]);
-        if(empty($new_password_err) && ($new_password != $confirm_password)){
-            $confirm_password_err = "Password did not match.";
+        if (empty($new_password_err) && ($new_password != $confirm_password)) {
+            $confirm_password_err = "Passwords do not match.";
         }
     }
-    
+
     // Check input errors before updating the database
-    if(empty($current_password_err) && empty($new_password_err) && empty($confirm_password_err)){
-        
-        // Prepare a select statement
-        $sql = "SELECT password FROM users WHERE id = ?";
-        
-        if($stmt = $conn->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("i", $param_id);
-            
-            // Set parameters
-            $param_id = $_SESSION["id"];
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                $stmt->store_result();
-                
-                // Check if current password is correct
-                if($stmt->num_rows == 1){
-                    $stmt->bind_result($hashed_password);
-                    if($stmt->fetch()){
-                        if(password_verify($current_password, $hashed_password)){
-                            // Password is correct, update password
-                            $sql = "UPDATE users SET password = ? WHERE id = ?";
-                            
-                            if($stmt = $conn->prepare($sql)){
-                                // Bind variables to the prepared statement as parameters
-                                $stmt->bind_param("si", $param_password, $param_id);
-                                
-                                // Set parameters
-                                $param_password = password_hash($new_password, PASSWORD_DEFAULT);
-                                
-                                // Attempt to execute the prepared statement
-                                if($stmt->execute()){
-                                    // Password updated successfully, destroy session and redirect to login page
-                                    session_destroy();
-                                    header("location: login.php");
-                                    exit();
-                                } else{
-                                    echo "Oops! Something went wrong. Please try again later.";
-                                }
-                                
-                                // Close statement
-                                $stmt->close();
-                            }
-                        } else{
-                            $current_password_err = "Current password is incorrect.";
-                        }
+    if (empty($current_password_err) && empty($new_password_err) && empty($confirm_password_err)) {
+        // Check current password
+        $username = $_SESSION['username'];
+        $sql = "SELECT password FROM users WHERE username = '$username'";
+        $result = mysqli_query($link, $sql);
+        if ($result) {
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_assoc($result);
+                $hashed_password = $row["password"];
+                if (password_verify($current_password, $hashed_password)) {
+                    // Update password
+                    $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+                    $sql = "UPDATE users SET password = '$hashed_new_password' WHERE username = '$username'";
+                    $result = mysqli_query($link, $sql);
+                    if ($result) {
+                        // Password updated successfully, redirect to login page
+                        header("Location: login.php");
+                        exit();
+                    } else {
+                        echo "Oops! Something went wrong. Please try again later.";
                     }
-                } else{
-                    // Redirect to login page if user session is not found
-                    header("location: login.php");
-                    exit();
+                } else {
+                    $current_password_err = "The password you entered is not valid.";
                 }
-            } else{
+            } else {
                 echo "Oops! Something went wrong. Please try again later.";
             }
-            
-            // Close statement
-            $stmt->close();
+        } else {
+            echo "Oops! Something went wrong. Please try again later.";
         }
     }
-    
-    // Close connection
-    $conn->close();
+
+    // Close database connection
+    mysqli_close($link);
 }
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Password - YourListOnline</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.php">YourListOnline</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="dashboard.php">Dashboard</a></li>
+                <li><a href="insert.php">Add</a></li>
+                <li><a href="completed.php">Completed</a></li>
+                <li><a href="update.php">Update</a></li>
+                <li><a href="remove.php">Remove</a></li>
+                <li class="active"><a href="change_password.php">Password Change</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+            <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <h2>Change Password</h2>
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                    <div class="form-group">
+                        <label for="current_password">Current Password:</label>
+                        <input type="password" class="form-control" id="current_password" name="current_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">New Password:</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password:</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
