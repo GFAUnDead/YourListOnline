@@ -13,11 +13,11 @@ require_once "db_connect.php";
 
 // Get user's to-do list
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY created_at DESC";
+$sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY id DESC";
 $result = $conn->query($sql);
 
 if ($result) {
-    $tasks = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $tasks = $result->fetch_all(MYSQLI_ASSOC);
 } else {
     echo "Error: " . mysqli_error($conn);
 }
@@ -30,8 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Check if the task has been updated
         if ($new_task != $task['task']) {
-            $sql = "UPDATE tasks SET task = '$new_task' WHERE id = " . intval($task_id);
+            $sql = "UPDATE todos SET objective = '$new_task' WHERE id = " . intval($task_id);
             mysqli_query($conn, $sql);
+            header('Location: update.php');
+            $stmt->close();
         }
     }
 }
@@ -79,24 +81,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <h1>My To-Do List</h1>
     <form method="POST">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Existing</th>
-                    <th>Update</th>
-                    <th>Update Task</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($tasks as $task) { ?>
-                <tr>
-                    <td><?php echo $task['task']; ?></td>
-                    <td><input type="text" name="<?php echo $task['id']; ?>" class="form-control"></td>
-                    <td><button type="submit" class="btn btn-primary">Update</button></td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Update</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($tasks as $task) { ?>
+            <tr>
+              <td><?php echo $task['objective']; ?></td>
+              <td>
+                <input type="text" name="<?php echo $task['id']; ?>" class="form-control">
+              </td>
+              <td>
+                <form method="post" action="update.php">
+                  <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+              </td>
+            </tr>
+          <?php } ?>
+        </tbody>
+    </table>
     </form>
 </body>
 </html>
