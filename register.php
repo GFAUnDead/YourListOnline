@@ -94,7 +94,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <title>YourListOnline - Sign Up</title>
     <link rel="icon" href="img/logo.png" type="image/png" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <style type="text/css">
         body{ font: 14px sans-serif; }
         .wrapper{ width: 350px; padding: 20px; }
