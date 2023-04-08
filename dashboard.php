@@ -80,7 +80,7 @@ if (!$result) {
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <tr>
             <td><?php echo $row['id']; ?></td>
-            <td><?php echo $row['description']; ?></td>
+            <td><?php echo $row['objective']; ?></td>
             <td><?php echo $row['created_at']; ?></td>
             <td><?php echo $row['updated_at']; ?></td>
             <td><?php echo $row['completed'] ? 'Yes' : 'No'; ?></td>
