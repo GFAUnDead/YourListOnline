@@ -77,10 +77,10 @@ $stmt->close();
     <table>
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+                <th>Task ID</th>
+                <th>Objective</th>
+                <th>Created</th>
+                <th>Last Updated</th>
                 <th>Completed</th>
                 <th>Action</th>
             </tr>
@@ -88,7 +88,7 @@ $stmt->close();
         <tbody>
             <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
-                <td><?php echo htmlspecialchars($row['title']) ?></td>
+                <td><?php echo htmlspecialchars($row['id']) ?></td>
                 <td><?php echo htmlspecialchars($row['description']) ?></td>
                 <td><?php echo htmlspecialchars($row['created_at']) ?></td>
                 <td><?php echo htmlspecialchars($row['updated_at']) ?></td>
