@@ -6,22 +6,22 @@ To get started with this code, you will need to create a SQL database and use th
 
 ```sql
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    api_key VARCHAR(255) NOT NULL,
-    is_admin BOOLEAN DEFAULT FALSE,
-    signup_date TIMESTAMP DEFAULT NOW(),
-    last_login TIMESTAMP DEFAULT NOW()
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) COLLATE latin1_swedish_ci,
+    password VARCHAR(255) COLLATE latin1_swedish_ci,
+    api_key VARCHAR(255) COLLATE latin1_swedish_ci,
+    is_admin TINYINT(1) DEFAULT 0,
+    signup_date DATETIME,
+    last_login DATETIME
 );
 
 CREATE TABLE todos (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    objective TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW(),
-    completed BOOLEAN DEFAULT FALSE
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    user_id INT(11),
+    objective TEXT COLLATE latin1_swedish_ci,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    completed TINYTEXT COLLATE latin1_swedish_ci
 );
 ```
 
@@ -32,13 +32,6 @@ user_id: the id of the user who owns the todo item
 objective: the text of the todo item
 created_at: the timestamp when the todo item was created
 updated_at: the timestamp when the todo item was last updated
-completed: a boolean flag indicating whether the todo item has been completed or not
-The users table has the following columns:
+completed: a flag indicating whether the todo item has been completed or not
 
-id: a unique identifier for the user
-username: the username of the user
-password: the password of the user
-api_key: the API key of the user
-is_admin: a boolean flag indicating whether the user is an admin or not
-signup_date: the timestamp when the user signed up
-last_login: the timestamp when the user last logged in
+Note that id is set to INT with the AUTO_INCREMENT option, which will automatically generate a unique identifier for each new todo item added to the table. user_id and objective are set to INT and TEXT data types, respectively. created_at and updated_at are set to TIMESTAMP data type to store the date and time values, and completed is set to TINYTEXT data type to store a flag that indicates whether the todo item has been completed or not.
