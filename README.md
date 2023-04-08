@@ -27,11 +27,11 @@ CREATE TABLE todos (
 
 The todos table has the following columns:
 
-id: a unique identifier for the todo item
-user_id: the id of the user who owns the todo item
-objective: the text of the todo item
-created_at: the timestamp when the todo item was created
-updated_at: the timestamp when the todo item was last updated
-completed: a flag indicating whether the todo item has been completed or not
+⋅⋅* id: a unique identifier for the todo item
+⋅⋅* user_id: the id of the user who owns the todo item
+⋅⋅* objective: the text of the todo item
+⋅⋅* created_at: the timestamp when the todo item was created
+⋅⋅* updated_at: the timestamp when the todo item was last updated
+⋅⋅* completed: a flag indicating whether the todo item has been completed or not
 
 Note that id is set to INT with the AUTO_INCREMENT option, which will automatically generate a unique identifier for each new todo item added to the table. user_id and objective are set to INT and TEXT data types, respectively. created_at and updated_at are set to TIMESTAMP data type to store the date and time values, and completed is set to TINYTEXT data type to store a flag that indicates whether the todo item has been completed or not.
