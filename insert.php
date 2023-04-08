@@ -29,12 +29,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
   <title>YourListOnline - Add New Items</title>
   <link rel="icon" href="img/logo.png" type="image/png" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" href="style.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+  <style>
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+    form label {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        text-align: left;
+        width: 100%;
+        max-width: 350px;
+    }
+    form input[type="text"], form textarea {
+        width: 100%;
+        max-width: 350px;
+        box-sizing: border-box;
+    }
+    form input[type="submit"] {
+        margin-top: 10px;
+    }
+    .wrapper {
+      width: 350px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-default">
@@ -54,11 +79,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
     </div>
   </nav>
-  <h1>Add New Todo Item</h1>
-  <form method="post">
-    <label for="description">Description:</label>
-    <textarea id="description" name="description"></textarea><br><br>
-    <input type="submit" value="Add">
-  </form>
+
+  <div class="container">
+    <h1>Add New Todo Item</h1>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <form method="post">
+          <div class="form-group">
+            <label for="description">Task:</label>
+            <textarea id="description" name="description" class="form-control"></textarea>
+          </div>
+          <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
