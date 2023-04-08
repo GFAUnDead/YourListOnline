@@ -15,11 +15,11 @@ $user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // get form data
-  $description = $_POST['description'];
+  $objective = $_POST['objective'];
 
   // prepare and execute query
-  $stmt = $conn->prepare("INSERT INTO todos (user_id, description, created_at, updated_at, completed) VALUES (?, ?, NOW(), NOW(), 0)");
-  $stmt->bind_param("is", $user_id, $description);
+  $stmt = $conn->prepare("INSERT INTO todos (user_id, objective, created_at, updated_at, completed) VALUES (?, ?, NOW(), NOW(), 0)");
+  $stmt->bind_param("is", $user_id, $objective);
   $stmt->execute();
 }
 ?>
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <h1>Please enter your task to add it to your list:</h1>
       <form method="post">
         <div class="form-group">
-          <textarea id="description" name="description" class="form-control"></textarea>
+          <textarea id="objective" name="objective" class="form-control"></textarea>
         </div>
         <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
         <button type="submit" class="btn btn-primary">Add</button>
