@@ -75,18 +75,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <table>
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Created At</th>
-                <th>Action</th>
+                <th>Task ID</th>
+                <th>Objective</th>
+                <th>Remove</th>
             </tr>
         </thead>
         <tbody>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
-                    <td><?= $row['title'] ?></td>
-                    <td><?= $row['description'] ?></td>
-                    <td><?= $row['created_at'] ?></td>
+                    <td><?= $row['id'] ?></td>
+                    <td><?= $row['objective'] ?></td>
                     <td>
                         <form method="POST">
                             <input type="hidden" name="todo_id" value="<?= $row['id'] ?>">
