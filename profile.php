@@ -76,12 +76,29 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <h1>Your Profile</h1>
   <div class="wrapper">
     <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
-    <p><strong>API Key:</strong> <?php echo $api_key; ?></p>
+    <p><strong>API Key:</strong> 
+      <span id="api-key"><?php echo $api_key; ?></span>
+      <button id="toggle-api-key" type="button" onclick="toggleApiKey()">Show/Hide</button>
+    </p>
     <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?></p>
     <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?> at <?php echo date('g:i A', strtotime($last_login)); ?></p>
     <br>
     <a href="change_password.php" class="btn btn-primary">Change Password</a>
     <a href="logout.php" class="btn btn-primary">Logout</a>
   </div>
+
+<script>
+function toggleApiKey() {
+  var apiKeyElement = document.getElementById("api-key");
+  var toggleApiKeyButton = document.getElementById("toggle-api-key");
+  if (apiKeyElement.style.display === "none") {
+    apiKeyElement.style.display = "inline";
+    toggleApiKeyButton.textContent = "Hide";
+  } else {
+    apiKeyElement.style.display = "none";
+    toggleApiKeyButton.textContent = "Show";
+  }
+}
+</script>
 </body>
 </html>
