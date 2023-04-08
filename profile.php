@@ -76,31 +76,34 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <h1>Your Profile</h1>
   <div class="wrapper">
     <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
+    <div class="api-key-wrapper" style="display: none;">
+        <p><strong>API Key:</strong> <?php echo $api_key; ?></p>
+    </div>
+    <button type="button" class="btn btn-primary" id="show-api-key">Show API Key</button>
+    <button type="button" class="btn btn-primary" id="hide-api-key" style="display:none;">Hide API Key</button>
     <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?></p>
     <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?> at <?php echo date('g:i A', strtotime($last_login)); ?></p>
     <br>
-    <button id="toggleApiKey" class="btn btn-primary">Show API Key</button>
-    <p id="apiKey" style="display: none;"><strong>API Key:</strong> <?php echo $api_key; ?></p>
-    <br>
     <a href="change_password.php" class="btn btn-primary">Change Password</a>
     <a href="logout.php" class="btn btn-primary">Logout</a>
-  </div>
-  <script>
-    var apiKey = document.getElementById("api_key");
-    var showButton = document.getElementById("show_api_key");
-    var hideButton = document.getElementById("hide_api_key");
+</div>
 
-    showButton.addEventListener("click", function() {
-      apiKey.style.display = "inline";
-      showButton.style.display = "none";
-      hideButton.style.display = "inline";
+<script>
+    var showApiKeyButton = document.getElementById('show-api-key');
+    var hideApiKeyButton = document.getElementById('hide-api-key');
+    var apiKeyWrapper = document.querySelector('.api-key-wrapper');
+
+    showApiKeyButton.addEventListener('click', function() {
+        apiKeyWrapper.style.display = 'block';
+        showApiKeyButton.style.display = 'none';
+        hideApiKeyButton.style.display = 'block';
     });
 
-    hideButton.addEventListener("click", function() {
-      apiKey.style.display = "none";
-      showButton.style.display = "inline";
-      hideButton.style.display = "none";
+    hideApiKeyButton.addEventListener('click', function() {
+        apiKeyWrapper.style.display = 'none';
+        showApiKeyButton.style.display = 'block';
+        hideApiKeyButton.style.display = 'none';
     });
-  </script>
+</script>
 </body>
 </html>
