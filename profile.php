@@ -12,16 +12,17 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     // Get user information from the database
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT username, signup_date, last_login FROM users WHERE id = ?";
+    $sql = "SELECT username, signup_date, last_login, api_key FROM users WHERE id = ?";
     if($stmt = $conn->prepare($sql)){
         $stmt->bind_param("i", $user_id);
         if($stmt->execute()){
             $stmt->store_result();
             if($stmt->num_rows == 1){
-                $stmt->bind_result($username, $signup_date, $last_login);
+                $stmt->bind_result($username, $signup_date, $last_login, $api_key);
                 $stmt->fetch();
                 $_SESSION['signup_date'] = $signup_date;
                 $_SESSION['last_login'] = $last_login;
+                $_SESSION['api_key'] = $api_key;
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
                 exit;
@@ -75,6 +76,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <h1>Your Profile</h1>
   <div class="wrapper">
     <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
+    <p><strong>API Key:</strong> <?php echo $api_key; ?></p>
     <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?></p>
     <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?> at <?php echo date('g:i A', strtotime($last_login)); ?></p>
     <br>
