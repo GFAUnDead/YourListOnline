@@ -28,41 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 <head>
   <title>YourListOnline - Add New Items</title>
-  <link rel="icon" href="img/logo.png" type="image/png" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-  <style>
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    form label {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 10px;
-      text-align: left;
-      width: 100%;
-      max-width: 350px;
-    }
-    form input[type="text"], form textarea {
-      width: 100%;
-      max-width: 350px;
-      box-sizing: border-box;
-    }
-    form input[type="submit"] {
-      margin-top: 10px;
-    }
-    .wrapper {
-      width: 350px;
-      margin: 0 auto;
-      padding: 20px;
-      text-align: left;
-    }
-    .container h1 {
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" href="css/insert.css">
 </head>
 <body>
   <nav class="navbar navbar-default">
