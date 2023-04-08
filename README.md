@@ -110,8 +110,9 @@ sudo apt install -y mysql-server
 sudo mysql_secure_installation
 ```
 ### Notes
-The above script is a basic setup script for setting up a web server with PHP and a MySQL Database on an Ubuntu-based system. Specifically, it does the following:
+The above script is a basic setup script for setting up a web server with PHP and a MySQL Database on an Ubuntu-based system.
 
+Specifically, it does the following:
 1. Updates the package lists and installs Apache2, PHP, and the PHP MySQL extension.
 2. Enables the Apache2 rewrite module.
 3. Restarts the Apache2 web server.
