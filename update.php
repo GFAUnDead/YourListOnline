@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-  <nav class="navbar navbar-default">
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="index.php">YourListOnline</a>
@@ -71,8 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <li><a href="completed.php">Completed</a></li>
             <li class="active"><a href="update.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
-            <li><a href="change_password.php">Password Change</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="profile.php">Profile</a></li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
