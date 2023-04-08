@@ -21,6 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $stmt = $conn->prepare("INSERT INTO todos (user_id, objective, created_at, updated_at, completed) VALUES (?, ?, NOW(), NOW(), 'No')");
   $stmt->bind_param("is", $user_id, $objective);
   $stmt->execute();
+  header('Location: dashboard.php');
+  exit();
 }
 ?>
 
