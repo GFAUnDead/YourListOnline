@@ -30,6 +30,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <title>YourListOnline - Add New Items</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
   <link rel="stylesheet" href="css/insert.css">
+    <script src="js/about.js"></script>
+    <style type="text/css">
+      body {
+        font: 14px sans-serif;
+      }
+      .wrapper {
+        width: 350px; padding: 20px;
+      }
+      a.popup-link {
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+      }
+    </style>
 </head>
 <body>
   <nav class="navbar navbar-default">
@@ -46,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <li><a href="change_password.php">Password Change</a></li>
         <li><a href="logout.php">Logout</a></li>
       </ul>
-      <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
+      <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
   </nav>
 
