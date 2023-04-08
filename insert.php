@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
   </nav>
+  <div class="col-md-6">
   <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
   <h1>Please enter your task to add it to your list:</h1>
-    <div class="col-md-6">
       <form method="post">
         <div class="form-group">
           <textarea id="description" name="description" class="form-control"></textarea>
