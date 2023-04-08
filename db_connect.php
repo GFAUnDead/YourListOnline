@@ -1,8 +1,8 @@
 <?php
-$servername = "(REDACTED)";
-$username = "(REDACTED)";
-$password = "(REDACTED)";
-$dbname = "(REDACTED)";
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "todolistdb";
 
 // Create a connection
 $conn = new mysqli($servername, $username, $password, $dbname);
