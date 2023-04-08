@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, username, password FROM users WHERE username = ?";
+        $sql = "SELECT id, username, password, last_login FROM users WHERE username = ?";
 
         if($stmt = mysqli_prepare($conn, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -52,19 +52,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){                    
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $last_login);
                     if(mysqli_stmt_fetch($stmt)){
                         if(password_verify($password, $hashed_password)){
-                            // Password is correct, so start a new session
-                            session_start();
+                            // Password is correct, so update last login time and start a new session
+                            $last_login = date('Y-m-d H:i:s');
+                            $sql = "UPDATE users SET last_login = ? WHERE id = ?";
+                            if($stmt = mysqli_prepare($conn, $sql)){
+                                // Bind variables to the prepared statement as parameters
+                                mysqli_stmt_bind_param($stmt, "si", $last_login, $id);
 
-                            // Store data in session variables
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["user_id"] = $id;
-                            $_SESSION["username"] = $username;                            
+                                // Attempt to execute the prepared statement
+                                if(mysqli_stmt_execute($stmt)){
+                                    // Store data in session variables
+                                    session_start();
+                                    $_SESSION["loggedin"] = true;
+                                    $_SESSION["user_id"] = $id;
+                                    $_SESSION["username"] = $username;                            
+                                    $_SESSION["last_login"] = $last_login;
 
-                            // Redirect user to dashboard page
-                            header("location: dashboard.php");
+                                    // Redirect user to dashboard page
+                                    header("location: dashboard.php");
+                                } else{
+                                    echo "Oops! Something went wrong. Please try again later.";
+                                }
+                                mysqli_stmt_close($stmt);
+                            }
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";
@@ -80,11 +93,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
             // Close statement
             mysqli_stmt_close($stmt);
-        }
-    }
-
-    // Close connection
-    mysqli_close($conn);
 }
 ?>
 
