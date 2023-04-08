@@ -1,9 +1,12 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['loggedin'])) {
     header("Location: login.php");
     exit();
 }
+
+// Require database connection
+require_once "db_connect.php";
 
 // Define variables and initialize with empty values
 $current_password = $new_password = $confirm_password = "";
@@ -43,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check current password
         $username = $_SESSION['username'];
         $sql = "SELECT password FROM users WHERE username = '$username'";
-        $result = mysqli_query($link, $sql);
+        $result = mysqli_query($conn, $sql);
         if ($result) {
             if (mysqli_num_rows($result) == 1) {
                 $row = mysqli_fetch_assoc($result);
@@ -52,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Update password
                     $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
                     $sql = "UPDATE users SET password = '$hashed_new_password' WHERE username = '$username'";
-                    $result = mysqli_query($link, $sql);
+                    $result = mysqli_query($conn, $sql);
                     if ($result) {
                         // Password updated successfully, redirect to login page
                         header("Location: login.php");
@@ -72,7 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Close database connection
-    mysqli_close($link);
+    mysqli_close($conn);
+    header("Location: logout.php");
+    exit();
 }
 ?>
 
