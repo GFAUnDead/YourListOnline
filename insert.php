@@ -32,26 +32,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
   <style>
     form {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
     form label {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-        text-align: left;
-        width: 100%;
-        max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      text-align: left;
+      width: 100%;
+      max-width: 350px;
     }
     form input[type="text"], form textarea {
-        width: 100%;
-        max-width: 350px;
-        box-sizing: border-box;
+      width: 100%;
+      max-width: 350px;
+      box-sizing: border-box;
     }
     form input[type="submit"] {
-        margin-top: 10px;
+      margin-top: 10px;
     }
     .wrapper {
       width: 350px;
@@ -59,24 +59,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       padding: 20px;
       text-align: left;
     }
+    .container h1 {
+      text-align: left;
+    }
   </style>
 </head>
 <body>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="index.php">YourListOnline</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li class="active"><a href="insert.php">Add</a></li>
-            <li><a href="completed.php">Completed</a></li>
-            <li><a href="update.php">Update</a></li>
-            <li><a href="remove.php">Remove</a></li>
-            <li><a href="change_password.php">Password Change</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-        <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.php">YourListOnline</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="dashboard.php">Dashboard</a></li>
+        <li class="active"><a href="insert.php">Add</a></li>
+        <li><a href="completed.php">Completed</a></li>
+        <li><a href="update.php">Update</a></li>
+        <li><a href="remove.php">Remove</a></li>
+        <li><a href="change_password.php">Password Change</a></li>
+        <li><a href="logout.php">Logout</a></li>
+      </ul>
+      <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
     </div>
   </nav>
 
