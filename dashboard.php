@@ -12,10 +12,10 @@ require_once "db_connect.php";
 
 // Get user's to-do list or all to-do list if the user is an admin
 if ($_SESSION['is_admin'] == 1) {
-  $sql = "SELECT * FROM todos ORDER BY created_at DESC";
+  $sql = "SELECT * FROM todos ORDER BY id ASC";
 } else {
   $user_id = $_SESSION['user_id'];
-  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY created_at DESC";
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
 }
 
 $result = mysqli_query($conn, $sql);
@@ -84,7 +84,7 @@ if (!$result) {
             <td><?php echo $row['objective']; ?></td>
             <td><?php echo $row['created_at']; ?></td>
             <td><?php echo $row['updated_at']; ?></td>
-            <td><?php echo $row['completed'] ? 'Yes' : 'No'; ?></td>
+            <td><?php echo $row['completed']; ?></td>
           </tr>
         <?php endwhile; ?>
       </tbody>
