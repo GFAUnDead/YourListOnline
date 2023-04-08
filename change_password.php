@@ -13,7 +13,7 @@ $current_password = $new_password = $confirm_password = "";
 $current_password_err = $new_password_err = $confirm_password_err = "";
 
 // Processing form data when form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     // Validate current password
     if (empty(trim($_POST["current_password"]))) {
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $confirm_password_err = "Please confirm the new password.";
     } else {
         $confirm_password = trim($_POST["confirm_password"]);
-        if (empty($new_password_err) && ($new_password != $confirm_password)) {
+        if (empty($new_password_err) && ($new_password !== $confirm_password)) {
             $confirm_password_err = "Passwords do not match.";
         }
     }
@@ -45,8 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($current_password_err) && empty($new_password_err) && empty($confirm_password_err)) {
         // Check current password
         $username = $_SESSION['username'];
-        $sql = "SELECT password FROM users WHERE username = '$username'";
-        $result = mysqli_query($conn, $sql);
+        $sql = "SELECT password FROM users WHERE username = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $username);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         if ($result) {
             if (mysqli_num_rows($result) == 1) {
                 $row = mysqli_fetch_assoc($result);
@@ -54,9 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (password_verify($current_password, $hashed_password)) {
                     // Update password
                     $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
-                    $sql = "UPDATE users SET password = '$hashed_new_password' WHERE username = '$username'";
-                    $result = mysqli_query($conn, $sql);
-                    if ($result) {
+                    $sql = "UPDATE users SET password = ? WHERE username = ?";
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "ss", $hashed_new_password, $username);
+                    mysqli_stmt_execute($stmt);
+                    if ($stmt->affected_rows > 0) {
                         // Password updated successfully, redirect to login page
                         header("Location: login.php");
                         exit();
@@ -80,7 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
