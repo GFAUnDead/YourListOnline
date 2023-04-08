@@ -20,6 +20,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             if($stmt->num_rows == 1){
                 $stmt->bind_result($username, $signup_date, $last_login);
                 $stmt->fetch();
+                $_SESSION['signup_date'] = $signup_date;
+                $_SESSION['last_login'] = $last_login;
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
                 exit;
@@ -73,7 +75,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <h1>Your Profile</h1>
   <div class="wrapper">
     <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
-    <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['created_at'])); ?></p>
+    <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?></p>
+    <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?></p>
     <br>
     <a href="change_password.php" class="btn btn-primary">Change Password</a>
     <a href="logout.php" class="btn btn-primary">Logout</a>
