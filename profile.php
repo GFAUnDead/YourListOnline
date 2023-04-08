@@ -76,14 +76,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <h1>Your Profile</h1>
   <div class="wrapper">
     <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
-    <div class="api-key-wrapper" style="display: none;">
-        <p><strong>API Key:</strong> <?php echo $api_key; ?></p>
-    </div>
-    <button type="button" class="btn btn-primary" id="show-api-key">Show API Key</button>
-    <button type="button" class="btn btn-primary" id="hide-api-key" style="display:none;">Hide API Key</button>
     <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?></p>
     <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?> at <?php echo date('g:i A', strtotime($last_login)); ?></p>
-    <br>
+    <p><strong>API Key:</strong>
+      <div class="api-key-wrapper" style="display: none;">
+      <?php echo $api_key; ?>
+      </div>
+    </p>
+    <button type="button" class="btn btn-primary" id="show-api-key">Show API Key</button>
+    <button type="button" class="btn btn-primary" id="hide-api-key" style="display:none;">Hide API Key</button>
+    <br><br>
     <a href="change_password.php" class="btn btn-primary">Change Password</a>
     <a href="logout.php" class="btn btn-primary">Logout</a>
 </div>
