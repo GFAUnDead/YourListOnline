@@ -34,6 +34,7 @@ The users table has the following columns:
 * is_admin: a boolean flag indicating whether the user is an admin or not
 * signup_date: the timestamp when the user signed up
 * last_login: the timestamp when the user last logged in
+
 Note that id is set to INT(11) with the AUTO_INCREMENT option, which will automatically generate a unique identifier for each new user added to the table, and is used as the primary key for the table. username, password, and api_key are set to VARCHAR(50) with the collation latin1_swedish_ci and are used to store the user's login credentials and API key. is_admin is set to TINYINT(1) with a default value of 0 and indicates whether the user is an administrator or not. signup_date and last_login are both set to DATETIME and are used to store the date and time when the user signed up and last logged in, respectively.
 ### Todos Table
 The todos table has the following columns:
