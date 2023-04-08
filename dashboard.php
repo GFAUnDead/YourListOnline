@@ -65,21 +65,21 @@ if (!$result) {
     </div>
   </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <h2>Your to-do list:</h2>
+    <h2>Your Current List:</h2>
     <table>
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Created At</th>
-          <th>Updated At</th>
+          <th>Task ID</th>
+          <th>Objective</th>
+          <th>Created</th>
+          <th>Last Updated</th>
           <th>Completed</th>
         </tr>
       </thead>
       <tbody>
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <tr>
-            <td><?php echo $row['title']; ?></td>
+            <td><?php echo $row['id']; ?></td>
             <td><?php echo $row['description']; ?></td>
             <td><?php echo $row['created_at']; ?></td>
             <td><?php echo $row['updated_at']; ?></td>
