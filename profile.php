@@ -13,7 +13,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     // Get user information from the database
     $user_id = $_SESSION['user_id'];
     $sql = "SELECT username, signup_date, last_login FROM users WHERE id = ?";
-    if($stmt = $con->prepare($sql)){
+    if($stmt = $conn->prepare($sql)){
         $stmt->bind_param("i", $user_id);
         if($stmt->execute()){
             $stmt->store_result();
