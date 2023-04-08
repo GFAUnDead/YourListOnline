@@ -14,7 +14,7 @@ if (isset($_POST['task_id'])) {
     $task_id = $_POST['task_id'];
     $user_id = $_SESSION['user_id'];
 
-    $sql = "UPDATE todos SET completed = 1 WHERE id = ? AND user_id = ?";
+    $sql = "UPDATE todos SET completed = 'Yes' WHERE id = ? AND user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $task_id, $user_id);
     $stmt->execute();
@@ -89,7 +89,7 @@ $stmt->close();
             <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
                 <td><?php echo htmlspecialchars($row['id']) ?></td>
-                <td><?php echo htmlspecialchars($row['description']) ?></td>
+                <td><?php echo htmlspecialchars($row['objective']) ?></td>
                 <td><?php echo htmlspecialchars($row['created_at']) ?></td>
                 <td><?php echo htmlspecialchars($row['updated_at']) ?></td>
                 <td><?php echo $row['completed'] ? 'Yes' : 'No' ?></td>
