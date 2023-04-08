@@ -29,6 +29,7 @@ if (isset($_POST['task_id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $task_id, $user_id);
     $stmt->execute();
+    header('Location: completed.php');
     $stmt->close();
 }
 ?>
