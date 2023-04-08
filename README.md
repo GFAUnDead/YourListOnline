@@ -25,14 +25,14 @@ CREATE TABLE todos (
     completed TINYTEXT COLLATE latin1_swedish_ci
 );
 ```
-The users table has the following columns:
-* id: a unique identifier for the user
-* username: the username of the user
-* password: the password of the user
-* api_key: the API key of the user
-* is_admin: a boolean flag indicating whether the user is an admin or not
-* signup_date: the timestamp when the user signed up
-* last_login: the timestamp when the user last logged in
+The users table is used to store information about the users of the system. It has the following columns:
+* id: A unique identifier for the user. This column is set to the SERIAL data type, which automatically generates a new unique identifier for each new user added to the table.
+* username: The username of the user. This column is set to the VARCHAR(255) data type, which allows for up to 255 characters of text.
+* password: The password of the user. This column is set to the VARCHAR(255) data type, which allows for up to 255 characters of text.
+* api_key: The API key of the user. This column is set to the VARCHAR(255) data type, which allows for up to 255 characters of text.
+* is_admin: A boolean flag indicating whether the user is an administrator or not. This column is set to the BOOLEAN data type, with a default value of FALSE.
+* signup_date: The timestamp when the user signed up for the service. This column is set to the TIMESTAMP data type, with a default value of NOW(), which sets the value to the current date and time.
+* last_login: The timestamp when the user last logged in to the service. This column is set to the TIMESTAMP data type, with a default value of NOW(), which sets the value to the current date and time."
 
 The todos table has the following columns:
 * id: a unique identifier for the todo item
