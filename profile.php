@@ -7,15 +7,18 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 } else {
+    // Require database connection
+    require_once "db_connect.php";
+
     // Get user information from the database
     $user_id = $_SESSION['user_id'];
     $sql = "SELECT username, signup_date, last_login FROM users WHERE id = ?";
-    if($stmt = $mysqli->prepare($sql)){
+    if($stmt = $con->prepare($sql)){
         $stmt->bind_param("i", $user_id);
         if($stmt->execute()){
             $stmt->store_result();
             if($stmt->num_rows == 1){
-                $stmt->bind_result($username, $email, $signup_date, $last_login);
+                $stmt->bind_result($username, $signup_date, $last_login);
                 $stmt->fetch();
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
