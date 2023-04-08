@@ -36,6 +36,7 @@ $stmt->close();
 <html>
 <head>
     <title>YourListOnline - Completed</title>
+    <link rel="icon" href="img/logo.png" type="image/png" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <link rel="stylesheet" href="style.css">
     <style type="text/css">
