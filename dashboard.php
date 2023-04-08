@@ -46,6 +46,7 @@ if (!$result) {
             <li><a href="completed.php">Completed</a></li>
             <li><a href="update.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
+            <li><a href="change_password.php">Password Change</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
         <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
