@@ -36,8 +36,8 @@ if (isset($_GET['api'])) {
 <body>
 <h1>Current Task List:</h1>
 <ul>
-    <?php while ($row = $results->fetch_assoc()); ?>
-    <li><?php echo htmlspecialchars($row['objective']); ?></li>
+    <?php while ($row = $result->fetch_assoc()): ?>
+    <li><?php echo htmlspecialchars($row['task']); ?></li>
     <?php endwhile; ?>
 </ul>
 </body>
