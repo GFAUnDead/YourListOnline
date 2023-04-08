@@ -54,17 +54,28 @@ if (!$result) {
   </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h2>Your to-do list:</h2>
-    <ul>
-     <?php while ($row = mysqli_fetch_assoc($result)): ?>
-          <li>
-            <h3><?php echo $row['title']; ?></h3>
-            <p><?php echo $row['description']; ?></p>
-            <p>Created at: <?php echo $row['created_at']; ?></p>
-            <p>Updated at: <?php echo $row['updated_at']; ?></p>
-            <p>Completed: <?php echo $row['completed'] ? 'Yes' : 'No'; ?></p>
-          </li>
-     <?php endwhile; ?>
-     </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Created At</th>
+          <th>Updated At</th>
+          <th>Completed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php while ($row = mysqli_fetch_assoc($result)): ?>
+          <tr>
+            <td><?php echo $row['title']; ?></td>
+            <td><?php echo $row['description']; ?></td>
+            <td><?php echo $row['created_at']; ?></td>
+            <td><?php echo $row['updated_at']; ?></td>
+            <td><?php echo $row['completed'] ? 'Yes' : 'No'; ?></td>
+          </tr>
+        <?php endwhile; ?>
+      </tbody>
+    </table>
   
 </body>
 </html>
