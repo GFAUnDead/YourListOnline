@@ -55,7 +55,7 @@ $stmt->close();
     </style>
 </head>
 <body>
-  <nav class="navbar navbar-default">
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="index.php">YourListOnline</a>
@@ -66,44 +66,42 @@ $stmt->close();
             <li class="active"><a href="completed.php">Completed</a></li>
             <li><a href="update.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
-            <li><a href="change_password.php">Password Change</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="profile.php">Profile</a></li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
   </nav>
-    
-    <h1>My To-Do List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Task ID</th>
-                <th>Objective</th>
-                <th>Created</th>
-                <th>Last Updated</th>
-                <th>Completed</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = $result->fetch_assoc()): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($row['id']) ?></td>
-                <td><?php echo htmlspecialchars($row['objective']) ?></td>
-                <td><?php echo htmlspecialchars($row['created_at']) ?></td>
-                <td><?php echo htmlspecialchars($row['updated_at']) ?></td>
-                <td><?php echo $row['completed'] ? 'Yes' : 'No' ?></td>
-                <td>
-                    <?php if (!$row['completed']): ?>
-                    <form method="post" action="completed.php">
-                        <input type="hidden" name="task_id" value="<?php echo $row['id'] ?>">
-                        <button type="submit">Mark as Completed</button>
-                    </form>
-                    <?php endif ?>
-                </td>
-            </tr>
-            <?php endwhile ?>
-        </tbody>
-    </table>
+  <h1>My To-Do List</h1>
+  <table>
+      <thead>
+          <tr>
+              <th>Task ID</th>
+              <th>Objective</th>
+              <th>Created</th>
+              <th>Last Updated</th>
+              <th>Completed</th>
+              <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+          <?php while ($row = $result->fetch_assoc()): ?>
+          <tr>
+              <td><?php echo htmlspecialchars($row['id']) ?></td>
+              <td><?php echo htmlspecialchars($row['objective']) ?></td>
+              <td><?php echo htmlspecialchars($row['created_at']) ?></td>
+              <td><?php echo htmlspecialchars($row['updated_at']) ?></td>
+              <td><?php echo $row['completed'] ? 'Yes' : 'No' ?></td>
+              <td>
+                  <?php if (!$row['completed']): ?>
+                  <form method="post" action="completed.php">
+                      <input type="hidden" name="task_id" value="<?php echo $row['id'] ?>">
+                      <button type="submit">Mark as Completed</button>
+                  </form>
+                  <?php endif ?>
+              </td>
+          </tr>
+          <?php endwhile ?>
+      </tbody>
+  </table>
 </body>
 </html>
