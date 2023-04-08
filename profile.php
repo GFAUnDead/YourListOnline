@@ -76,7 +76,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <div class="wrapper">
     <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
     <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?></p>
-    <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?></p>
+    <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?> at <?php echo date('g:i A', strtotime($last_login)); ?></p>
     <br>
     <a href="change_password.php" class="btn btn-primary">Change Password</a>
     <a href="logout.php" class="btn btn-primary">Logout</a>
