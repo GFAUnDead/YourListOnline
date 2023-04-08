@@ -10,9 +10,14 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get user's to-do list
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY created_at DESC";
+// Get user's to-do list or all to-do list if the user is an admin
+if ($_SESSION['is_admin'] == 1) {
+  $sql = "SELECT * FROM todos ORDER BY created_at DESC";
+} else {
+  $user_id = $_SESSION['user_id'];
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY created_at DESC";
+}
+
 $result = mysqli_query($conn, $sql);
 
 // Handle errors
@@ -20,10 +25,7 @@ if (!$result) {
   echo "Error: " . mysqli_error($conn);
   exit();
 }
-
-// Display user's to-do list
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
