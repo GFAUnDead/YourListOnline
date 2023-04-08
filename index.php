@@ -3,7 +3,7 @@
 <head>
 	<title>YourListOnline - HOME</title>
 	<link rel="icon" href="img/logo.png" type="image/png" />
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 	<header>
