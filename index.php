@@ -4,6 +4,14 @@
 	<title>YourListOnline - HOME</title>
 	<link rel="icon" href="img/logo.png" type="image/png" />
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="js/about.js"></script>
+	<style type="text/css">
+    a.popup-link {
+      text-decoration: none;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 	<header>
@@ -18,7 +26,7 @@
 	</main>
 
 	<footer>
-		<p>&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
+	<p><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
 	</footer>
 </body>
 </html>
