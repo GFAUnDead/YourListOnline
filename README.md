@@ -1,7 +1,7 @@
 # YourListOnline
 YourListOnline is a website that allows you to keep track of all the tasks you need to complete for your streaming or normal day-to-day activities.
 
-Getting Started
+## Getting Started
 To get started with this code, you will need to create a SQL database and use the following code to build the tables:
 
 ```sql
