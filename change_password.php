@@ -86,6 +86,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/about.js"></script>
+    <style type="text/css">
+      a.popup-link {
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+      }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -102,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li class="active"><a href="change_password.php">Password Change</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
-            <p class="navbar-text navbar-right">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</p>
+            <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
         </div>
     </nav>
     <div class="container">
