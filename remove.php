@@ -13,7 +13,7 @@ require_once "db_connect.php";
 
 // Get user's to-do list
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY created_at DESC";
+$sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY completed DESC";
 $result = $conn->query($sql);
 
 // Handle remove item form submission
@@ -74,16 +74,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <table>
         <thead>
             <tr>
-                <th>Task ID</th>
                 <th>Objective</th>
+                <th>Completed</th>
                 <th>Remove</th>
             </tr>
         </thead>
         <tbody>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
-                    <td><?= $row['id'] ?></td>
                     <td><?= $row['objective'] ?></td>
+                    <td><?= $row['completed'] ?></td>
                     <td>
                         <form method="POST">
                             <input type="hidden" name="todo_id" value="<?= $row['id'] ?>">
