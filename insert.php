@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 <head>
   <title>YourListOnline - Add New Items</title>
+  <link rel="icon" href="img/logo.png" type="image/png" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
   <link rel="stylesheet" href="css/insert.css">
     <script src="js/about.js"></script>
@@ -63,21 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
   </nav>
-
-  <div class="container">
-    <h1>Add New Todo Item</h1>
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <form method="post">
-          <div class="form-group">
-            <label for="description">Task:</label>
-            <textarea id="description" name="description" class="form-control"></textarea>
-          </div>
-          <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
-          <button type="submit" class="btn btn-primary">Add</button>
-        </form>
-      </div>
+  <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+  <h1>Please enter your task to add it to your list:</h1>
+    <div class="col-md-6">
+      <form method="post">
+        <div class="form-group">
+          <textarea id="description" name="description" class="form-control"></textarea>
+        </div>
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
     </div>
-  </div>
 </body>
 </html>
