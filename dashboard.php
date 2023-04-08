@@ -70,7 +70,6 @@ if (!$result) {
     <table>
       <thead>
         <tr>
-          <th>Task ID</th>
           <th>Objective</th>
           <th>Created</th>
           <th>Last Updated</th>
@@ -80,7 +79,6 @@ if (!$result) {
       <tbody>
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <tr>
-            <td><?php echo $row['id']; ?></td>
             <td><?php echo $row['objective']; ?></td>
             <td><?php echo $row['created_at']; ?></td>
             <td><?php echo $row['updated_at']; ?></td>
