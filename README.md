@@ -35,7 +35,7 @@ The users table has the following columns:
 * signup_date: the timestamp when the user signed up
 * last_login: the timestamp when the user last logged in
 
-#### Notes
+#### Notes:
 id is set to **INT(11)** with the **AUTO_INCREMENT** option, which will automatically generate a unique identifier for each new user added to the table, and is used as the primary key for the table. 
 
 username, password, and api_key are set to **VARCHAR(50)** with the collation **latin1_swedish_ci** and are used to store the user's login credentials and API key.
@@ -52,7 +52,7 @@ The todos table has the following columns:
 * updated_at: the timestamp when the todo item was last updated
 * completed: a flag indicating whether the todo item has been completed or not definded by **"Yes"** or **"No"**.
 
-#### Notes
+#### Notes:
 id is set to **INT** with the **AUTO_INCREMENT** option, which will automatically generate a unique identifier for each new todo item added to the table.
 
 user_id and objective are set to **INT** and **TEXT** data types, respectively.
@@ -109,7 +109,7 @@ sudo apt install -y mysql-server
 # Secure the installation
 sudo mysql_secure_installation
 ```
-### Notes
+### Notes:
 The above script is a basic setup script for setting up a web server with PHP and a MySQL Database on an Ubuntu-based system.
 
 Specifically, it does the following:
