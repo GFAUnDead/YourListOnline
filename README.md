@@ -18,11 +18,11 @@ CREATE TABLE users (
 
 CREATE TABLE twitch_users (
     id INT(11) NOT NULL AUTO_INCREMENT,
-    username VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+    username VARCHAR(255) COLLATE latin1_swedish_ci NOT NULL,
     is_admin TINYINT(1) NOT NULL DEFAULT 0,
-    api_key VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-    access_token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-    refresh_token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    api_key VARCHAR(255) COLLATE latin1_swedish_ci,
+    access_token VARCHAR(255) COLLATE latin1_swedish_ci,
+    refresh_token VARCHAR(255) COLLATE latin1_swedish_ci,
     expires_at DATETIME,
     signup_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_login DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
