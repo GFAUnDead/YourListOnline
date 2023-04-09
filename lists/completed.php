@@ -60,7 +60,7 @@ if (isset($_POST['task_id'])) {
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.php">YourListOnline</a>
+        <a class="navbar-brand" href="../index.php">YourListOnline</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="dashboard.php">Dashboard</a></li>
