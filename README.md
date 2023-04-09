@@ -57,7 +57,7 @@ is_admin is set to **TINYINT(1)** with a default value of **0** and indicates wh
 signup_date and last_login are both set to **DATETIME** and are used to store the date and time when the user signed up and last logged in, respectively.
 ### Twitch Users Table Notes:
 The Twitch users table has the following columns:
-* id is an integer column with a maximum length of 11 digits, and it's set as the primary key for the table. The AUTO_INCREMENT attribute means that the value of this column will automatically increment by 1 for each new row inserted into the table.
+* id is set to **INT(11)** with the **AUTO_INCREMENT** option, which will automatically generate a unique identifier for each new user added to the table, and is used as the primary key for the table. 
 * username is a string column with a maximum length of 255 characters. The NOT NULL attribute means that this column must always have a value, and the COLLATE attribute specifies a character set and collation for this column.
 * is_admin is a boolean column represented as a TINYINT data type, which can hold values of 0 or 1. The NOT NULL attribute specifies that this column must always have a value, and the DEFAULT attribute sets the default value to 0.
 * api_key, access_token, and refresh_token are string columns with a maximum length of 255 characters. The COLLATE attribute specifies a character set and collation for these columns.
