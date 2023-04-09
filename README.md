@@ -16,6 +16,19 @@ CREATE TABLE users (
     last_login DATETIME
 );
 
+CREATE TABLE twitch_users (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+    is_admin TINYINT(1) NOT NULL DEFAULT 0,
+    api_key VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    access_token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    refresh_token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+    expires_at DATETIME,
+    signup_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_login DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE todos (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     user_id INT(11),
@@ -34,7 +47,6 @@ The users table has the following columns:
 * is_admin: a boolean flag indicating whether the user is an admin or not
 * signup_date: the timestamp when the user signed up
 * last_login: the timestamp when the user last logged in
-
 #### Notes:
 id is set to **INT(11)** with the **AUTO_INCREMENT** option, which will automatically generate a unique identifier for each new user added to the table, and is used as the primary key for the table. 
 
@@ -43,6 +55,16 @@ username, password, and api_key are set to **VARCHAR(50)** with the collation **
 is_admin is set to **TINYINT(1)** with a default value of **0** and indicates whether the user is an administrator or not.
 
 signup_date and last_login are both set to **DATETIME** and are used to store the date and time when the user signed up and last logged in, respectively.
+### Twitch Users Table
+The Twitch users table has the following columns:
+* id: an integer **primary key** that **auto-increments** with each new record added to the table. The maximum value for this column is 11 digits.
+* username: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the usernames of users in the system.
+* is_admin: is set to **TINYINT(1)** with a default value of **0** and indicates whether the user is an administrator or not.
+* api_key: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the API key associated with a user account.
+* access_token: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the access token associated with a user account.
+* refresh_token: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the refresh token associated with a user account.
+* expires_at: a datetime column that stores the expiration date and time for the access token associated with a user account.
+* signup_date and last_login are both set to **DATETIME** and are used to store the date and time when the user signed up and last logged in, respectively.
 ### Todos Table
 The todos table has the following columns:
 * id: a unique identifier for the todo item
