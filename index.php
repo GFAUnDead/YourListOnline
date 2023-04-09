@@ -22,7 +22,7 @@
 		<p>With this website you can keep track of all the tasks you need to complete.</p>
 		<p>To get started, simply log in with your Twitch account.</p>
 		<a href="#"><button class="twitch-button">Log in with Twitch (COMING SOON)</button></a>
-		<a href="dashboard.php"><button class="button">OLD SYSTEM LOGIN</button></a>
+		<a href="lists/dashboard.php"><button class="button">OLD SYSTEM LOGIN</button></a>
 	</main>
 
 	<footer>
