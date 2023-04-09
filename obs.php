@@ -7,7 +7,7 @@
 <body>
     <?php
     // Require database connection
-    require_once "db_connect.php";
+    require_once "lists/db_connect.php";
 
     if (!isset($_GET['api']) || empty($_GET['api'])) {
         // Display missing API Key Error
