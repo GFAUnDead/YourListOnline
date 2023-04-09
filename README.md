@@ -55,16 +55,13 @@ username, password, and api_key are set to **VARCHAR(50)** with the collation **
 is_admin is set to **TINYINT(1)** with a default value of **0** and indicates whether the user is an administrator or not.
 
 signup_date and last_login are both set to **DATETIME** and are used to store the date and time when the user signed up and last logged in, respectively.
-### Twitch Users Table
+### Twitch Users Table Notes:
 The Twitch users table has the following columns:
-* id: an integer **primary key** that **auto-increments** with each new record added to the table. The maximum value for this column is 11 digits.
-* username: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the usernames of users in the system.
-* is_admin: is set to **TINYINT(1)** with a default value of **0** and indicates whether the user is an administrator or not.
-* api_key: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the API key associated with a user account.
-* access_token: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the access token associated with a user account.
-* refresh_token: a string column with a maximum length of 255 characters and the **latin1_swedish_ci** character set and collation. This column stores the refresh token associated with a user account.
-* expires_at: a datetime column that stores the expiration date and time for the access token associated with a user account.
-* signup_date and last_login are both set to **DATETIME** and are used to store the date and time when the user signed up and last logged in, respectively.
+* id is an integer column with a maximum length of 11 digits, and it's set as the primary key for the table. The AUTO_INCREMENT attribute means that the value of this column will automatically increment by 1 for each new row inserted into the table.
+* username is a string column with a maximum length of 255 characters. The NOT NULL attribute means that this column must always have a value, and the COLLATE attribute specifies a character set and collation for this column.
+* is_admin is a boolean column represented as a TINYINT data type, which can hold values of 0 or 1. The NOT NULL attribute specifies that this column must always have a value, and the DEFAULT attribute sets the default value to 0.
+* api_key, access_token, and refresh_token are string columns with a maximum length of 255 characters. The COLLATE attribute specifies a character set and collation for these columns.
+* expires_at, signup_date, and last_login are datetime columns, which can store both date and time values.
 ### Todos Table
 The todos table has the following columns:
 * id: a unique identifier for the todo item
