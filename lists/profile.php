@@ -63,7 +63,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-          <a class="navbar-brand" href="../index.php">YourListOnline</a>
+            <a class="navbar-brand" href="../index.php">YourListOnline</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a href="dashboard.php">Dashboard</a></li>
@@ -71,6 +71,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <li><a href="completed.php">Completed</a></li>
             <li><a href="update.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
+            <li><a href="categories.php">View Categories</a></li>
+            <li><a href="add_category.php">Add Category</a></li>
             <li class="active"><a href="profile.php">Profile</a></li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
