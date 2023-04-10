@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h1>Please pick which task to remove from your list:</h1>
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Objective</th>
