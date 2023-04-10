@@ -73,7 +73,8 @@ if (isset($_POST['task_id'])) {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
   </nav>
-  <h1>My To-Do List</h1>
+  <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+  <h1>Please pick which task to mark as completed:</h1>
   <table>
       <thead>
           <tr>
