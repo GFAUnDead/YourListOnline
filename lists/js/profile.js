@@ -10,5 +10,4 @@ $(document).ready(function() {
       $("#show-api-key").show();
       $("#hide-api-key").hide();
     });
-  });
-  
+  });  
