@@ -79,10 +79,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <h1>Your Profile</h1>
 <div class="wrapper">
   <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
-  <p><strong>Joined:</strong> <?php echo $_SESSION['signup_date']; ?></p>
-  <p data-timestamp="<?php echo strtotime($_SESSION['signup_date']); ?>">
-    <strong>Last Login:</strong> <?php echo $_SESSION['last_login']; ?> at <?php echo date('g:i A', strtotime($_SESSION['last_login'])); ?>
-  </p>
+  <p><strong>Joined:</strong> <span id="local-signup-date"></span></p>
+  <p><strong>Last Login:</strong> <span id="local-last-login"></span></p>
   <p><strong>API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
   <button type="button" class="btn btn-primary" id="show-api-key">Show API Key</button>
   <button type="button" class="btn btn-primary" id="hide-api-key" style="display:none;">Hide API Key</button>
