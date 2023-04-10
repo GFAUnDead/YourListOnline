@@ -51,11 +51,11 @@ require_once "db_connect.php";
     </div>
   </nav>
   <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-  <h1>Here is the current list of categories you can filter your lists in, each categories will be it's own list.</h1>
+  <h1>Here is the current list of categories you can filter your lists in, each category will be it's own list.</h1>
   <table class="table">
       <thead>
           <tr>
-              <th>Category</th>
+              <th>Categories</th>
           </tr>
       </thead>
       <tbody>
