@@ -80,7 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h1>Please pick which task to update on your list:</h1>
-    <form method="POST">
     <table class="table">
         <thead>
           <tr>
@@ -106,6 +105,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <?php } ?>
         </tbody>
     </table>
-    </form>
 </body>
 </html>
