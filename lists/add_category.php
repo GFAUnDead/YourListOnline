@@ -122,20 +122,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
   </nav>
-<div class="wrapper">
-    <h2>Add Category</h2>
-    <p>Please fill in the form below to add a new category.</p>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
-            <label>Category</label>
-            <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
-            <span class="help-block"><?php echo $category_err; ?></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Submit">
-            <a href="categories.php" class="btn btn-default">Cancel</a>
-        </div>
-    </form>
+<div class="col-md-6">
+    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+      <h1>Please fill in the form below to add a new category:</h1>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+                <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
+                <span class="help-block"><?php echo $category_err; ?></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Submit">
+                <a href="categories.php" class="btn btn-default">Cancel</a>
+            </div>
+        </form>
 </div>
 </body>
 </html>
