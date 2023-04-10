@@ -64,11 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li><a href="completed.php">Completed</a></li>
             <li><a href="update.php">Update</a></li>
             <li class="active"><a href="remove.php">Remove</a></li>
+            <li><a href="categories.php">View Categories</a></li>
+            <li><a href="add_category.php">Add Category</a></li>
             <li><a href="profile.php">Profile</a></li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
-</nav>
+  </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h1>Please pick which task to remove from your list:</h1>
     <table class="table">
