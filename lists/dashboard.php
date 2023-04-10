@@ -67,7 +67,7 @@ if (!$result) {
   </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h2>Your Current List:</h2>
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th>Objective</th>
