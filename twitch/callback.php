@@ -39,7 +39,7 @@
     $context = stream_context_create($options);
     $response = file_get_contents($url, false, $context);
     $result = json_decode($response, true);
-    $user_id = $result['data'][0]['id'];
+    $username = $result['data'][0]['login'];
 
     // Step 4: Store the user ID and access token in your database
     $mysqli = new mysqli("localhost", "username", "password", "database");
@@ -47,10 +47,20 @@
         echo "Failed to connect to MySQL: " . $mysqli->connect_error;
         exit();
     }
-    $query = "INSERT INTO twitch_users (user_id, access_token) VALUES ('$user_id', '$access_token')";
+
+    // Generate an API key for the user
+    $api_key = bin2hex(random_bytes(20));
+    $expires_at = date('Y-m-d H:i:s', strtotime('+30 days'));
+
+    // Insert user data into the database
+    $query = "INSERT INTO twitch_users (username, api_key, access_token, expires_at, signup_date, last_login) VALUES ('$username', '$api_key', '$access_token', '$expires_at', NOW(), NOW())";
     if ($mysqli->query($query) === TRUE) {
+        // Start the session and set the twitch_logged_in flag
         session_start();
-        $_SESSION['twitchlogged_in'] = true;
+        $_SESSION['twitch_logged_in'] = true;
+        $_SESSION['twitch_username'] = $username;
+
+        // Redirect to the dashboard
         header("Location: dashboard.php");
         exit();
     } else {
