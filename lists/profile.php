@@ -43,6 +43,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
   <script src="js/about.js"></script>
+  <script src="js/obsbutton.js"></script>
   <script src="js/profile.js"></script>
   <style type="text/css">
     body {
@@ -84,9 +85,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <button type="button" class="btn btn-primary" id="show-api-key">Show API Key</button>
   <button type="button" class="btn btn-primary" id="hide-api-key" style="display:none;">Hide API Key</button>
   <br><br>
-  <p>This website is fully compatible with any streaming software, OBS, SLOBS, xSplit, Wirecast, etc.</p>
-  <p>All you have to do it add the following link followed by your API key above into a browser source and it works:</p>
-  <p>https://yourlist.online/obs.php?api=</p>
+  <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON STREAM</button>
+  <br><br>
   <!--<a href="change_password.php" class="btn btn-primary">Change Password</a>-->
   <a href="logout.php" class="btn btn-primary">Logout</a>
 </div>
