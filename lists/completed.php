@@ -75,7 +75,7 @@ if (isset($_POST['task_id'])) {
   </nav>
   <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
   <h1>Please pick which task to mark as completed:</h1>
-  <table>
+  <table class="table">
       <thead>
           <tr>
               <th>Objective</th>
