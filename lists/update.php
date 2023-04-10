@@ -78,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
   </nav>
-    
-    <h1>My To-Do List</h1>
+    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    <h1>Please pick which task to update on your list:</h1>
     <form method="POST">
     <table class="table">
         <thead>
