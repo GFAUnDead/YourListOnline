@@ -10,11 +10,18 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
+// Get categories from database
+$query = "SELECT category FROM categories";
+$result = $conn->query($query);
+
+if (!$result) {
+    die("Error retrieving categories: " . $conn->error);
+}
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>YourListOnline - Catergories</title>
+    <title>YourListOnline - Categories</title>
     <link rel="icon" href="img/logo.png" type="image/png" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
