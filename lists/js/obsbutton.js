@@ -1,16 +1,19 @@
 function showOBSInfo() {
     // Create a new HTML element to display the popup content
     var popup = document.createElement("div");
-    popup.innerHTML = "<p>This website is fully compatible with any streaming software, OBS, SLOBS, xSplit, Wirecast, etc.</p><p>All you have to do it add the following link followed by your API key above into a browser source and it works:</p><p>https://yourlist.online/obs.php?api=</p>";
+    popup.innerHTML = "<p>This website is fully compatible with any streaming software, OBS, SLOBS, xSplit, Wirecast, etc.</p>" +
+                      "<p>All you have to do it add the following link followed by your API key on the profile page into a browser source and it works:</p>" +
+                      "<p>https://yourlist.online/obs.php?api=</p>";
+
   
     // Apply some CSS styles to the popup
     popup.style.position = "fixed";
     popup.style.top = "50%";
     popup.style.left = "50%";
     popup.style.transform = "translate(-50%, -50%)";
-    popup.style.width = "400px";
+    popup.style.width = "500px";
     popup.style.padding = "20px";
-    popup.style.backgroundColor = "#fff";
+    popup.style.backgroundColor = "#FFFFFF";
     popup.style.borderRadius = "5px";
     popup.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
     popup.style.zIndex = "9999";
@@ -20,8 +23,8 @@ function showOBSInfo() {
     closeButton.innerHTML = "Close";
     closeButton.style.marginTop = "10px";
     closeButton.style.padding = "5px 10px";
-    closeButton.style.backgroundColor = "#dc3545";
-    closeButton.style.color = "#fff";
+    closeButton.style.backgroundColor = "#38761D";
+    closeButton.style.color = "#FFFFFF";
     closeButton.style.borderRadius = "5px";
     closeButton.style.border = "none";
     closeButton.style.cursor = "pointer";
