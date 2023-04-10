@@ -13,8 +13,8 @@ $(document).ready(function() {
     // Convert the local timestamp to a Date object
     var localDate = new Date(localTimestamp);
 
-    // Return the local date and time as a string
-    return localDate.toLocaleString();
+    // Return the local date and time as a string formatted for the local timezone
+    return localDate.toLocaleString(undefined, {timeZoneName: "short"});
   }
 
   // Show the API key
