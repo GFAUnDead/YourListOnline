@@ -128,10 +128,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
             <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
         </div>
     </nav>
-    <div id="registration-error" style="display: none; color: red;">Registration is currently disabled.</div>
       <div class="wrapper">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
+        <?php if (!$registration_enabled) { echo '<div id="registration-error" style="color: red;">Registration is currently disabled.</div>'; } ?>
         <form action="register.php" method="post">
           <div class="form-group">
             <label>Username</label>
