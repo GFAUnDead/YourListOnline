@@ -129,7 +129,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <a class="navbar-brand" href="../index.php">YourListOnline</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="index.php">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li class="active"><a href="login.php">Login</a></li>
                 <li><a href="register.php">Sign Up</a></li>
             </ul>
