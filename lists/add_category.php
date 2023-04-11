@@ -117,8 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li><a href="completed.php">Completed</a></li>
             <li><a href="update.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
-            <li class="dropdown dropdown-hover" data-toggle="dropdown">
-                <a>Categories <span class="caret"></span></a>
+            <li class="dropdown dropdown-hover">
+                <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="categories.php">View Categories</a></li>
                     <li class="active"><a href="add_category.php">Add Category</a></li>
