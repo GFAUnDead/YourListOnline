@@ -24,6 +24,8 @@ if (!$result) {
     <title>YourListOnline - Categories</title>
     <link rel="icon" href="img/logo.png" type="image/png" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/about.js"></script>
     <style type="text/css">
@@ -52,13 +54,18 @@ if (!$result) {
             <li><a href="completed.php">Completed</a></li>
             <li><a href="update.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
-            <li class="active"><a href="categories.php">View Categories</a></li>
-            <li><a href="add_category.php">Add Category</a></li>
+            <li class="dropdown dropdown-hover" data-toggle="dropdown">
+                <a>Categories <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li class="active"><a href="categories.php">View Categories</a></li>
+                    <li><a href="add_category.php">Add Category</a></li>
+                </ul>
+            </li>
             <li><a href="profile.php">Profile</a></li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
-  </nav>
+</nav>
   <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
   <h1>Here is the current list of categories you can filter your lists in, each category will be it's own list.</h1>
   <table class="table">
