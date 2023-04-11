@@ -1,7 +1,7 @@
-const registrationEnabled = false; // Replace this with the actual PHP code that checks whether registration is enabled or not
-
-if (!registrationEnabled) {
-  const errorMessage = document.getElementById('error-message');
-  errorMessage.textContent = 'Registration is currently disabled.';
-  errorMessage.style.color = 'red';
+if (registration_enabled) {
+  // Registration is enabled, do nothing.
+} else {
+  // Registration is disabled, display error message.
+  var errorDiv = document.getElementById("error");
+  errorDiv.innerHTML = "Registration is currently disabled.";
 }
