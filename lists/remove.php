@@ -84,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <thead>
             <tr>
                 <th>Objective</th>
+                <th>Category</th>
                 <th>Completed</th>
                 <th>Remove</th>
             </tr>
@@ -92,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['objective'] ?></td>
+                    <td><?php echo $row['category']; ?></td>
                     <td><?= $row['completed'] ?></td>
                     <td>
                         <form method="POST">
