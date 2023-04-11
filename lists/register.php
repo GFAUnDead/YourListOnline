@@ -9,8 +9,11 @@ require_once "db_connect.php";
 $username = $password = "";
 $username_err = $password_err = "";
 
+// set this variable to true or false depending on whether registration is enabled or not
+$registration_enabled = false;
+
 // process form data when the form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
 
     // validate username
     if(empty(trim($_POST["username"]))){
@@ -85,8 +88,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $conn->close();
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -98,6 +99,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/about.js"></script>
+    <script src="js/register.js"></script>
     <style type="text/css">
       body {
         font: 14px sans-serif;
