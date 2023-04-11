@@ -92,7 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <table class="table">
         <thead>
           <tr>
-            <th>Task</th>
+            <th>Objective</th>
+            <th>Category</th>
             <th>Update</th>
             <th>Action</th>
           </tr>
@@ -101,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <?php foreach ($tasks as $task) { ?>
             <tr>
               <td><?php echo $task['objective']; ?></td>
+              <td><?php echo $row['category']; ?></td>
               <td>
                 <input type="text" name="<?php echo $task['id']; ?>" class="form-control">
               </td>
