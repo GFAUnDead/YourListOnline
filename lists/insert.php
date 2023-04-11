@@ -16,10 +16,11 @@ $user_id = $_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // get form data
   $objective = $_POST['objective'];
+  $category_id = $_POST['category'];
 
   // prepare and execute query
-  $stmt = $conn->prepare("INSERT INTO todos (user_id, objective, created_at, updated_at, completed) VALUES (?, ?, NOW(), NOW(), 'No')");
-  $stmt->bind_param("is", $user_id, $objective);
+  $stmt = $conn->prepare("INSERT INTO todos (user_id, category_id, objective, created_at, updated_at, completed) VALUES (?, ?, ?, NOW(), NOW(), 'No')");
+  $stmt->bind_param("iis", $user_id, $category_id, $objective);
   $stmt->execute();
   header('Location: dashboard.php');
   exit();
@@ -80,6 +81,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <form method="post">
         <div class="form-group">
           <textarea id="objective" name="objective" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <select id="category" name="category" class="form-control">
+            <?php
+            // retrieve categories from database
+            $stmt = $conn->prepare("SELECT id, category FROM categories");
+            $stmt->execute();
+            $result = $stmt->get_result();
+      
+            // display categories as options in dropdown menu
+            while ($row = $result->fetch_assoc()) {
+              echo '<option value="'.$row['id'].'">'.$row['category'].'</option>';
+            }
+            ?>
+          </select>
         </div>
         <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
         <button type="submit" class="btn btn-primary">Add</button>
