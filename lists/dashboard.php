@@ -10,6 +10,23 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
+// Fetch the user's data from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+
+// Check if the query succeeded
+if (!$result) {
+  echo "Error: " . mysqli_error($conn);
+  exit();
+}
+
+// Get the user's data from the query result
+$user_data = mysqli_fetch_assoc($result);
+
+// Store the user's data in the $_SESSION variable
+$_SESSION['user_data'] = $user_data;
+
 // Get user's to-do list or all to-do list if the user is an admin
 if ($_SESSION['is_admin'] == 1) {
   $sql = "SELECT * FROM todos ORDER BY id ASC";
@@ -76,10 +93,12 @@ if (!$result) {
 </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h2>Your Current List:</h2>
+    <?php echo "Number of rows in your list: " . mysqli_num_rows($result); ?>    
     <table class="table">
       <thead>
         <tr>
           <th>Objective</th>
+          <th>Category</th>
           <th>Created</th>
           <th>Last Updated</th>
           <th>Completed</th>
@@ -89,6 +108,7 @@ if (!$result) {
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <tr>
             <td><?php echo $row['objective']; ?></td>
+            <td><?php echo $row['category']; ?></td>
             <td><?php echo $row['created_at']; ?></td>
             <td><?php echo $row['updated_at']; ?></td>
             <td><?php echo $row['completed']; ?></td>
