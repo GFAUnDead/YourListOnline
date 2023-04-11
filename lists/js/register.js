@@ -1,7 +1,11 @@
-if (registration_enabled) {
-  // Registration is enabled, do nothing.
+// Get the registration error element
+const registrationError = document.getElementById("registration-error");
+
+// Check if registration is disabled
+if (registration_enabled === false) {
+  // If registration is disabled, display the error message
+  registrationError.style.display = "block";
 } else {
-  // Registration is disabled, display error message.
-  var errorDiv = document.getElementById("error");
-  errorDiv.innerHTML = "Registration is currently disabled.";
+  // If registration is enabled, hide the error message
+  registrationError.style.display = "none";
 }
