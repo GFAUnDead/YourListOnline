@@ -131,7 +131,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
     <div class="wrapper">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
-        <div id="error" style="color: red;"></div>
+        <div id="registration-error" style="display: none; color: red;">Registration is currently disabled.</div>
         <form action="register.php" method="post">
             <div class="form-group">
                 <label>Username</label>
