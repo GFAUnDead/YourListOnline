@@ -45,7 +45,6 @@ footer p {
 	background-color: #7535CC;
 }
 
-
 .button {
     background-color: #4CAF50;
     color: #FFFFFF;
@@ -116,4 +115,9 @@ table tr:nth-child(even) {
 table tr:hover {
     background-color: #CCCCCC;
     cursor: pointer;
+}
+
+/* Show dropdown menu on hover */
+.dropdown-hover:hover .dropdown-menu {
+    display: block;
 }
