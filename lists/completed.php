@@ -88,6 +88,7 @@ if (isset($_POST['task_id'])) {
       <thead>
           <tr>
               <th>Objective</th>
+              <th>Category</th>
               <th>Completed</th>
               <th>Action</th>
           </tr>
@@ -96,6 +97,7 @@ if (isset($_POST['task_id'])) {
           <?php while ($row = $result->fetch_assoc()): ?>
           <tr>
               <td><?php echo htmlspecialchars($row['objective']) ?></td>
+              <td><?php echo $row['category']; ?></td>
               <td><?php echo $row['completed']; ?></td>
               <td>
                 <form method="post" action="completed.php">
