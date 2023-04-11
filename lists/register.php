@@ -128,25 +128,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
             <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
         </div>
     </nav>
-    <div class="wrapper">
+    <div id="registration-error" style="display: none; color: red;">Registration is currently disabled.</div>
+      <div class="wrapper">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
-        <div id="registration-error" style="display: none; color: red;">Registration is currently disabled.</div>
         <form action="register.php" method="post">
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" name="username" class="form-control">
-            </div>   
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <input type="reset" class="btn btn-default" value="Reset">
-            </div>
-            <p>Already have an account? <a href="login.php">Login here</a>.</p>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control">
+          </div>   
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit">
+            <input type="reset" class="btn btn-default" value="Reset">
+          </div>
+          <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
-    </div>
+      </div>
 </body>
 </html>
