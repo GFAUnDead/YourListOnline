@@ -1,5 +1,7 @@
 # YourListOnline
-YourListOnline is a website that allows you to keep track of all the tasks you need to complete for your streaming or normal day-to-day activities.<br><br>
+YourListOnline is a website that allows you to keep track of all the tasks you need to complete for your streaming or normal day-to-day activities.
+<br>As this project is very much a "in progress" site, some or all of the information on how to use this site will be inaccurate, thanks for your understanding.
+<br><br>
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/T6T8D1Y2O)
 
 ## Getting Started
