@@ -28,12 +28,12 @@ $user_data = mysqli_fetch_assoc($result);
 $_SESSION['user_data'] = $user_data;
 
 // Get user's to-do list or all to-do list if the user is an admin
-if ($_SESSION['is_admin'] === 1) {
-  $sql = "SELECT * FROM todos ORDER BY id ASC";
-} else {
-  $user_id = $_SESSION['user_id'];
-  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
-}
+if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === 1) {
+	$sql = "SELECT * FROM todos ORDER BY id ASC";
+  } else {
+	$user_id = $_SESSION['user_id'];
+	$sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+  }
 
 $result = mysqli_query($conn, $sql);
 
