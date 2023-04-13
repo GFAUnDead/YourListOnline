@@ -116,6 +116,5 @@ if (!$result) {
         <?php endwhile; ?>
       </tbody>
     </table>
-  
 </body>
 </html>
