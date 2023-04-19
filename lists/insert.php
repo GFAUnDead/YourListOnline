@@ -19,14 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $category_id = $_POST['category'];
 
   // prepare and execute query
-  $stmt = $conn->prepare("INSERT INTO todos (user_id, category_id, objective, created_at, updated_at, completed) VALUES (?, (SELECT id FROM categories WHERE category = ?), ?, NOW(), NOW(), 'No')");
-  $stmt->bind_param("iis", $user_id, $category_id, $objective);
+  $stmt = $conn->prepare("INSERT INTO todos (user_id, category, objective, created_at, updated_at, completed) VALUES (?, (SELECT id FROM categories WHERE category = ?), ?, NOW(), NOW(), 'No')");
+  $stmt->bind_param("iss", $user_id, $category_id, $objective);
   $stmt->execute();
   header('Location: dashboard.php');
   exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
