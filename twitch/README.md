@@ -71,7 +71,7 @@ The todos table has the following columns:
 * id: A unique identifier for each category in the table.
 * category: The name of the category.
 ## Database Connection Settings
-After you've created the database and tables, you'll have to add those deatils in the *[db_connect.php](../main/db_connect.php)* file.
+After you've created the database and tables, you'll have to add those deatils in the *[db_connect.php](../twitch/db_connect.php)* file.
 ```php
 <?php
 $servername = "localhost";
