@@ -53,7 +53,7 @@
     $expires_at = date('Y-m-d H:i:s', strtotime('+30 days'));
 
     // Insert user data into the database
-    $query = "INSERT INTO twitch_users (username, api_key, access_token, expires_at, signup_date, last_login) VALUES ('$username', '$api_key', '$access_token', '$expires_at', NOW(), NOW())";
+    $query = "INSERT INTO twitch_users (username, is_admin, api_key, access_token, refresh_token, expires_at, signup_date, last_login) VALUES ('$username', 0, '$api_key', '$access_token', '', '$expires_at', NOW(), NOW())";
     if ($mysqli->query($query) === TRUE) {
         // Start the session and set the twitch_logged_in flag
         session_start();
