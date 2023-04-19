@@ -18,19 +18,6 @@ CREATE TABLE users (
     last_login DATETIME
 );
 
-CREATE TABLE twitch_users (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    username VARCHAR(255) COLLATE latin1_swedish_ci NOT NULL,
-    is_admin TINYINT(1) NOT NULL DEFAULT 0,
-    api_key VARCHAR(255) COLLATE latin1_swedish_ci,
-    access_token VARCHAR(255) COLLATE latin1_swedish_ci,
-    refresh_token VARCHAR(255) COLLATE latin1_swedish_ci,
-    expires_at DATETIME,
-    signup_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    last_login DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE todos (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     user_id INT(11),
@@ -57,13 +44,6 @@ username, password, and api_key are set to **VARCHAR(50)** with the collation **
 is_admin is set to **TINYINT(1)** with a default value of **0** and indicates whether the user is an administrator or not.
 
 signup_date and last_login are both set to **DATETIME** and are used to store the date and time when the user signed up and last logged in, respectively.
-### Twitch Users Table Notes:
-The Twitch users table has the following columns:
-* id is set to **INT(11)** with the **AUTO_INCREMENT** option, which will automatically generate a unique identifier for each new user added to the table, and is used as the primary key for the table. 
-* username is a string column with a maximum length of 255 characters. The NOT NULL attribute means that this column must always have a value, and the COLLATE attribute specifies a character set and collation for this column.
-* is_admin is a boolean column represented as a TINYINT data type, which can hold values of 0 or 1. The NOT NULL attribute specifies that this column must always have a value, and the DEFAULT attribute sets the default value to 0.
-* api_key, access_token, and refresh_token are string columns with a maximum length of 255 characters. The COLLATE attribute specifies a character set and collation for these columns.
-* expires_at, signup_date, and last_login are datetime columns, which can store both date and time values.
 ### Todos Table
 The todos table has the following columns:
 * id: a unique identifier for the todo item
