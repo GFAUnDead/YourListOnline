@@ -63,7 +63,7 @@ created_at and updated_at are set to **TIMESTAMP** data type to store the date a
 completed is set to **TINYTEXT** data type to store a flag that indicates whether the todo item has been completed or not definded by **"Yes"** or **"No"**.
 
 ## Database Connection Settings
-After you've created the database and tables, you'll have to add those deatils in the *[db_connect.php](../main/db_connect.php)* file.
+After you've created the database and tables, you'll have to add those deatils in the *[db_connect.php](../main/lists/db_connect.php)* file.
 ```php
 <?php
 $servername = "localhost";
