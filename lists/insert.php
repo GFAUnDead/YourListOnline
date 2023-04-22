@@ -16,11 +16,11 @@ $user_id = $_SESSION['user_id'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // get form data
   $objective = $_POST['objective'];
-  $category_id = $_POST['category'];
+  $category = $_POST['category'];
 
   // prepare and execute query
-  $stmt = $conn->prepare("INSERT INTO todos (user_id, category, objective, created_at, updated_at, completed) VALUES (?, (SELECT id FROM categories WHERE category = ?), ?, NOW(), NOW(), 'No')");
-  $stmt->bind_param("iss", $user_id, $category_id, $objective);
+  $stmt = $conn->prepare("INSERT INTO todos (user_id, objective, category, created_at, updated_at, completed) VALUES (?, ?, (SELECT id FROM categories WHERE category = ?), NOW(), NOW(), 'No')");
+  $stmt->bind_param("iss", $user_id, $category, $objective);
   $stmt->execute();
   header('Location: dashboard.php');
   exit();
