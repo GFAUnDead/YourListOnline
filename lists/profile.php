@@ -23,6 +23,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 $_SESSION['signup_date'] = $signup_date;
                 $_SESSION['last_login'] = $last_login;
                 $_SESSION['api_key'] = $api_key;
+                // Get Twitch profile image URL
+                $url = 'https://decapi.me/twitch/avatar/' . $username;
+                // Initialize cURL session
+                $curl = curl_init();
+                // Set cURL options
+                curl_setopt_array($curl, array(
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_URL => $url,
+                ));
+                // Execute cURL request and get response
+                $response = curl_exec($curl);
+                // Close cURL session
+                curl_close($curl);
+                // Set Twitch profile image URL to the response
+                $twitch_profile_image_url = $response;
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
                 exit;
@@ -87,6 +102,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 </nav>
 <div class="wrapper">
   <h1>Your Profile</h1>
+  <img src="<?php echo $twitch_profile_image_url; ?>" alt="Twitch Profile Image">
   <p><strong>Username:</strong> <?php echo $_SESSION['username']; ?></p>
   <p><strong>Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?> (AET)</p>
   <p><strong>Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
