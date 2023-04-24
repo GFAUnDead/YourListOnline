@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 session_start();
 
@@ -101,7 +102,13 @@ $conn->close();
                     <li><a href="add_category.php">Add Category</a></li>
                 </ul>
             </li>
-            <li class="active"><a href="profile.php">Profile</a></li>
+            <li class="dropdown dropdown-hover">
+			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+			      		<li><a href="profile.php">View Profile</a></li>
+			      		<li class="active"><a href="update_profile.php">Update Profile</a></li>
+			      	</ul>
+            </li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
