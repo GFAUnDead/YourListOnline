@@ -77,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-<div class="col-md-6">
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h1>Please pick which task to remove from your list:</h1>
     <table class="table">
@@ -105,6 +104,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endwhile; ?>
         </tbody>
     </table>
-</div>
 </body>
 </html>
