@@ -1,53 +1,59 @@
 <?php
-// Initialize the session
 session_start();
 
-// Check if the user is already logged in
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-} else {
-    // Require database connection
-    require_once "db_connect.php";
+// check if user is logged in
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+    exit();
+  }
 
-    // Get user information from the database
+// Require database connection
+require_once "db_connect.php";
+
+// Get user's Twitch profile image URL
+$username = $_SESSION['username'];
+$url = 'https://decapi.me/twitch/avatar/' . $username;
+
+// Initialize cURL session
+$curl = curl_init();
+// Set cURL options
+curl_setopt_array($curl, array(
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_URL => $url,
+));
+// Execute cURL request and get response
+$response = curl_exec($curl);
+// Close cURL session
+curl_close($curl);
+// Set Twitch profile image URL to the response
+$twitch_profile_image_url = $response;
+
+// Update profile image in database when button is clicked
+if (isset($_POST['update_profile_image'])) {
     $user_id = $_SESSION['user_id'];
-    $sql = "SELECT username, signup_date, last_login, api_key FROM users WHERE id = ?";
-    if($stmt = $conn->prepare($sql)){
-        $stmt->bind_param("i", $user_id);
-        if($stmt->execute()){
-            $stmt->store_result();
-            if($stmt->num_rows == 1){
-                $stmt->bind_result($username, $signup_date, $last_login, $api_key);
-                $stmt->fetch();
-                $_SESSION['signup_date'] = $signup_date;
-                $_SESSION['last_login'] = $last_login;
-                $_SESSION['api_key'] = $api_key;
-                // Get Twitch profile image URL
-                $url = 'https://decapi.me/twitch/avatar/' . $username;
-                // Initialize cURL session
-                $curl = curl_init();
-                // Set cURL options
-                curl_setopt_array($curl, array(
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_URL => $url,
-                ));
-                // Execute cURL request and get response
-                $response = curl_exec($curl);
-                // Close cURL session
-                curl_close($curl);
-                // Set Twitch profile image URL to the response
-                $twitch_profile_image_url = $response;
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-                exit;
-            }
+
+    // Prepare an update statement
+    $sql = "UPDATE users SET profile_image = ? WHERE id = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        // Bind variables to the prepared statement as parameters
+        $stmt->bind_param("si", $twitch_profile_image_url, $user_id);
+
+        // Attempt to execute the prepared statement
+        if ($stmt->execute()) {
+            // Redirect to profile page
+            header("location: profile.php");
+            exit();
         } else {
             echo "Oops! Something went wrong. Please try again later.";
-            exit;
         }
     }
+
+    // Close statement
+    $stmt->close();
 }
+
+// Close connection
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html>
@@ -115,6 +121,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <br><br>
     <!--<a href="change_password.php" class="btn btn-primary">Change Password</a>-->
     <a href="logout.php" class="btn btn-primary">Logout</a>
+    <br><br><br>
+    <!-- Form to update Twitch profile image URL -->
+    <form method="POST">
+    <button class="btn btn-primary" type="submit" name="update_profile_image">Update Profile Image</button>
+    </form>
 </div>
 </body>
 </html>
