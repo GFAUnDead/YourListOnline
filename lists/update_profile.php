@@ -11,31 +11,6 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Update username in database when button is clicked
-if (isset($_POST['update_username'])) {
-    $user_id = $_SESSION['user_id'];
-    $new_username = $_POST['new_username'];
-
-    // Prepare an update statement
-    $sql = "UPDATE users SET username = ? WHERE id = ?";
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind variables to the prepared statement as parameters
-        $stmt->bind_param("si", $new_username, $user_id);
-
-        // Attempt to execute the prepared statement
-        if ($stmt->execute()) {
-            // Redirect to logout page to login with new username
-            header("location: logout.php");
-            exit();
-        } else {
-            echo "Oops! Something went wrong. Please try again later.";
-        }
-    }
-
-    // Close statement
-    $stmt->close();
-}
-
 // Get user's Twitch profile image URL
 $username = $_SESSION['username'];
 $url = 'https://decapi.me/twitch/avatar/' . $username;
@@ -54,28 +29,31 @@ curl_close($curl);
 // Set Twitch profile image URL to the response
 $twitch_profile_image_url = $response;
 
-// Update profile image in database when button is clicked
-if (isset($_POST['update_profile_image'])) {
-    $user_id = $_SESSION['user_id'];
+// Check if form has been submitted
+if (isset($_POST['update_profile'])) {
+    // Get new username from form data
+    $new_username = $_POST['new_username'];
 
-    // Prepare an update statement
-    $sql = "UPDATE users SET profile_image = ? WHERE id = ?";
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind variables to the prepared statement as parameters
-        $stmt->bind_param("si", $twitch_profile_image_url, $user_id);
+    // Update user's username in database
+    $stmt = $conn->prepare("UPDATE users SET username = ? WHERE id = ?");
+    $stmt->bind_param("si", $new_username, $_SESSION['user_id']);
+    $stmt->execute();
 
-        // Attempt to execute the prepared statement
-        if ($stmt->execute()) {
-            // Redirect to profile page
-            header("location: profile.php");
-            exit();
-        } else {
-            echo "Oops! Something went wrong. Please try again later.";
-        }
+    // Check if profile image should also be updated
+    if (isset($_POST['update_profile_image'])) {
+        // Update user's profile image URL in database
+        $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
+        $stmt->bind_param("si", $twitch_profile_image_url, $_SESSION['user_id']);
+        $stmt->execute();
+
+        // Redirect to profile page
+        header("Location: profile.php");
+        exit();
+    } else {
+        // Redirect to logout page to allow user to login with new username
+        header("Location: logout.php");
+        exit();
     }
-
-    // Close statement
-    $stmt->close();
 }
 
 // Close connection
