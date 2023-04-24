@@ -81,7 +81,6 @@ if (isset($_POST['task_id'])) {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-<div class="col-md-6">
   <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
   <h1>Please pick which task to mark as completed:</h1>
   <table class="table">
@@ -109,6 +108,5 @@ if (isset($_POST['task_id'])) {
           <?php endwhile ?>
       </tbody>
   </table>
-</div>
 </body>
 </html>
