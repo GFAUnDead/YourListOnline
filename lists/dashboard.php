@@ -91,7 +91,6 @@ if (!$result) {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-<div class="col-md-6">
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h2>Your Current List:</h2>
     <?php echo "Number of rows in your list: " . mysqli_num_rows($result); ?>    
@@ -117,6 +116,5 @@ if (!$result) {
         <?php endwhile; ?>
       </tbody>
     </table>
-</div>
 </body>
 </html>
