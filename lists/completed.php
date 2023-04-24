@@ -33,7 +33,6 @@ if (isset($_POST['task_id'])) {
     $stmt->close();
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
