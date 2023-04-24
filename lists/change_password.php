@@ -116,7 +116,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <li><a href="completed.php">Completed</a></li>
             <li><a href="update.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
-            <li><a href="profile.php">Profile</a></li>
+            <li class="dropdown dropdown-hover">
+                <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="categories.php">View Categories</a></li>
+                    <li><a href="add_category.php">Add Category</a></li>
+                </ul>
+            </li>
+            <li class="dropdown dropdown-hover">
+			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+			      		<li><a href="profile.php">View Profile</a></li>
+			      		<li><a href="update_profile.php">Update Profile</a></li>
+			      	</ul>
+            </li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
