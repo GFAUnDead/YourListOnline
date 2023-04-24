@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['loggedin'])) {
     header('Location: login.php');
     exit();
@@ -11,27 +11,27 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Check if the form has been submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Get user's Twitch profile image URL
+$username = $_SESSION['username'];
+$url = 'https://decapi.me/twitch/avatar/' . $username;
+
+// Initialize cURL session
+$curl = curl_init();
+// Set cURL options
+curl_setopt_array($curl, array(
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_URL => $url,
+));
+// Execute cURL request and get response
+$response = curl_exec($curl);
+// Close cURL session
+curl_close($curl);
+// Set Twitch profile image URL to the response
+$twitch_profile_image_url = $response;
+
+// Update profile image or username in database when button is clicked
+if (isset($_POST['update_profile_image'])) {
     $user_id = $_SESSION['user_id'];
-    $username = $_SESSION['username'];
-
-    // Get user's Twitch profile image URL
-    $url = 'https://decapi.me/twitch/avatar/' . $username;
-
-    // Initialize cURL session
-    $curl = curl_init();
-    // Set cURL options
-    curl_setopt_array($curl, array(
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_URL => $url,
-    ));
-    // Execute cURL request and get response
-    $response = curl_exec($curl);
-    // Close cURL session
-    curl_close($curl);
-    // Set Twitch profile image URL to the response
-    $twitch_profile_image_url = $response;
 
     // Prepare an update statement
     $sql = "UPDATE users SET profile_image = ? WHERE id = ?";
@@ -46,6 +46,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             echo "Oops! Something went wrong. Please try again later.";
+        }
+    }
+
+    // Close statement
+    $stmt->close();
+} elseif (isset($_POST['update_username'])) {
+    $user_id = $_SESSION['user_id'];
+    $new_username = $_POST['twitch_username'];
+
+    // Prepare an update statement
+    $sql = "UPDATE users SET username = ? WHERE id = ?";
+    if ($stmt = $conn->prepare($sql)) {
+        // Bind variables to the prepared statement as parameters
+        $stmt->bind_param("si", $new_username, $user_id);
+
+        // Attempt to execute the prepared statement
+        if ($stmt->execute()) {
+            // Redirect to profile page
+            $_SESSION['username'] = $new_username;
+            header("location: profile.php");
+            exit();
+        } else {
+            echo "Oops! Something went wrong. Please try again later.";
+
         }
     }
 
@@ -114,10 +138,19 @@ $conn->close();
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <h2>Update Profile<br></h2>
-    <p>Click the button below to set your profile image.</p>
-    <button class="btn btn-primary" id="update-profile-image-button">Update Profile Image</button>
+    <h1>Updating profile for: <?php echo $_SESSION['username']; ?></h1>
+    <form action="update_profile.php" method="POST">
+        <h2>Update Username OR Porfile Picture</h2>
+        <div>
+          <label for="twitch_username">Twitch Username:</label>
+          <input type="text" id="twitch_username" name="twitch_username" value="<?php echo $_SESSION['username']; ?>">
+        </div>
+        <div>
+          <button class="btn btn-primary" type="submit" name="update_username">Update Username</button>
+          <br><br>
+          <button class="btn btn-primary" id="update-profile-image-button">Update Profile Image</button>
+        </div>
+    </form>
     <script>
     document.getElementById('update-profile-image-button').addEventListener('click', function() {
         var xhr = new XMLHttpRequest();
