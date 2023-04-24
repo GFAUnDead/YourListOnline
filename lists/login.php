@@ -136,7 +136,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
         </div>
     </nav>
-    <div class="wrapper">
+    <div class="col-md-6">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
