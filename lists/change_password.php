@@ -121,27 +121,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <h2>Change Password</h2>
-                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                    <div class="form-group">
-                        <label for="current_password">Current Password:</label>
-                        <input type="password" class="form-control" id="current_password" name="current_password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="new_password">New Password:</label>
-                        <input type="password" class="form-control" id="new_password" name="new_password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm_password">Confirm Password:</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
-            </div>
+<div class="col-md-6">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <h2>Change Password</h2>
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <div class="form-group">
+                    <label for="current_password">Current Password:</label>
+                    <input type="password" class="form-control" id="current_password" name="current_password" required>
+                </div>
+                <div class="form-group">
+                    <label for="new_password">New Password:</label>
+                    <input type="password" class="form-control" id="new_password" name="new_password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password:</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
         </div>
     </div>
+</div>
 </body>
 </html>
