@@ -26,16 +26,17 @@ if ($result) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     foreach ($tasks as $task) {
         $task_id = $task['id'];
-        $new_task = $_POST[$task_id];
+        $new_objective = $_POST[$task_id]['objective'];
+        $new_category = $_POST[$task_id]['category'];
 
         // Check if the task has been updated
-        if ($new_task != $task['task']) {
-            $sql = "UPDATE todos SET objective = '$new_task' WHERE id = " . intval($task_id);
+        if ($new_objective != $task['objective'] || $new_category != $task['category']) {
+            $sql = "UPDATE todos SET objective = '$new_objective', category = '$new_category' WHERE id = " . intval($task_id);
             mysqli_query($conn, $sql);
-            header('Location: update.php');
-            $stmt->close();
         }
     }
+    header('Location: update.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -93,34 +94,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <h1>Please pick which task to update on your list:</h1>
-    <table class="table">
-        <thead>
-          <tr>
-            <th>Objective</th>
-            <th>Category</th>
-            <th>Update</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($tasks as $task) { ?>
-            <tr>
-              <td><?php echo $task['objective']; ?></td>
-              <td><?php echo $row['category']; ?></td>
-              <td>
-                <input type="text" name="<?php echo $task['id']; ?>" class="form-control">
-              </td>
-              <td>
-                <form method="post" action="update.php">
-                  <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
-                  <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-              </td>
-            </tr>
-          <?php } ?>
-        </tbody>
-    </table>
+            <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+            <h1>Please pick which task to update on your list:</h1>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>Objective</th>
+                    <th>Category</th>
+                    <th>Update</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($tasks as $task) { ?>
+                    <tr>
+                      <td><?php echo $task['objective']; ?></td>
+                      <td><?php echo $row['category']; ?></td>
+                      <td>
+                        <input type="text" name="objective[<?php echo $task['id']; ?>]" class="form-control" value="<?php echo $task['objective']; ?>">
+                      </td>
+                      <td>
+                        <select class="form-control" name="category[<?php echo $task['id']; ?>]">
+                          <?php foreach ($categories as $category) { ?>
+                            <option value="<?php echo $category['name']; ?>" <?php if ($category['name'] == $task['category']) { echo 'selected'; } ?>><?php echo $category['name']; ?></option>
+                          <?php } ?>
+                        </select>
+                      </td>
+                    </tr>
+                  <?php } ?>
+                </tbody>
+            </table>
 </body>
 </html>
