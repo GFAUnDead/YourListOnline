@@ -44,7 +44,7 @@ if (isset($_POST['update_username'])) {
     $stmt->execute();
 
     // Redirect to profile page
-    header("Location: profile.php");
+    header("Location: logout.php");
     exit();
 }
 
