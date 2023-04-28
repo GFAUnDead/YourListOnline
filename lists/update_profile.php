@@ -1,5 +1,8 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 // check if user is logged in
@@ -27,43 +30,34 @@ $response = curl_exec($curl);
 // Close cURL session
 curl_close($curl);
 // Set Twitch profile image URL to the response
-$_SESSION['twitch_profile_image_url'] = $response;
+$twitch_profile_image_url = trim($response);
 
-// Set default value for the Twitch profile image URL
-if (!isset($twitch_profile_image_url)) {
-    $twitch_profile_image_url = '';
-}
-
-// Check if form has been submitted
-if (isset($_POST['update_profile'])) {
+// Check if form has been submitted to update the username
+if (isset($_POST['update_username'])) {
     // Get new username from form data
-    $new_username = $_POST['new_username'];
+    $new_username = $_POST['twitch_username'];
 
     // Update user's username in database
     $stmt = $conn->prepare("UPDATE users SET username = ? WHERE id = ?");
     $stmt->bind_param("si", $new_username, $_SESSION['user_id']);
     $stmt->execute();
 
-    // Set new username in session
-    $_SESSION['username'] = $new_username;
+    // Redirect to profile page
+    header("Location: profile.php");
+    exit();
+}
 
-    // Check if profile image should also be updated
-    if (isset($_POST['update_profile_image'])) {
-        // Update user's profile image URL in database
-        $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
-        $stmt->bind_param("si", $twitch_profile_image_url, $_SESSION['user_id']);
-        $stmt->execute();
+// Check if form has been submitted to update the profile image
+if (isset($_POST['update_profile_image'])) {
+    // Get new profile image URL from form data
+    $twitch_profile_image_url = $_POST['twitch_profile_image_url'];
 
-        // Set new profile image URL in session
-        $_SESSION['profile_image'] = $twitch_profile_image_url;
-        
-        // Redirect to profile page
-        header("Location: profile.php");
-        exit();
-    }
-
-    // Redirect to logout page to allow user to login with new username
-    header("Location: logout.php");
+    // Update user's profile image URL in database
+    $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
+    $stmt->bind_param("si", $twitch_profile_image_url, $_SESSION['user_id']);
+    $stmt->execute();
+    // Redirect to profile page
+    header("Location: profile.php");
     exit();
 }
 
@@ -135,19 +129,17 @@ $conn->close();
         <div>
           <label for="twitch_username">Twitch Username:</label>
           <input type="text" id="twitch_username" name="twitch_username" value="<?php echo $_SESSION['username']; ?>">
-        </div>
-        <div>
           <button class="btn btn-primary" type="submit" name="update_username">Update Username</button>
         </div>
     </form>
     <form id="update-profile-image-form" action="update_profile.php" method="POST">
         <h2>Update Profile Image</h2>
         <div>
-        <img id="profile-image" src="<?php echo $_SESSION['twitch_profile_image_url']; ?>" weidth="100px" height="100px" alt="New Profile Image">
+            <img id="profile-image" src="<?php echo $_SESSION['twitch_profile_image_url']; ?>" weidth="100px" height="100px" alt="New Profile Image">
         </div>
         <div>
-            <input type="hidden" name="twitch_profile_image_url" id="twitch_profile_image_url" value="">
-            <button class="btn btn-primary" id="update-profile-image-button">Update New Profile Image</button>
+            <input type="hidden" name="twitch_profile_image_url" value="<?php echo $_SESSION['twitch_profile_image_url']; ?>">
+            <button class="btn btn-primary" id="update-profile-image-button" name="update_profile_image">Update New Profile Image</button>
         </div>
     </form>
 </div>
