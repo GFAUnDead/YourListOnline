@@ -31,14 +31,14 @@ $user_data = mysqli_fetch_assoc($result);
 
 // Store the user's data in the $_SESSION variable
 $_SESSION['user_data'] = $user_data;
+$_SESSION['is_admin'] = $user_data['is_admin'];
 
-// Get user's to-do list or all to-do list if the user is an admin
-if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === 1) {
-	$sql = "SELECT * FROM todos ORDER BY id ASC";
-  } else {
-	$user_id = $_SESSION['user_id'];
-	$sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
-  }
+if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
+  $sql = "SELECT * FROM todos ORDER BY id ASC";
+} else {
+  $user_id = $_SESSION['user_id'];
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+}
 
 $result = mysqli_query($conn, $sql);
 
@@ -105,7 +105,7 @@ if (!$result) {
 </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h2>Your Current List:</h2>
-    <?php echo "Number of rows in your list: " . mysqli_num_rows($result); ?>    
+    <?php echo "Number of objectives showing on the dashboard: " . mysqli_num_rows($result); ?>
     <table class="table">
       <thead>
         <tr>
