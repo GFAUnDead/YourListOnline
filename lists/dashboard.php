@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Initialize the session
 session_start();
 
 // Check if user is logged in
@@ -115,7 +120,15 @@ if (!$result) {
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <tr>
             <td><?php echo $row['objective']; ?></td>
-            <td><?php echo $row['category']; ?></td>
+            <td>
+              <?php
+                $category_id = $row['category'];
+                $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
+                $category_result = mysqli_query($conn, $category_sql);
+                $category_row = mysqli_fetch_assoc($category_result);
+                echo $category_row['category'];
+              ?>
+            </td>
             <td><?php echo $row['created_at']; ?></td>
             <td><?php echo $row['updated_at']; ?></td>
             <td><?php echo $row['completed']; ?></td>
