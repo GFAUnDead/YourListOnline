@@ -27,7 +27,12 @@ $response = curl_exec($curl);
 // Close cURL session
 curl_close($curl);
 // Set Twitch profile image URL to the response
-$twitch_profile_image_url = $response;
+$_SESSION['twitch_profile_image_url'] = $response;
+
+// Set default value for the Twitch profile image URL
+if (!isset($twitch_profile_image_url)) {
+    $twitch_profile_image_url = '';
+}
 
 // Check if form has been submitted
 if (isset($_POST['update_profile'])) {
@@ -138,11 +143,11 @@ $conn->close();
     <form id="update-profile-image-form" action="update_profile.php" method="POST">
         <h2>Update Profile Image</h2>
         <div>
-          <img id="profile-image" src="<?php echo $_SESSION['profile_image']; ?>" weidth="150" height="150" alt="New Profile Image">
+        <img id="profile-image" src="<?php echo $_SESSION['twitch_profile_image_url']; ?>" weidth="100px" height="100px" alt="New Profile Image">
         </div>
         <div>
             <input type="hidden" name="twitch_profile_image_url" id="twitch_profile_image_url" value="">
-            <button class="btn btn-primary" id="update-profile-image-button">Update Profile Image</button>
+            <button class="btn btn-primary" id="update-profile-image-button">Update New Profile Image</button>
         </div>
     </form>
 </div>
