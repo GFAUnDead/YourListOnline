@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Initialize the session
 session_start();
 
 // check if user is logged in
@@ -135,7 +136,7 @@ $conn->close();
     <form id="update-profile-image-form" action="update_profile.php" method="POST">
         <h2>Update Profile Image</h2>
         <div>
-            <img id="profile-image" src="<?php echo $_SESSION['twitch_profile_image_url']; ?>" weidth="100px" height="100px" alt="New Profile Image">
+        <img id="profile-image" src="<?php echo $_SESSION['twitch_profile_image_url']; ?>" width="100px" height="100px" alt="New Profile Image">
         </div>
         <div>
             <input type="hidden" name="twitch_profile_image_url" value="<?php echo $_SESSION['twitch_profile_image_url']; ?>">
