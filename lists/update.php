@@ -18,27 +18,35 @@ $sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY id DESC";
 $result = $conn->query($sql);
 
 if ($result) {
-    $rows = $result->fetch_all(MYSQLI_ASSOC);
+  $rows = $result->fetch_all(MYSQLI_ASSOC);
 } else {
-    echo "Error: " . mysqli_error($conn);
+  error_log("Error: " . mysqli_error($conn));
+  header("Location: error.php");
+  exit;
 }
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    foreach ($rows as $row) {
-        $row_id = $row['id'];
-        $new_objective = $_POST['objective'][$row_id];
-        $new_category = $_POST['category'][$row_id];
+  foreach ($rows as $row) {
+      $row_id = $row['id'];
+      $new_objective = $_POST['objective'][$row_id];
+      $new_category = $_POST['category'][$row_id];
 
-        // Check if the row has been updated
-        if ($new_objective != $row['objective'] || $new_category != $row['category']) {
-            $sql = "UPDATE todos SET objective = '$new_objective', category = '$new_category' WHERE id = " . intval($row_id);
-            mysqli_query($conn, $sql);
-        }
-    }
-    header('Location: update.php');
-    exit;
+      // Check if the row has been updated
+      if ($new_objective != $row['objective'] || $new_category != $row['category']) {
+          if ($new_category != "") {
+              $sql = "UPDATE todos SET objective = '$new_objective', category = '$new_category' WHERE id = " . intval($row_id);
+              mysqli_query($conn, $sql);
+          } else {
+              $sql = "UPDATE todos SET objective = '$new_objective' WHERE id = " . intval($row_id);
+              mysqli_query($conn, $sql);
+          }
+      }
+  }
+  header('Location: update.php');
+  exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -99,38 +107,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <h1>Please pick which row to update on your list:</h1>
 <table class="table">
     <thead>
-      <tr>
-        <th>Objective</th>
-        <th>Category</th>
-        <th>Update</th>
-        <th>Action</th>
-      </tr>
+        <tr>
+            <th>Objective</th>
+            <th>Category</th>
+            <th>Update Objective</th>
+            <th>Update Category</th>
+            <th>Action</th>
+        </tr>
     </thead>
     <tbody>
-      <?php foreach ($rows as $row) { ?>
-        <tr>
-          <td><?php echo $row['objective']; ?></td>
-          <td>
-              <?php
-                $category_id = $row['category'];
-                $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
-                $category_result = mysqli_query($conn, $category_sql);
-                $category_row = mysqli_fetch_assoc($category_result);
-                echo $category_row['category'];
-              ?>
-          </td>
-          <td>
-            <input type="text" name="objective[<?php echo $row['id']; ?>]" class="form-control" value="<?php echo $row['objective']; ?>">
-          </td>
-          <td>
-            <select class="form-control" name="category[<?php echo $row['id']; ?>]">
-              <?php foreach ($categories as $category) { ?>
-                <option value="<?php echo $category['name']; ?>" <?php if ($category['name'] == $row['category']) { echo 'selected'; } ?>><?php echo $category['name']; ?></option>
-              <?php } ?>
-            </select>
-          </td>
-        </tr>
-      <?php } ?>
+        <?php foreach ($rows as $row) { ?>
+            <tr>
+                <td><?php echo $row['objective']; ?></td>
+                <td>
+                    <?php
+                        $category_id = $row['category'];
+                        $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
+                        $category_result = mysqli_query($conn, $category_sql);
+                        $category_row = mysqli_fetch_assoc($category_result);
+                        echo $category_row['category'];
+                    ?>
+                </td>
+                <td>
+                    <input type="text" name="objective[<?php echo $row['id']; ?>]" class="form-control" value="<?php echo $row['objective']; ?>">
+                </td>
+                <td>
+                    <select id="category" name="category[<?php echo $row['id']; ?>]" class="form-control">
+                        <?php
+                            // retrieve categories from database
+                            $stmt = $conn->prepare("SELECT id, category FROM categories");
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+
+                            // display categories as options in dropdown menu
+                            while ($category_row = $result->fetch_assoc()) {
+                                $selected = ($category_row['id'] == $row['category']) ? 'selected' : '';
+                                echo '<option value="'.$category_row['id'].'" '.$selected.'>'.$category_row['category'].'</option>';
+                            }
+                        ?>
+                    </select>
+                </td>
+                <td>
+                    <input type="submit" name="submit" class="btn btn-primary" value="Update">
+                </td>
+            </tr>
+        <?php } ?>
     </tbody>
 </table>
 </body>
