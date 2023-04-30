@@ -27,13 +27,8 @@ $user_data = mysqli_fetch_assoc($result);
 // Store the user's data in the $_SESSION variable
 $_SESSION['user_data'] = $user_data;
 
-// Get user's to-do list or all to-do list if the user is an admin
-if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] === 1) {
-	$sql = "SELECT * FROM todos ORDER BY id ASC";
-  } else {
-	$user_id = $_SESSION['user_id'];
-	$sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
-  }
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
 
 $result = mysqli_query($conn, $sql);
 
@@ -115,7 +110,15 @@ if (!$result) {
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <tr>
             <td><?php echo $row['objective']; ?></td>
-            <td><?php echo $row['category']; ?></td>
+            <td>
+              <?php
+                $category_id = $row['category'];
+                $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
+                $category_result = mysqli_query($conn, $category_sql);
+                $category_row = mysqli_fetch_assoc($category_result);
+                echo $category_row['category'];
+              ?>
+            </td>
             <td><?php echo $row['created_at']; ?></td>
             <td><?php echo $row['updated_at']; ?></td>
             <td><?php echo $row['completed']; ?></td>
