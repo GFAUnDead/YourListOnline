@@ -103,7 +103,15 @@ if (isset($_POST['task_id'])) {
           <?php while ($row = $result->fetch_assoc()): ?>
           <tr>
               <td><?php echo htmlspecialchars($row['objective']) ?></td>
-              <td><?php echo $row['category']; ?></td>
+              <td>
+              <?php
+                $category_id = $row['category'];
+                $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
+                $category_result = mysqli_query($conn, $category_sql);
+                $category_row = mysqli_fetch_assoc($category_result);
+                echo $category_row['category'];
+              ?>
+            </td>
               <td><?php echo $row['completed']; ?></td>
               <td>
                 <form method="post" action="completed.php">
