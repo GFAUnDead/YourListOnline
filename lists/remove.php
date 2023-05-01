@@ -99,7 +99,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php while ($row = $result->fetch_assoc()): ?>
                 <tr>
                     <td><?= $row['objective'] ?></td>
-                    <td><?php echo $row['category']; ?></td>
+                    <td>
+                      <?php
+                        $category_id = $row['category'];
+                        $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
+                        $category_result = mysqli_query($conn, $category_sql);
+                        $category_row = mysqli_fetch_assoc($category_result);
+                        echo $category_row['category'];
+                      ?>
+                    </td>
                     <td><?= $row['completed'] ?></td>
                     <td>
                         <form method="POST">
