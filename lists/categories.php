@@ -11,7 +11,7 @@ if (!isset($_SESSION['loggedin'])) {
 require_once "db_connect.php";
 
 // Get categories from database
-$query = "SELECT category FROM categories";
+$query = "SELECT id, category FROM categories";
 $result = $conn->query($query);
 
 if (!$result) {
@@ -73,21 +73,23 @@ if (!$result) {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-  <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-  <h1>Here is the current list of categories you can filter your lists in, each category will be it's own list.</h1>
-  <table class="table">
-      <thead>
-          <tr>
-              <th>Categories</th>
-          </tr>
-      </thead>
-      <tbody>
-          <?php while ($row = $result->fetch_assoc()): ?>
-          <tr>
-              <td><?php echo htmlspecialchars($row['category']) ?></td>
-          </tr>
-          <?php endwhile ?>
-      </tbody>
-  </table>
+<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1>Here is the current list of categories you can filter your lists in, each category will be it's own list.</h1>
+<table class="table">
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Category</th>
+      </tr>
+  </thead>
+  <tbody>
+      <?php while ($row = $result->fetch_assoc()): ?>
+      <tr>
+          <td><?php echo htmlspecialchars($row['id']) ?></td>
+          <td><?php echo htmlspecialchars($row['category']) ?></td>
+      </tr>
+      <?php endwhile ?>
+  </tbody>
+</table>
 </body>
 </html>
