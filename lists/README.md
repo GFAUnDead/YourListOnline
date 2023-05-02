@@ -26,6 +26,12 @@ CREATE TABLE todos (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     completed TINYTEXT COLLATE latin1_swedish_ci
 );
+
+CREATE TABLE categories (
+    id INT(255) AUTO_INCREMENT,
+    category VARCHAR(255) COLLATE utf8mb4_unicode_ci,
+    PRIMARY KEY (id)
+);
 ```
 ### Users Table
 The users table has the following columns:
