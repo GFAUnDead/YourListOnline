@@ -26,13 +26,13 @@ RUN a2enmod rewrite
 RUN git clone https://github.com/YourStreamingTools/YourListOnline.git /var/www/html/
 
 # Create a new database and user
-ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_ROOT_PASSWORD=ListROOTPassword123
 ENV MYSQL_DATABASE=todolistdb
 ENV MYSQL_USER=listuser
 ENV MYSQL_PASSWORD=ListPassword123
 
 # Automatically create the necessary database tables
-COPY init.sql /docker-entrypoint-initdb.d/
+COPY init.sql
 
 # Expose ports 80 and 443
 EXPOSE 80 443
