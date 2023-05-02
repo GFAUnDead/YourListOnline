@@ -23,7 +23,7 @@ RUN docker-php-ext-install mysqli pdo_mysql intl zip exif pcntl bcmath gd
 RUN a2enmod rewrite
 
 # Clone website files from GitHub
-RUN git clone https://github.com/your-username/your-repo.git /var/www/html/
+RUN git clone https://github.com/YourStreamingTools/YourListOnline.git /var/www/html/
 
 # Create a new database and user
 ENV MYSQL_ROOT_PASSWORD=root
