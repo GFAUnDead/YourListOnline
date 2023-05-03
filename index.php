@@ -23,7 +23,7 @@
 		<p>To get started, simply log in with your Twitch account.</p>
 		<a href="lists/dashboard.php"><button class="button">Login</button></a>
 		<a href=""><button class="twitch-button">Login with Twitch (COMING SOON)</button></a>
-		<a href="discord/login.php"><button class="discord-button">Login with Discord (COMING SOON)</button></a>
+		<a href=""><button class="discord-button">Login with Discord (COMING SOON)</button></a>
 		<br><br>
 		<p><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
 	</main>
