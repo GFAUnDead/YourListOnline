@@ -8,7 +8,7 @@ YourListOnline is a website that allows you to keep track of all the tasks you n
 To get started, you will need to create a SQL database and use the following code to build the tables:
 
 ```sql
-CREATE TABLE twitch_users (
+CREATE TABLE users (
   id INT(11) AUTO_INCREMENT,
   username VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
   is_admin TINYINT(1) DEFAULT 0,
@@ -21,7 +21,7 @@ CREATE TABLE twitch_users (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE twitch_todos (
+CREATE TABLE todos (
   id INT(11) AUTO_INCREMENT,
   user_id INT(11),
   category_id INT(11),
@@ -30,23 +30,23 @@ CREATE TABLE twitch_todos (
   completed ENUM('YES','NO') DEFAULT 'NO',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES twitch_users(id),
-  FOREIGN KEY (category_id) REFERENCES twitch_categories(id)
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
-CREATE TABLE twitch_categories (
+CREATE TABLE categories (
   id INT(11) AUTO_INCREMENT,
   category VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (id)
 );
 
-CREATE TABLE twitch_tokens (
+CREATE TABLE tokens (
   id INT(11) AUTO_INCREMENT,
   user_id INT(11),
   token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
   expires_at DATETIME,
   PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES twitch_users(id)
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 ```
 ### twitch_users
