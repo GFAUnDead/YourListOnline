@@ -21,6 +21,12 @@ CREATE TABLE users (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE categories (
+  id INT(11) AUTO_INCREMENT,
+  category VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  PRIMARY KEY (id)
+);
+
 CREATE TABLE todos (
   id INT(11) AUTO_INCREMENT,
   user_id INT(11),
@@ -32,12 +38,6 @@ CREATE TABLE todos (
   PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (category_id) REFERENCES categories(id)
-);
-
-CREATE TABLE categories (
-  id INT(11) AUTO_INCREMENT,
-  category VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (id)
 );
 
 CREATE TABLE tokens (
