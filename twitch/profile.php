@@ -5,7 +5,7 @@ session_start();
 // Check if the user is already logged in
 if(!isset($_SESSION["twitchloggedin"]) || $_SESSION["twitchloggedin"] !== true){
     header("location: logincall.php");
-    exit;
+    exit();
 } else {
     // Require database connection
     require_once "db_connect.php";
