@@ -116,6 +116,9 @@ $conn->close();
                         <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
+            <?php if ($_SESSION['is_admin']) { ?>
+              <li><a href="admin.php">Admin Page</a></li>
+            <?php } ?>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
