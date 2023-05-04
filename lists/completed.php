@@ -83,6 +83,7 @@ if (isset($_POST['task_id'])) {
 			      	<ul class="dropdown-menu">
 			      		<li><a href="profile.php">View Profile</a></li>
 			      		<li><a href="update_profile.php">Update Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
         </ul>
