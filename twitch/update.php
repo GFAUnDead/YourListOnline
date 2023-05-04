@@ -3,9 +3,9 @@
 session_start();
 
 // Check if user is logged in
-if (!isset($_SESSION['twitchloggedin'])) {
-    header("Location: logincall.php");
-    exit();
+if (!isset($_SESSION['access_token'])) {
+    header("Location: login.php");
+    exit;
 }
 
 // Require database connection
