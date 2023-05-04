@@ -2,9 +2,9 @@
 // Initialize the session
 session_start();
 
-// check if user is logged in
-if (!isset($_SESSION['twitchloggedin'])) {
-  header('Location: logincall.php');
+// Check if user is logged in
+if (!isset($_SESSION['access_token'])) {
+  header('Location: login.php');
   exit();
 }
 
