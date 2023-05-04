@@ -96,6 +96,7 @@ if ($_SESSION['is_admin'] == 1) {
 			      	<ul class="dropdown-menu">
 			      		<li><a href="profile.php">View Profile</a></li>
 			      		<li><a href="update_profile.php">Update Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
             <li class="active"><a href="admin.php">Admin Page</a></li>
