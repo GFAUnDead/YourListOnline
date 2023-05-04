@@ -21,7 +21,7 @@
 	<main>
 		<p>With this website you can keep track of all the tasks you need to complete.</p>
 		<p>To get started, simply log in with your Twitch account.</p>
-		<a href="lists/dashboard.php"><button class="button">Login</button></a>
+		<a href="https://access.yourlist.online/dashboard.php"><button class="button">Login</button></a>
 		<a href=""><button class="twitch-button">Login with Twitch (COMING SOON)</button></a>
 		<a href=""><button class="discord-button">Login with Discord (COMING SOON)</button></a>
 		<br><br>
