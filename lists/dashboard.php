@@ -28,6 +28,9 @@ $user_data = mysqli_fetch_assoc($result);
 // Store the user's data in the $_SESSION variable
 $_SESSION['user_data'] = $user_data;
 
+// Set the is_admin flag in the $_SESSION variable
+$_SESSION['is_admin'] = $user_data['is_admin'];
+
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
 
