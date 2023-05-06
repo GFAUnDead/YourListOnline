@@ -99,9 +99,12 @@ if ($_SESSION['is_admin'] == 1) {
                 <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
-            <?php if ($_SESSION['is_admin']) { ?>
-              <li class="active"><a href="admin.php">Admin Page</a></li>
-            <?php } ?>
+            <li class="dropdown dropdown-hover">
+			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+                <li class="active"><a href="admin.php">Admin Dashboard</a></li>
+			      	</ul>
+            </li>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
