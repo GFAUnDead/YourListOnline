@@ -11,6 +11,26 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
+// Fetch the user's data from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+
+// Check if the query succeeded
+if (!$result) {
+    echo "Error: " . mysqli_error($conn);
+    exit();
+}
+
+// Get the user's data from the query result
+$user_data = mysqli_fetch_assoc($result);
+
+// Store the user's data in the $_SESSION variable
+$_SESSION['user_data'] = $user_data;
+
+// Check if user is an admin
+$is_admin = $_SESSION['user_data']['is_admin'];
+
 // Initialize variables
 $category = "";
 $category_err = "";
