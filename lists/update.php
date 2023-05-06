@@ -100,7 +100,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			      	</ul>
             </li>
             <?php if ($_SESSION['is_admin']) { ?>
-              <li><a href="admin.php">Admin Page</a></li>
+            <li class="dropdown dropdown-hover">
+			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+                <li><a href="admin.php">Admin Dashboard</a></li>
+			      	</ul>
+            </li>
             <?php } ?>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
