@@ -11,15 +11,18 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get user's to-do list
+// Get user's to-do list and user data
 $user_id = $_SESSION['user_id'];
-
-$sql = "SELECT * FROM todos WHERE user_id = ?";
+$sql = "SELECT t.*, u.is_admin FROM todos t JOIN users u ON t.user_id = u.id WHERE t.user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
+$user_data = $result->fetch_assoc();
 $stmt->close();
+
+// Set is_admin session variable
+$_SESSION['is_admin'] = $user_data['is_admin'];
 
 // Mark task as completed
 if (isset($_POST['task_id'])) {
