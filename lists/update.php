@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>YourListOnline - Update</title>
+    <title>YourListOnline - Update Objective</title>
     <link rel="icon" href="img/logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="img/logo.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
