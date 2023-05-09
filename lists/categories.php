@@ -68,7 +68,7 @@ if (!$result) {
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="insert.php">Add</a></li>
             <li><a href="completed.php">Completed</a></li>
-            <li><a href="update.php">Update</a></li>
+            <li><a href="update_objective.php">Update</a></li>
             <li><a href="remove.php">Remove</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
