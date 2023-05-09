@@ -13,13 +13,25 @@ require_once "db_connect.php";
 
 // Get user's to-do list
 $user_id = $_SESSION['user_id'];
-
 $sql = "SELECT * FROM todos WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
+
+// Get user data
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user_data = $result->fetch_assoc();
+$stmt->close();
+
+// Set is_admin session variable
+$_SESSION['is_admin'] = $user_data['is_admin'];
 
 // Mark task as completed
 if (isset($_POST['task_id'])) {
@@ -69,7 +81,13 @@ if (isset($_POST['task_id'])) {
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="insert.php">Add</a></li>
             <li class="active"><a href="completed.php">Completed</a></li>
-            <li><a href="update.php">Update</a></li>
+            <li class="dropdown dropdown-hover">
+                <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="update_objective.php">Update Objective</a></li>
+                    <li><a href="update_category.php">Update Category</a></li>
+                </ul>
+            </li>
             <li><a href="remove.php">Remove</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
@@ -83,8 +101,17 @@ if (isset($_POST['task_id'])) {
 			      	<ul class="dropdown-menu">
 			      		<li><a href="profile.php">View Profile</a></li>
 			      		<li><a href="update_profile.php">Update Profile</a></li>
+                <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
+            <?php if ($_SESSION['is_admin']) { ?>
+            <li class="dropdown dropdown-hover">
+			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+                <li><a href="admin.php">Admin Dashboard</a></li>
+			      	</ul>
+            </li>
+            <?php } ?>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
