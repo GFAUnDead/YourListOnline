@@ -11,6 +11,26 @@ if (!isset($_SESSION['access_token'])) {
 // Require database connection
 require_once "db_connect.php";
 
+// Fetch the user's data from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+
+// Check if the query succeeded
+if (!$result) {
+    echo "Error: " . mysqli_error($conn);
+    exit();
+}
+
+// Get the user's data from the query result
+$user_data = mysqli_fetch_assoc($result);
+
+// Store the user's data in the $_SESSION variable
+$_SESSION['user_data'] = $user_data;
+
+// Check if user is an admin
+$is_admin = $_SESSION['user_data']['is_admin'];
+
 // Initialize variables
 $category = "";
 $category_err = "";
@@ -117,7 +137,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="insert.php">Add</a></li>
             <li><a href="completed.php">Completed</a></li>
-            <li><a href="update.php">Update</a></li>
+            <li class="dropdown dropdown-hover">
+                <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="update_objective.php">Update Objective</a></li>
+                    <li><a href="update_category.php">Update Category</a></li>
+                </ul>
+            </li>
             <li><a href="remove.php">Remove</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
@@ -131,8 +157,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			      	<ul class="dropdown-menu">
 			      		<li><a href="profile.php">View Profile</a></li>
 			      		<li><a href="update_profile.php">Update Profile</a></li>
+                        <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
+            <?php if ($_SESSION['is_admin']) { ?>
+            <li class="dropdown dropdown-hover">
+			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+                <li><a href="admin.php">Admin Dashboard</a></li>
+			      	</ul>
+            </li>
+            <?php } ?>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
