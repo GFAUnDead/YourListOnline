@@ -28,24 +28,17 @@ if ($result) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   foreach ($rows as $row) {
       $row_id = $row['id'];
-      $new_objective = $_POST['objective'][$row_id];
       $new_category = $_POST['category'][$row_id];
 
       // Check if the row has been updated
-      if ($new_objective != $row['objective'] || $new_category != $row['category']) {
-          if ($new_category != "") {
-              $sql = "UPDATE todos SET objective = '$new_objective', category = '$new_category' WHERE id = " . intval($row_id);
-              mysqli_query($conn, $sql);
-          } else {
-              $sql = "UPDATE todos SET objective = '$new_objective' WHERE id = " . intval($row_id);
-              mysqli_query($conn, $sql);
-          }
+      if ($new_category != $row['category']) {
+          $sql = "UPDATE todos SET category = '$new_category' WHERE id = " . intval($row_id);
+          mysqli_query($conn, $sql);
       }
   }
   header('Location: update.php');
   exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,7 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="insert.php">Add</a></li>
             <li><a href="completed.php">Completed</a></li>
-            <li><a href="update_objective.php">Update</a></li>
+            <li class="dropdown dropdown-hover">
+                <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="update_objective.php">Update Objective</a></li>
+                    <li class="active"><a href="update_category.php">Update Category</a></li>
+                </ul>
+            </li>
             <li><a href="remove.php">Remove</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
@@ -118,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <tr>
             <th>Objective</th>
             <th>Category</th>
-            <th>Update Objective</th>
             <th>Update Category</th>
             <th>Action</th>
         </tr>
@@ -135,9 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $category_row = mysqli_fetch_assoc($category_result);
                         echo $category_row['category'];
                     ?>
-                </td>
-                <td>
-                    <input type="text" name="objective[<?php echo $row['id']; ?>]" class="form-control" value="<?php echo $row['objective']; ?>">
                 </td>
                 <td>
                     <select id="category" name="category[<?php echo $row['id']; ?>]" class="form-control">
