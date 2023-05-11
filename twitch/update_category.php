@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           mysqli_query($conn, $sql);
       }
   }
-  header('Location: update.php');
+  header('Location: update_category.php');
   exit;
 }
 ?>
@@ -118,10 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <th>Objective</th>
             <th>Category</th>
             <th>Update Category</th>
-            <th>Action</th>
         </tr>
     </thead>
     <tbody>
+        <form method="POST">
         <?php foreach ($rows as $row) { ?>
             <tr>
                 <td><?php echo $row['objective']; ?></td>
@@ -150,11 +150,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         ?>
                     </select>
                 </td>
-                <td>
-                    <input type="submit" name="submit" class="btn btn-primary" value="Update">
-                </td>
             </tr>
         <?php } ?>
+        <tr>
+        <?php
+            // Check if the query succeeded
+            if (!$result) {
+              echo "Error: " . mysqli_error($conn);
+              exit();
+            }
+
+            // Get the number of rows in the result
+            $num_rows = mysqli_num_rows($result);
+
+            // Check if there are any rows to edit
+            if ($num_rows > 0) {
+              echo '<td colspan="3"><button type="submit" name="submit" class="btn btn-primary">Update All</button></td>';
+            } else {
+              echo 'There are no rows to edit';
+            }
+        ?>
+        </tr>
+        </form>
     </tbody>
 </table>
 </body>
