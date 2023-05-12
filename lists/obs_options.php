@@ -21,8 +21,25 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $settings = $result->fetch_assoc();
-$font = isset($settings['font']) ? $settings['font'] : null;
-$colour = isset($settings['colour']) ? $settings['colour'] : null;
+// Retrieve font and color data for the user from the showobs table
+$font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
+$colour = isset($settings['colour']) && $settings['colour'] !== '' ? $settings['colour'] : 'Not set';
+
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize the input
+    $selectedFont = isset($_POST["font"]) ? $_POST["font"] : '';
+    $selectedColour = isset($_POST["colour"]) ? $_POST["colour"] : '';
+
+    // Update the font and color data in the database
+    $stmt = $conn->prepare("UPDATE showobs SET font = ?, colour = ? WHERE user_id = ?");
+    $stmt->bind_param("ssi", $selectedFont, $selectedColour, $user_id);
+    $stmt->execute();
+
+    // Update the font and color variables
+    $font = $selectedFont !== '' ? $selectedFont : 'Not set';
+    $colour = $selectedColour !== '' ? $selectedColour : 'Not set';
+}
 ?>
 <!DOCTYPE html>
 <html>
