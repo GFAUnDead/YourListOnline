@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Initialize the session
 session_start();
@@ -19,6 +20,12 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
+
+// Assign tasks to the $tasks variable
+$tasks = [];
+while ($row = $result->fetch_assoc()) {
+    $tasks[] = $row;
+}
 
 // Get user data
 $user_id = $_SESSION['user_id'];
@@ -128,10 +135,9 @@ if (isset($_POST['task_id'])) {
           </tr>
       </thead>
       <tbody>
-          <?php while ($row = $result->fetch_assoc()): ?>
+      <?php foreach ($tasks as $row): ?>
           <tr>
-              <td><?php echo htmlspecialchars($row['objective']) ?></td>
-              <td>
+              <td><?php echo htmlspecialchars($row['objective']); ?></td>
               <?php
                 $category_id = $row['category'];
                 $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
@@ -139,16 +145,15 @@ if (isset($_POST['task_id'])) {
                 $category_row = mysqli_fetch_assoc($category_result);
                 echo $category_row['category'];
               ?>
-            </td>
               <td><?php echo $row['completed']; ?></td>
               <td>
-                <form method="post" action="completed.php">
-                    <input type="hidden" name="task_id" value="<?php echo $row['id'] ?>">
-                    <button type="submit">Mark as Completed</button>
-                </form>
+                  <form method="post" action="completed.php">
+                      <input type="hidden" name="task_id" value="<?php echo $row['id']; ?>">
+                      <button type="submit">Mark as Completed</button>
+                  </form>
               </td>
           </tr>
-          <?php endwhile ?>
+      <?php endforeach; ?>
       </tbody>
   </table>
 </body>
