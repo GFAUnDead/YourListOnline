@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
     $result = $stmt->get_result();
     $settings = $result->fetch_assoc();
     $font = isset($settings['font']) ? $settings['font'] : null;
-    $colour = isset($settings['colour']) ? $settings['colour'] : null;
+    $color = isset($settings['color']) ? $settings['color'] : null;
 }
 ?>
 <!DOCTYPE html>
@@ -48,10 +48,10 @@ if ($result->num_rows > 0) {
         body {
             <?php
             if ($font) {
-                echo "font-family: $font;";
+                echo "font-family: $font; ";
             }
-            if ($colour) {
-                echo "colour: $colour;";
+            if ($color) {
+                echo "color: $color;";
             }
             ?>
         }
