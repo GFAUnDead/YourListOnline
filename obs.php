@@ -6,13 +6,36 @@ error_reporting(E_ALL);
 // Require database connection
 require_once "lists/db_connect.php";
 
-// Retrieve font and colour data from SQL table
-$stmt = $conn->prepare("SELECT * FROM showobs");
+if (!isset($_GET['api']) || empty($_GET['api'])) {
+    // Display missing API Key Error
+    echo "Please provide your API key in the URL like this: obs.php?api=API_KEY";
+    echo "<br>Get your API Key from your <a href='https://access.yourlist.online/profile.php'>profile</a>";
+    echo "<br>If you wish to define a working category, please add it like this:";
+    echo "<br>https://yourlist.online/obs.php?api=API_KEY&category=1";
+    echo "<br>(where ID 1 is called Default defined on the <a href='https://access.yourlist.online/categories.php'>categories</a> page.";
+    exit;
+}
+
+$api_key = $_GET['api'];
+
+// Check if API key is valid
+$stmt = $conn->prepare("SELECT * FROM users WHERE api_key = ?");
+$stmt->bind_param("s", $api_key);
 $stmt->execute();
 $result = $stmt->get_result();
-$settings = $result->fetch_assoc();
-$font = $settings['font'];
-$colour = $settings['colour'];
+if ($result->num_rows > 0) {
+    $user = $result->fetch_assoc();
+    $user_id = $user['id'];
+
+    // Retrieve font and color data for the user from the showobs table
+    $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $settings = $result->fetch_assoc();
+    $font = $settings['font'];
+    $colour = $settings['colour'];
+}
 ?>
 <!DOCTYPE html>
 <html>
