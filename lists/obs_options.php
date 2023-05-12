@@ -6,14 +6,14 @@ require_once "db_connect.php";
 // Initialize the session
 session_start();
 
-// Check if the user is already logged in
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
-    exit;
-} else {
-    // Get the user ID
-    $user_id = $_SESSION["user_id"];
-}
+// Check if user is logged in
+if (!isset($_SESSION['loggedin'])) {
+    header("Location: login.php");
+    exit();
+  }
+
+// Fetch the user's data from the database
+$user_id = $_SESSION['user_id'];
 
 // Retrieve font and color data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
@@ -21,6 +21,7 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $settings = $result->fetch_assoc();
+
 // Retrieve font and color data for the user from the showobs table
 $font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
 $color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
@@ -29,20 +30,24 @@ $color = isset($settings['color']) && $settings['color'] !== '' ? $settings['col
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize the input
     $selectedFont = isset($_POST["font"]) ? $_POST["font"] : '';
-    $selectedcolor = isset($_POST["color"]) ? $_POST["color"] : '';
+    $selectedColor = isset($_POST["color"]) ? $_POST["color"] : '';
 
     // Update the font and color data in the database
     $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ? WHERE user_id = ?");
-    $stmt->bind_param("ssi", $selectedFont, $selectedcolor, $user_id);
-    $stmt->execute();
+    $stmt->bind_param("ssi", $selectedFont, $selectedColor, $user_id);
 
-    // Update the font and color variables
-    $font = $selectedFont !== '' ? $selectedFont : 'Not set';
-    $color = $selectedcolor !== '' ? $selectedcolor : 'Not set';
+    if ($stmt->execute()) {
+        // Update the font and color variables
+        $font = $selectedFont !== '' ? $selectedFont : 'Not set';
+        $color = $selectedColor !== '' ? $selectedColor : 'Not set';
 
-    // Redirect to the same page to avoid resubmission on page refresh
-    header("Location: " . $_SERVER['REQUEST_URI']);
-    exit;
+        // Redirect to the same page to avoid resubmission on page refresh
+        header("Location: " . $_SERVER['REQUEST_URI']);
+        exit;
+    } else {
+        // Handle the database error
+        echo "Error updating data: " . $stmt->error;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -123,7 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>Font and color Settings:</h1>
     <br><br>
     <form method="post">
-        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <div class="form-group">
             <label for="font">Font:</label>
             <select name="font" class="form-control">
@@ -147,13 +151,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </select>
             <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
         </div>
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
     <br><br>
     <h3>Your Current Settings:</h3>
     <?php if ($font !== '' || $color !== '') { ?>
-        <p>Your selected font is: <?php echo $font !== '' ? $font : 'Not set'; ?></p>
-        <p>Your selected color is: <?php echo $color !== '' ? $color : 'Not set'; ?></p>
+        <p>Your selected font is: <?php echo $font ?></p>
+        <p>Your selected color is: <?php echo $color ?></p>
     <?php } else { ?>
         <p>No font and color settings have been set.</p>
     <?php } ?>
