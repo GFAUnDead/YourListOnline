@@ -101,7 +101,7 @@ $colour = isset($settings['colour']) ? $settings['colour'] : null;
 <div class="col-md-6">
     <h1>Font and Colour Settings:</h1>
     <br><br>
-    <form action="save_obs_options.php" method="post">
+    <form method="post">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <div class="form-group">
             <label for="font">Font:</label>
@@ -112,6 +112,7 @@ $colour = isset($settings['colour']) ? $settings['colour'] : null;
                 <option value="Times New Roman" <?php if ($font === 'Times New Roman') echo 'selected'; ?>>Times New Roman</option>
                 <!-- Add more font options here -->
             </select>
+            <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
         </div>
         <div class="form-group">
             <label for="colour">Color:</label>
@@ -123,6 +124,7 @@ $colour = isset($settings['colour']) ? $settings['colour'] : null;
                 <option value="blue" <?php if ($colour === 'blue') echo 'selected'; ?>>Blue</option>
                 <!-- Add more color options here -->
             </select>
+            <?php if ($colour === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
         </div>
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
