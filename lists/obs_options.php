@@ -134,32 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Font and color Settings:</h1>
-    <br><br>
-    <form method="post">
-        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-        <div class="form-group">
-            <label for="font">Font:</label>
-            <select name="font" class="form-control">
-                <option value="Arial">Arial</option>
-                <option value="Verdana">Verdana</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <!-- Add more font options here -->
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="color">Color:</label>
-            <select name="color" class="form-control">
-                <option value="Black">Black</option>
-                <option value="White">White</option>
-                <option value="Red">Red</option>
-                <option value="Blue">Blue</option>
-                <!-- Add more color options here -->
-            </select>
-        </div>
-        <input type="submit" value="Save" class="btn btn-primary">
-    </form>
-    <br><br>
+    <h1>Font & Color Settings:</h1>
     <h3>Your Current Settings:</h3>
     <?php if ($font !== '' || $color !== '') { ?>
         <p>Your selected font is: <?php echo $font ?></p>
@@ -167,6 +142,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php } else { ?>
         <p>No font and color settings have been set.</p>
     <?php } ?>
+    <br>
+    <form method="post">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <div class="form-group">
+            <label for="font">Font:</label>
+            <select name="font" class="form-control">
+                <option value="Arial"<?php if ($font === 'Arial') echo 'selected'; ?>>Arial</option>
+                <option value="Verdana"<?php if ($font === 'Verdana') echo 'selected'; ?>>Verdana</option>
+                <option value="Times New Roman"<?php if ($font === 'Times New Roman') echo 'selected'; ?>>Times New Roman</option>
+                <!-- Add more font options here -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="color">Color:</label>
+            <select name="color" class="form-control">
+                <option value="Black"<?php if ($color === 'Black') echo 'selected'; ?>>Black</option>
+                <option value="White"<?php if ($color === 'White') echo 'selected'; ?>>White</option>
+                <option value="Red"<?php if ($color === 'Red') echo 'selected'; ?>>Red</option>
+                <option value="Blue"<?php if ($color === 'Blue') echo 'selected'; ?>>Blue</option>
+                <!-- Add more color options here -->
+            </select>
+        </div>
+        <input type="submit" value="Save" class="btn btn-primary">
+    </form>
 </div>
 </body>
 </html>
