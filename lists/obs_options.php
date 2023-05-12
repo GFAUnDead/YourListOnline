@@ -105,11 +105,23 @@ $colour = isset($settings['colour']) ? $settings['colour'] : null;
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <div class="form-group">
             <label for="font">Font:</label>
-            <input type="text" name="font" class="form-control" value="<?php echo $font; ?>">
+            <select name="font" class="form-control">
+                <option value="">-- Select Font --</option>
+                <option value="Arial" <?php if ($font === 'Arial') echo 'selected'; ?>>Arial</option>
+                <option value="Verdana" <?php if ($font === 'Verdana') echo 'selected'; ?>>Verdana</option>
+                <option value="Times New Roman" <?php if ($font === 'Times New Roman') echo 'selected'; ?>>Times New Roman</option>
+                <!-- Add more font options here -->
+            </select>
         </div>
         <div class="form-group">
             <label for="colour">Color:</label>
-            <input type="text" name="colour" class="form-control" value="<?php echo $colour; ?>">
+            <select name="colour" class="form-control">
+                <option value="">-- Select Color --</option>
+                <option value="black" <?php if ($colour === 'black') echo 'selected'; ?>>Black</option>
+                <option value="red" <?php if ($colour === 'red') echo 'selected'; ?>>Red</option>
+                <option value="blue" <?php if ($colour === 'blue') echo 'selected'; ?>>Blue</option>
+                <!-- Add more color options here -->
+            </select>
         </div>
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
