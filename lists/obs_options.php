@@ -23,22 +23,22 @@ $result = $stmt->get_result();
 $settings = $result->fetch_assoc();
 // Retrieve font and color data for the user from the showobs table
 $font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
-$colour = isset($settings['colour']) && $settings['colour'] !== '' ? $settings['colour'] : 'Not set';
+$color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize the input
     $selectedFont = isset($_POST["font"]) ? $_POST["font"] : '';
-    $selectedColour = isset($_POST["colour"]) ? $_POST["colour"] : '';
+    $selectedcolor = isset($_POST["color"]) ? $_POST["color"] : '';
 
     // Update the font and color data in the database
-    $stmt = $conn->prepare("UPDATE showobs SET font = ?, colour = ? WHERE user_id = ?");
-    $stmt->bind_param("ssi", $selectedFont, $selectedColour, $user_id);
+    $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ? WHERE user_id = ?");
+    $stmt->bind_param("ssi", $selectedFont, $selectedcolor, $user_id);
     $stmt->execute();
 
     // Update the font and color variables
     $font = $selectedFont !== '' ? $selectedFont : 'Not set';
-    $colour = $selectedColour !== '' ? $selectedColour : 'Not set';
+    $color = $selectedcolor !== '' ? $selectedcolor : 'Not set';
 
     // Redirect to the same page to avoid resubmission on page refresh
     header("Location: " . $_SERVER['REQUEST_URI']);
@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Font and Colour Settings:</h1>
+    <h1>Font and color Settings:</h1>
     <br><br>
     <form method="post">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
@@ -136,24 +136,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
         </div>
         <div class="form-group">
-            <label for="colour">Color:</label>
-            <select name="colour" class="form-control">
+            <label for="color">Color:</label>
+            <select name="color" class="form-control">
                 <option value="">-- Select Color --</option>
-                <option value="black" <?php if ($colour === 'black') echo 'selected'; ?>>Black</option>
-                <option value="white" <?php if ($colour === 'white') echo 'selected'; ?>>White</option>
-                <option value="red" <?php if ($colour === 'red') echo 'selected'; ?>>Red</option>
-                <option value="blue" <?php if ($colour === 'blue') echo 'selected'; ?>>Blue</option>
+                <option value="black" <?php if ($color === 'black') echo 'selected'; ?>>Black</option>
+                <option value="white" <?php if ($color === 'white') echo 'selected'; ?>>White</option>
+                <option value="red" <?php if ($color === 'red') echo 'selected'; ?>>Red</option>
+                <option value="blue" <?php if ($color === 'blue') echo 'selected'; ?>>Blue</option>
                 <!-- Add more color options here -->
             </select>
-            <?php if ($colour === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
+            <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
         </div>
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
     <br><br>
     <h3>Your Current Settings:</h3>
-    <?php if ($font !== '' || $colour !== '') { ?>
+    <?php if ($font !== '' || $color !== '') { ?>
         <p>Your selected font is: <?php echo $font !== '' ? $font : 'Not set'; ?></p>
-        <p>Your selected color is: <?php echo $colour !== '' ? $colour : 'Not set'; ?></p>
+        <p>Your selected color is: <?php echo $color !== '' ? $color : 'Not set'; ?></p>
     <?php } else { ?>
         <p>No font and color settings have been set.</p>
     <?php } ?>
