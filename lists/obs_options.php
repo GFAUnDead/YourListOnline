@@ -1,16 +1,28 @@
 <?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
+// Require database connection
+require_once "db_connect.php";
+
 // Initialize the session
 session_start();
 
 // Check if the user is already logged in
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 } else {
-    // Require database connection
-    require_once "db_connect.php";
+    // Get the user ID
+    $user_id = $_SESSION["user_id"];
 }
+
+// Retrieve font and color data for the user from the showobs table
+$stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$settings = $result->fetch_assoc();
+$font = isset($settings['font']) ? $settings['font'] : null;
+$colour = isset($settings['colour']) ? $settings['colour'] : null;
 ?>
 <!DOCTYPE html>
 <html>
@@ -90,7 +102,19 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <h1>Your Profile</h1>
     <img src="<?php echo $twitch_profile_image_url; ?>" width="150px" height="150px" alt="Twitch Profile Image for <?php echo $_SESSION['username']; ?>">
     <br><br>
-    <!-- ADD OPTIONS TO CHANGE THE WAY THE OBS LINK IS VIEWED -->
+    <h3>Font and Colour Settings:</h3>
+    <form action="save_obs_options.php" method="post">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <div class="form-group">
+            <label for="font">Font:</label>
+            <input type="text" name="font" class="form-control" value="<?php echo $font; ?>">
+        </div>
+        <div class="form-group">
+            <label for="colour">Color:</label>
+            <input type="text" name="colour" class="form-control" value="<?php echo $colour; ?>">
+        </div>
+        <input type="submit" value="Save" class="btn btn-primary">
+    </form>
 </div>
 </body>
 </html>
