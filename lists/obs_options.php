@@ -128,6 +128,14 @@ $colour = isset($settings['colour']) ? $settings['colour'] : null;
         </div>
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
+    <br><br>
+    <h3>Your Current Settings:</h3>
+    <?php if ($font !== '' || $colour !== '') { ?>
+        <p>Your selected font is: <?php echo $font !== '' ? $font : 'Not set'; ?></p>
+        <p>Your selected color is: <?php echo $colour !== '' ? $colour : 'Not set'; ?></p>
+    <?php } else { ?>
+        <p>No font and color settings have been set.</p>
+    <?php } ?>
 </div>
 </body>
 </html>
