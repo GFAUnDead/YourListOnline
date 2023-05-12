@@ -118,6 +118,7 @@ $colour = isset($settings['colour']) ? $settings['colour'] : null;
             <select name="colour" class="form-control">
                 <option value="">-- Select Color --</option>
                 <option value="black" <?php if ($colour === 'black') echo 'selected'; ?>>Black</option>
+                <option value="white" <?php if ($colour === 'white') echo 'selected'; ?>>White</option>
                 <option value="red" <?php if ($colour === 'red') echo 'selected'; ?>>Red</option>
                 <option value="blue" <?php if ($colour === 'blue') echo 'selected'; ?>>Blue</option>
                 <!-- Add more color options here -->
