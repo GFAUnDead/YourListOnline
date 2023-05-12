@@ -10,7 +10,7 @@ session_start();
 if (!isset($_SESSION['loggedin'])) {
     header("Location: login.php");
     exit();
-  }
+}
 
 // Fetch the user's data from the database
 $user_id = $_SESSION['user_id'];
@@ -35,20 +35,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Update the font and color data in the database
     $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ? WHERE user_id = ?");
     $stmt->bind_param("ssi", $selectedFont, $selectedColor, $user_id);
-
+    
     if ($stmt->execute()) {
-        // Update the font and color variables
-        $font = $selectedFont !== '' ? $selectedFont : 'Not set';
-        $color = $selectedColor !== '' ? $selectedColor : 'Not set';
-
-        // Redirect to the same page to avoid resubmission on page refresh
+        // Update successful, redirect to the same page to avoid resubmission on page refresh
         header("Location: " . $_SERVER['REQUEST_URI']);
         exit;
     } else {
-        // Handle the database error
-        echo "Error updating data: " . $stmt->error;
+        // Display error message
+        echo "Error updating settings: " . $stmt->error;
     }
 }
+
+// Fetch the updated settings from the database after the form submission
+$stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$settings = $result->fetch_assoc();
+
+// Update the font and color variables with the updated settings
+$font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
+$color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
 ?>
 <!DOCTYPE html>
 <html>
@@ -128,6 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>Font and color Settings:</h1>
     <br><br>
     <form method="post">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <div class="form-group">
             <label for="font">Font:</label>
             <select name="font" class="form-control">
@@ -151,7 +159,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </select>
             <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
         </div>
-        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
     <br><br>
