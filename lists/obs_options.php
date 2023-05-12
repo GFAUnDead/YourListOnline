@@ -99,10 +99,8 @@ $colour = isset($settings['colour']) ? $settings['colour'] : null;
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Your Profile</h1>
-    <img src="<?php echo $twitch_profile_image_url; ?>" width="150px" height="150px" alt="Twitch Profile Image for <?php echo $_SESSION['username']; ?>">
+    <h1>Font and Colour Settings:</h1>
     <br><br>
-    <h3>Font and Colour Settings:</h3>
     <form action="save_obs_options.php" method="post">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <div class="form-group">
