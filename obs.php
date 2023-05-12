@@ -33,8 +33,8 @@ if ($result->num_rows > 0) {
     $stmt->execute();
     $result = $stmt->get_result();
     $settings = $result->fetch_assoc();
-    $font = $settings['font'];
-    $colour = $settings['colour'];
+    $font = isset($settings['font']) ? $settings['font'] : null;
+    $colour = isset($settings['colour']) ? $settings['colour'] : null;
 }
 ?>
 <!DOCTYPE html>
