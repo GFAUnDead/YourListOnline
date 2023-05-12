@@ -12,22 +12,8 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get user data from database
-$user_id = $_SESSION['id'];
-$query = "SELECT * FROM users WHERE id = '$user_id'";
-$result = $conn->query($query);
-
-if (!$result) {
-    die("Error retrieving user data: " . $conn->error);
-}
-
-$user_data = $result->fetch_assoc();
-
-// Set session variable if user is an admin
-$_SESSION['is_admin'] = $user_data['is_admin'];
-
 // Get categories from database
-$query = "SELECT id, category FROM categories";
+$query = "SELECT * FROM categories";
 $result = $conn->query($query);
 
 if (!$result) {
@@ -89,6 +75,7 @@ if (!$result) {
 			      	<ul class="dropdown-menu">
 			      		<li><a href="profile.php">View Profile</a></li>
 			      		<li><a href="update_profile.php">Update Profile</a></li>
+                        <li><a href="obs_options.php">OBS Viewing Options</a></li>
                         <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
