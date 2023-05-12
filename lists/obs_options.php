@@ -39,6 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Update the font and color variables
     $font = $selectedFont !== '' ? $selectedFont : 'Not set';
     $colour = $selectedColour !== '' ? $selectedColour : 'Not set';
+
+    // Redirect to the same page to avoid resubmission on page refresh
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit;
 }
 ?>
 <!DOCTYPE html>
