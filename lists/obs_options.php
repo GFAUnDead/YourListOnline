@@ -1,4 +1,3 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Require database connection
 require_once "db_connect.php";
@@ -32,30 +31,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedFont = isset($_POST["font"]) ? $_POST["font"] : '';
     $selectedColor = isset($_POST["color"]) ? $_POST["color"] : '';
 
-    // Update the font and color data in the database
-    $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ? WHERE user_id = ?");
-    $stmt->bind_param("ssi", $selectedFont, $selectedColor, $user_id);
-    
-    if ($stmt->execute()) {
-        // Update successful, redirect to the same page to avoid resubmission on page refresh
-        header("Location: " . $_SERVER['REQUEST_URI']);
-        exit;
+    // Check if the user has existing settings
+    if ($result->num_rows > 0) {
+        // Update the font and color data in the database
+        $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ? WHERE user_id = ?");
+        $stmt->bind_param("ssi", $selectedFont, $selectedColor, $user_id);
+        if ($stmt->execute()) {
+            // Update successful
+            // echo "Settings updated successfully!";
+            header("Location: " . $_SERVER['REQUEST_URI']);
+        } else {
+            // Display error message
+            echo "Error updating settings: " . $stmt->error;
+        }
     } else {
-        // Display error message
-        echo "Error updating settings: " . $stmt->error;
+        // Insert new settings for the user
+        $stmt = $conn->prepare("INSERT INTO showobs (user_id, font, color) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $user_id, $selectedFont, $selectedColor);
+        if ($stmt->execute()) {
+            // Insertion successful
+            // echo "Settings inserted successfully!";
+            header("Location: " . $_SERVER['REQUEST_URI']);
+        } else {
+            // Display error message
+            echo "Error inserting settings: " . $stmt->error;
+        }
     }
 }
-
-// Fetch the updated settings from the database after the form submission
-$stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$settings = $result->fetch_assoc();
-
-// Update the font and color variables with the updated settings
-$font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
-$color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
 ?>
 <!DOCTYPE html>
 <html>
@@ -139,25 +141,21 @@ $color = isset($settings['color']) && $settings['color'] !== '' ? $settings['col
         <div class="form-group">
             <label for="font">Font:</label>
             <select name="font" class="form-control">
-                <option value="">-- Select Font --</option>
-                <option value="Arial" <?php if ($font === 'Arial') echo 'selected'; ?>>Arial</option>
-                <option value="Verdana" <?php if ($font === 'Verdana') echo 'selected'; ?>>Verdana</option>
-                <option value="Times New Roman" <?php if ($font === 'Times New Roman') echo 'selected'; ?>>Times New Roman</option>
+                <option value="Arial">Arial</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Times New Roman">Times New Roman</option>
                 <!-- Add more font options here -->
             </select>
-            <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
         </div>
         <div class="form-group">
             <label for="color">Color:</label>
             <select name="color" class="form-control">
-                <option value="">-- Select Color --</option>
-                <option value="black" <?php if ($color === 'black') echo 'selected'; ?>>Black</option>
-                <option value="white" <?php if ($color === 'white') echo 'selected'; ?>>White</option>
-                <option value="red" <?php if ($color === 'red') echo 'selected'; ?>>Red</option>
-                <option value="blue" <?php if ($color === 'blue') echo 'selected'; ?>>Blue</option>
+                <option value="black">Black</option>
+                <option value="white">White</option>
+                <option value="red">Red</option>
+                <option value="blue">Blue</option>
                 <!-- Add more color options here -->
             </select>
-            <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
         </div>
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
