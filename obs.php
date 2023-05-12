@@ -1,4 +1,19 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Require database connection
+require_once "lists/db_connect.php";
+
+// Retrieve font and colour data from SQL table
+$stmt = $conn->prepare("SELECT * FROM showobs");
+$stmt->execute();
+$result = $stmt->get_result();
+$settings = $result->fetch_assoc();
+$font = $settings['font'];
+$colour = $settings['colour'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,16 +21,28 @@
     <link rel="icon" href="img/logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="img/logo.png">
     <meta http-equiv="refresh" content="10">
+    <style>
+        body {
+            <?php
+            if ($font) {
+                echo "font-family: $font;";
+            }
+            if ($colour) {
+                echo "colour: $colour;";
+            }
+            ?>
+        }
+    </style>
 </head>
 <body>
     <?php
-    // Require database connection
-    require_once "lists/db_connect.php";
-
     if (!isset($_GET['api']) || empty($_GET['api'])) {
         // Display missing API Key Error
         echo "Please provide your API key in the URL like this: obs.php?api=API_KEY";
-        echo "<br>Get your API Key from your <a href='lists/profile.php'>profile</a>";
+        echo "<br>Get your API Key from your <a href='https://access.yourlist.online/profile.php'>profile</a>";
+        echo "<br>If you wish to define a working category please add it like this:";
+        echo "<br>https://yourlist.online/obs.php?api=API_KEY&category=1";
+        echo "<br>(where ID 1 is called Default defined on the <a href='https://access.yourlist.online/categories.php'>categories</a> page.";
         exit;
     }
 
