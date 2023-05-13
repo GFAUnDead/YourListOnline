@@ -49,9 +49,15 @@ if ($result->num_rows > 0) {
             }
             if ($color) {
                 echo "color: $color;";
-            }
-            if ($shadow && $shadow == 1) {
-                echo "text-shadow: 0px 0px 2px #888888;";
+                if ($shadow && $shadow == 1) {
+                    if ($color === 'Black') {
+                        echo "text-shadow: 0px 0px 2px White;";
+                    } elseif ($color === 'White') {
+                        echo "text-shadow: 0px 0px 2px Black;";
+                    } else {
+                        echo "text-shadow: 0px 0px 2px Black;";
+                    }
+                }
             }
             ?>
         }
