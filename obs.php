@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // Require database connection
 require_once "lists/db_connect.php";
 
@@ -26,8 +22,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     $user_id = $user['id'];
-
-    // Retrieve font and color data for the user from the showobs table
+    // Retrieve font, color, list, and shadow data for the user from the showobs table
     $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -35,6 +30,8 @@ if ($result->num_rows > 0) {
     $settings = $result->fetch_assoc();
     $font = isset($settings['font']) ? $settings['font'] : null;
     $color = isset($settings['color']) ? $settings['color'] : null;
+    $list = isset($settings['list']) ? $settings['list'] : null;
+    $shadow = isset($settings['shadow']) ? $settings['shadow'] : null;
 }
 ?>
 <!DOCTYPE html>
@@ -52,6 +49,18 @@ if ($result->num_rows > 0) {
             }
             if ($color) {
                 echo "color: $color;";
+            }
+            if ($shadow && $shadow == 1) {
+                echo "text-shadow: 2px 2px 2px #888888;";
+            }
+            ?>
+        }
+        ul {
+            <?php
+            if ($list && $list === 'number') {
+                echo "list-style-type: decimal;";
+            } else {
+                echo "list-style-type: disc;";
             }
             ?>
         }
