@@ -14,44 +14,46 @@ if (!isset($_SESSION['loggedin'])) {
 // Fetch the user's data from the database
 $user_id = $_SESSION['user_id'];
 
-// Retrieve font and color data for the user from the showobs table
+// Retrieve font, color, list, and shadow data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $settings = $result->fetch_assoc();
 
-// Retrieve font and color data for the user from the showobs table
+// Retrieve font, color, list, and shadow data for the user from the showobs table
 $font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
 $color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
+$list = isset($settings['list']) && $settings['list'] !== '' ? $settings['list'] : 'bullet';
+$shadow = isset($settings['shadow']) && $settings['shadow'] == 1 ? true : false;
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize the input
     $selectedFont = isset($_POST["font"]) ? $_POST["font"] : '';
     $selectedColor = isset($_POST["color"]) ? $_POST["color"] : '';
+    $selectedList = isset($_POST["list"]) ? $_POST["list"] : 'bullet';
+    $selectedShadow = isset($_POST["shadow"]) ? 1 : 0;
 
     // Check if the user has existing settings
     if ($result->num_rows > 0) {
-        // Update the font and color data in the database
-        $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ? WHERE user_id = ?");
-        $stmt->bind_param("ssi", $selectedFont, $selectedColor, $user_id);
+        // Update the font, color, list, and shadow data in the database
+        $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ?, list = ?, shadow = ? WHERE user_id = ?");
+        $stmt->bind_param("sssii", $selectedFont, $selectedColor, $selectedList, $selectedShadow, $user_id);
         if ($stmt->execute()) {
             // Update successful
-            // echo "Settings updated successfully!";
-            header("Location: " . $_SERVER['REQUEST_URI']);
+            echo "Settings updated successfully!";
         } else {
             // Display error message
             echo "Error updating settings: " . $stmt->error;
         }
     } else {
         // Insert new settings for the user
-        $stmt = $conn->prepare("INSERT INTO showobs (user_id, font, color) VALUES (?, ?, ?)");
-        $stmt->bind_param("iss", $user_id, $selectedFont, $selectedColor);
+        $stmt = $conn->prepare("INSERT INTO showobs (user_id, font, color, list, shadow) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssi", $user_id, $selectedFont, $selectedColor, $selectedList, $selectedShadow);
         if ($stmt->execute()) {
             // Insertion successful
-            // echo "Settings inserted successfully!";
-            header("Location: " . $_SERVER['REQUEST_URI']);
+            echo "Settings inserted successfully!";
         } else {
             // Display error message
             echo "Error inserting settings: " . $stmt->error;
@@ -139,20 +141,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if ($font !== '' || $color !== '') { ?>
         <p>Your selected font is: <?php echo $font ?></p>
         <p>Your selected color is: <?php echo $color ?></p>
+        <p>Your selected list type is: <?php echo $list ?></p>
+        <p>Text shadow: <?php echo $shadow ? 'Enabled' : 'Disabled'; ?></p>
     <?php } else { ?>
         <p>No font and color settings have been set.</p>
     <?php } ?>
     <br>
     <form method="post">
-        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <div class="form-group">
             <label for="font">Font:</label>
             <select name="font" class="form-control">
                 <option value="Arial"<?php if ($font === 'Arial') echo 'selected'; ?>>Arial</option>
+                <option value="Arial Narrow"<?php if ($font === 'Arial Narrow') echo 'selected'; ?>>Arial Narrow</option>
                 <option value="Verdana"<?php if ($font === 'Verdana') echo 'selected'; ?>>Verdana</option>
                 <option value="Times New Roman"<?php if ($font === 'Times New Roman') echo 'selected'; ?>>Times New Roman</option>
                 <!-- Add more font options here -->
             </select>
+            <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
         </div>
         <div class="form-group">
             <label for="color">Color:</label>
@@ -163,7 +168,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="Blue"<?php if ($color === 'Blue') echo 'selected'; ?>>Blue</option>
                 <!-- Add more color options here -->
             </select>
+            <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
         </div>
+        <div class="form-group">
+            <label for="list">List Type:</label>
+            <select name="list" class="form-control">
+                <option value="bullet" <?php if ($list === 'bullet') echo 'selected'; ?>>Bullet List</option>
+                <option value="numbered" <?php if ($list === 'numbered') echo 'selected'; ?>>Numbered List</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="shadow">Text Shadow:</label>
+            <input type="checkbox" name="shadow" value="1" <?php if ($shadow) echo 'checked'; ?>>
+        </div>
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <input type="submit" value="Save" class="btn btn-primary">
     </form>
 </div>
