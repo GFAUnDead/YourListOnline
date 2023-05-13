@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssii", $selectedFont, $selectedColor, $selectedList, $selectedShadow, $user_id);
         if ($stmt->execute()) {
             // Update successful
-            echo "Settings updated successfully!";
+            // echo "Settings updated successfully!";
         } else {
             // Display error message
             echo "Error updating settings: " . $stmt->error;
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("isssi", $user_id, $selectedFont, $selectedColor, $selectedList, $selectedShadow);
         if ($stmt->execute()) {
             // Insertion successful
-            echo "Settings inserted successfully!";
+            // echo "Settings inserted successfully!";
         } else {
             // Display error message
             echo "Error inserting settings: " . $stmt->error;
@@ -173,8 +173,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-group">
             <label for="list">List Type:</label>
             <select name="list" class="form-control">
-                <option value="bullet" <?php if ($list === 'bullet') echo 'selected'; ?>>Bullet List</option>
-                <option value="numbered" <?php if ($list === 'numbered') echo 'selected'; ?>>Numbered List</option>
+                <option value="Bullet" <?php if ($list === 'Bullet') echo 'selected'; ?>>Bullet List</option>
+                <option value="Numbered" <?php if ($list === 'Numbered') echo 'selected'; ?>>Numbered List</option>
             </select>
         </div>
         <div class="form-group">
