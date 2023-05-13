@@ -51,7 +51,7 @@ if ($result->num_rows > 0) {
                 echo "color: $color;";
             }
             if ($shadow && $shadow == 1) {
-                echo "text-shadow: 2px 2px 2px #888888;";
+                echo "text-shadow: 0px 0px 2px #888888;";
             }
             ?>
         }
