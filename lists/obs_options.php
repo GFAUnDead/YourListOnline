@@ -24,7 +24,7 @@ $settings = $result->fetch_assoc();
 // Retrieve font, color, list, and shadow data for the user from the showobs table
 $font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
 $color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
-$list = isset($settings['list']) && $settings['list'] !== '' ? $settings['list'] : 'bullet';
+$list = isset($settings['list']) && $settings['list'] !== '' ? $settings['list'] : 'Bullet';
 $shadow = isset($settings['shadow']) && $settings['shadow'] == 1 ? true : false;
 
 // Process form submission
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize the input
     $selectedFont = isset($_POST["font"]) ? $_POST["font"] : '';
     $selectedColor = isset($_POST["color"]) ? $_POST["color"] : '';
-    $selectedList = isset($_POST["list"]) ? $_POST["list"] : 'bullet';
+    $selectedList = isset($_POST["list"]) ? $_POST["list"] : 'Bullet';
     $selectedShadow = isset($_POST["shadow"]) ? 1 : 0;
 
     // Check if the user has existing settings
