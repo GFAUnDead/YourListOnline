@@ -139,13 +139,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 <div class="col-md-6">
     <h1>Font & Color Settings:</h1>
-    <h3>Your Current Settings:</h3>
     <?php if ($font !== '' || $color !== '') { ?>
         <table class="table">
             <tr>
-                <th>Setting</th>
-                <th>Value</th>
-                <th>Update</th>
+                <th style="width: 15%;">Setting</th>
+                <th style="width: 20%;">Value</th>
+                <th style="width: 60%;">Update</th>
             </tr>
             <tr>
                 <td>Font</td>
@@ -156,6 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="font">Font:</label>
                             <select name="font" class="form-control">
                                 <!-- Font options -->
+                                <option value="Arial"<?php if ($font === 'Arial') echo 'selected'; ?>>Arial</option>
+                                <option value="Arial Narrow"<?php if ($font === 'Arial Narrow') echo 'selected'; ?>>Arial Narrow</option>
+                                <option value="Verdana"<?php if ($font === 'Verdana') echo 'selected'; ?>>Verdana</option>
+                                <option value="Times New Roman"<?php if ($font === 'Times New Roman') echo 'selected'; ?>>Times New Roman</option>
                             </select>
                             <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
                         </div>
@@ -163,6 +166,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="color">Color:</label>
                             <select name="color" class="form-control">
                                 <!-- Color options -->
+                                <option value="Black"<?php if ($color === 'Black') echo 'selected'; ?>>Black</option>
+                                <option value="White"<?php if ($color === 'White') echo 'selected'; ?>>White</option>
+                                <option value="Red"<?php if ($color === 'Red') echo 'selected'; ?>>Red</option>
+                                <option value="Blue"<?php if ($color === 'Blue') echo 'selected'; ?>>Blue</option>
                             </select>
                             <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
                         </div>
@@ -170,6 +177,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="list">List Type:</label>
                             <select name="list" class="form-control">
                                 <!-- List type options -->
+                                <option value="Bullet" <?php if ($list === 'Bullet') echo 'selected'; ?>>Bullet List</option>
+                                <option value="Numbered" <?php if ($list === 'Numbered') echo 'selected'; ?>>Numbered List</option>
                             </select>
                         </div>
                         <div class="form-group">
