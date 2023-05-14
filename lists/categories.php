@@ -95,7 +95,7 @@ if (!$result) {
 <table class="table">
   <thead>
       <tr>
-          <th>ID</th>
+          <th style="width: 5%;">ID</th>
           <th>Category</th>
       </tr>
   </thead>
