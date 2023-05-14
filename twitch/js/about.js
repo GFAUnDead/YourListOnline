@@ -1,10 +1,11 @@
 function showPopup() {
     // Create a new HTML element to display the popup content
     var popup = document.createElement("div");
-    popup.innerHTML = "<h3>About YourListOnline</h3><p>YourListOnline is a web-based todo list application that helps you keep track of your tasks and manage your time more efficiently.</p>" +
+    popup.innerHTML = "<h3>About YourListOnline</h3>" +
+                      "<p>YourListOnline is a web-based todo list application that helps you keep track of your tasks and manage your time more efficiently.</p>" +
                       "<p>This version of the code is running on version A1.0.</p>" +
-                      "<p>You can find the code on <a href='https://github.com/GFAUnDead/YourListOnline'>GitHub</a>.</p>" +
-                      "<p>Follow me on <a href='https://twitter.com/GFAUnDead'>Twitter</a> for the latest updates.</p>";
+                      "<p>You can find the code on <a href='https://github.com/YourStreamingTools/YourListOnline' target='_blank'>GitHub</a>.</p>" +
+                      "<p>Follow me on <a href='https://twitter.com/Tools4Streaming' target='_blank'>Twitter</a> for the latest updates.</p>";
 
     // Apply some CSS styles to the popup
     popup.style.position = "fixed";
