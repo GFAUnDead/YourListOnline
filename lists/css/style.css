@@ -100,7 +100,6 @@ table tr:nth-child(even) {
 
 table tr:hover {
     background-color: #CCCCCC;
-    cursor: pointer;
 }
 
 /* Show dropdown menu on hover */
