@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Require database connection
 require_once "db_connect.php";
 
@@ -139,6 +142,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 <div class="col-md-6">
     <h1>Font & Color Settings:</h1>
+    <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
+    <br><br>
     <?php if ($font !== '' || $color !== '') { ?>
         <table class="table">
             <tr>
