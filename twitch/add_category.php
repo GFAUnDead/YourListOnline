@@ -157,6 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			      	<ul class="dropdown-menu">
 			      		<li><a href="profile.php">View Profile</a></li>
 			      		<li><a href="update_profile.php">Update Profile</a></li>
+                        <li><a href="obs_options.php">OBS Viewing Options</a></li>
                         <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
@@ -174,8 +175,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 <div class="col-md-6">
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-      <h1>Please fill in the form below to add a new category:</h1>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <h3>Please fill in the form below to add a new category:</h3>
             <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
                 <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
                 <span class="help-block"><?php echo $category_err; ?></span>
