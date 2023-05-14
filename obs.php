@@ -32,6 +32,7 @@ if ($result->num_rows > 0) {
     $color = isset($settings['color']) ? $settings['color'] : null;
     $list = isset($settings['list']) ? $settings['list'] : null;
     $shadow = isset($settings['shadow']) ? $settings['shadow'] : null;
+    $listType = ($list === 'Numbered') ? 'ol' : 'ul';
 }
 ?>
 <!DOCTYPE html>
@@ -58,15 +59,6 @@ if ($result->num_rows > 0) {
                         echo "text-shadow: 0px 0px 2px Black;";
                     }
                 }
-            }
-            ?>
-        }
-        ul {
-            <?php
-            if ($list && $list === 'number') {
-                echo "list-style-type: decimal;";
-            } else {
-                echo "list-style-type: disc;";
             }
             ?>
         }
@@ -110,7 +102,7 @@ if ($result->num_rows > 0) {
             $tasks = $result->fetch_all(MYSQLI_ASSOC);
             echo "<h1>Current Task List:</h1>";
             echo "<p>Showing tasks from category: $category</p>";
-            echo "<ul>";
+            echo "<$listType>";
             foreach ($tasks as $task) {
                 $task_id = $task['id'];
                 $objective = $task['objective'];
@@ -121,7 +113,7 @@ if ($result->num_rows > 0) {
                     echo "<li>" . htmlspecialchars($objective) . "</li>";
                 }
             }
-            echo "</ul>";
+            echo "</$listType>";
         } else {
             // Invalid category id, show error message
             echo "Invalid category id";
