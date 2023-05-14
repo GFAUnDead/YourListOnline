@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssii", $selectedFont, $selectedColor, $selectedList, $selectedShadow, $user_id);
         if ($stmt->execute()) {
             // Update successful
-            // echo "Settings updated successfully!";
+            header("Location: obs_options.php");
         } else {
             // Display error message
             echo "Error updating settings: " . $stmt->error;
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("isssi", $user_id, $selectedFont, $selectedColor, $selectedList, $selectedShadow);
         if ($stmt->execute()) {
             // Insertion successful
-            // echo "Settings inserted successfully!";
+            header("Location: obs_options.php");
         } else {
             // Display error message
             echo "Error inserting settings: " . $stmt->error;
