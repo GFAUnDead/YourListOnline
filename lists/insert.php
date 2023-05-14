@@ -100,8 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </nav>
   <div class="col-md-6">
   <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-  <h1>Please enter your task to add it to your list:</h1>
       <form method="post">
+      <h3>Please enter your task to add it to your list:</h3>
         <div class="form-group">
           <textarea id="objective" name="objective" class="form-control"></textarea>
         </div>
@@ -123,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
         <button type="submit" class="btn btn-primary">Add</button>
+        <a href="dashboard.php" class="btn btn-default">Cancel</a>
       </form>
     </div>
 </body>
