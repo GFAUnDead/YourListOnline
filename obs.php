@@ -108,7 +108,11 @@ if ($result->num_rows > 0) {
                 $objective = $task['objective'];
                 $completed = $task['completed'];
                 if ($completed == 'Yes') {
-                    echo "<li><s>" . htmlspecialchars($objective) . "</s></li>";
+                    if ($bold) {
+                        echo "<li><s><strong>" . htmlspecialchars($objective) . "</strong></s></li>";
+                    } else {
+                        echo "<li><s>" . htmlspecialchars($objective) . "</s></li>";
+                    }
                 } else {
                     if ($bold) {
                         echo "<li><strong>" . htmlspecialchars($objective) . "</strong></li>";
