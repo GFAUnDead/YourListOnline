@@ -52,11 +52,11 @@ if ($result->num_rows > 0) {
                 echo "color: $color;";
                 if ($shadow && $shadow == 1) {
                     if ($color === 'Black') {
-                        echo "text-shadow: 0px 0px 2px White;";
+                        echo "text-shadow: 0px 0px 6px White;";
                     } elseif ($color === 'White') {
-                        echo "text-shadow: 0px 0px 2px Black;";
+                        echo "text-shadow: 0px 0px 6px Black;";
                     } else {
-                        echo "text-shadow: 0px 0px 2px Black;";
+                        echo "text-shadow: 0px 0px 6px Black;";
                     }
                 }
             }
