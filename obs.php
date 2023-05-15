@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
     $list = isset($settings['list']) ? $settings['list'] : null;
     $shadow = isset($settings['shadow']) ? $settings['shadow'] : null;
     $listType = ($list === 'Numbered') ? 'ol' : 'ul';
-    $bold = ($bold === 'bold') ? $settings['bold'] : null;
+    $bold = isset($settings['bold']) ? $settings['bold'] : null;
 }
 ?>
 <!DOCTYPE html>
