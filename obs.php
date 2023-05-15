@@ -110,9 +110,13 @@ if ($result->num_rows > 0) {
                 if ($completed == 'Yes') {
                     echo "<li><s>" . htmlspecialchars($objective) . "</s></li>";
                 } else {
-                    echo "<li>" . htmlspecialchars($objective) . "</li>";
+                    if ($bold) {
+                        echo "<li><strong>" . htmlspecialchars($objective) . "</strong></li>";
+                    } else {
+                        echo "<li>" . htmlspecialchars($objective) . "</li>";
+                    }
                 }
-            }
+            }            
             echo "</$listType>";
         } else {
             // Invalid category id, show error message
