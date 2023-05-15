@@ -33,6 +33,7 @@ if ($result->num_rows > 0) {
     $list = isset($settings['list']) ? $settings['list'] : null;
     $shadow = isset($settings['shadow']) ? $settings['shadow'] : null;
     $listType = ($list === 'Numbered') ? 'ol' : 'ul';
+    $bold = ($bold === 'bold') ? $settings['bold'] : null;
 }
 ?>
 <!DOCTYPE html>
@@ -108,13 +109,13 @@ if ($result->num_rows > 0) {
                 $objective = $task['objective'];
                 $completed = $task['completed'];
                 if ($completed == 'Yes') {
-                    if ($bold) {
+                    if ($bold == 1) {
                         echo "<li><s><strong>" . htmlspecialchars($objective) . "</strong></s></li>";
                     } else {
                         echo "<li><s>" . htmlspecialchars($objective) . "</s></li>";
                     }
                 } else {
-                    if ($bold) {
+                    if ($bold == 1) {
                         echo "<li><strong>" . htmlspecialchars($objective) . "</strong></li>";
                     } else {
                         echo "<li>" . htmlspecialchars($objective) . "</li>";
