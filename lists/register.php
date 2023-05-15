@@ -10,7 +10,7 @@ $username = $password = "";
 $username_err = $password_err = "";
 
 // set this variable to true or false depending on whether registration is enabled or not
-$registration_enabled = false;
+$registration_enabled = true;
 
 // process form data when the form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
@@ -132,6 +132,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
     <div class="col-md-6">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
+        <p>Welcome to OPEN BETA!</p>
         <?php if (!$registration_enabled) { echo '<div id="registration-error" style="color: red;">Registration is currently disabled.</div>'; } ?>
         <form action="register.php" method="post">
           <div class="form-group">
