@@ -9,7 +9,7 @@ if (!isset($_SESSION['loggedin'])) {
 }
 
 // Require database connection
-require_once "db_connect.php";
+require_once "../db_connect.php";
 
 // Fetch the user's data from the database
 $user_id = $_SESSION['user_id'];
@@ -42,14 +42,14 @@ if ($_SESSION['is_admin'] == 1) {
   }
 } else {
   // The user is not an admin, redirect to dashboard.php
-  header("Location: dashboard.php");
+  header("Location: ../dashboard.php");
   exit();
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>YourListOnline - Dashboard</title>
+  <title>YourListOnline - Admin Dashboard</title>
   <link rel="icon" href="img/logo.png" type="image/png" />
   <link rel="apple-touch-icon" href="img/logo.png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
@@ -78,38 +78,38 @@ if ($_SESSION['is_admin'] == 1) {
           <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="insert.php">Add</a></li>
-            <li><a href="remove.php">Remove</a></li>
+            <li><a href="../dashboard.php">Dashboard</a></li>
+            <li><a href="../insert.php">Add</a></li>
+            <li><a href="../remove.php">Remove</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Category</a></li>
+                    <li><a href="../update_objective.php">Update Objective</a></li>
+                    <li><a href="../update_category.php">Update Objective Category</a></li>
                 </ul>
             </li>
-            <li><a href="completed.php">Completed</a></li>
+            <li><a href="../completed.php">Completed</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="categories.php">View Categories</a></li>
-                    <li><a href="add_category.php">Add Category</a></li>
+                    <li><a href="../categories.php">View Categories</a></li>
+                    <li><a href="../add_category.php">Add Category</a></li>
                 </ul>
             </li>
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
-			      		<li><a href="profile.php">View Profile</a></li>
-			      		<li><a href="update_profile.php">Update Profile</a></li>
-                <li><a href="obs_options.php">OBS Viewing Options</a></li>
-                <li><a href="logout.php">Logout</a></li>
+			      		<li><a href="../profile.php">View Profile</a></li>
+			      		<li><a href="../update_profile.php">Update Profile</a></li>
+                <li><a href="../obs_options.php">OBS Viewing Options</a></li>
+                <li><a href="../logout.php">Logout</a></li>
 			      	</ul>
             </li>
             <?php if ($_SESSION['is_admin']) { ?>
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
-                <li class="active"><a href="admin.php">Admin Dashboard</a></li>
+                <li class="active"><a href="dashboard.php">Admin Dashboard</a></li>
 			      	</ul>
             </li>
             <?php } ?>
