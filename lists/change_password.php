@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Category</a></li>
+                    <li><a href="update_category.php">Update Objective Category</a></li>
                 </ul>
             </li>
             <li><a href="completed.php">Completed</a></li>
@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
-                <li><a href="admin.php">Admin Dashboard</a></li>
+                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
 			      	</ul>
             </li>
             <?php } ?>
