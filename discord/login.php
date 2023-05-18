@@ -65,4 +65,4 @@ if (isset($_GET['code'])) {
 }
 
 // If the user hasn't clicked the "Login with Discord" button yet, display the login page
-$discord_login_url = $discord_authorize_url . '?client_id=' . $client_id . '&redirect_uri=' . $redirect_uri . '&response_type=
+$discord_login_url = $discord_authorize_url . '?client_id=' . $client_id . '&redirect_uri=' . $redirect_uri . '&response_type=code&scope=identify';
