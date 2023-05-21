@@ -101,8 +101,7 @@ if ($result->num_rows > 0) {
             $stmt->execute();
             $result = $stmt->get_result();
             $tasks = $result->fetch_all(MYSQLI_ASSOC);
-            echo "<h1>Current Task List:</h1>";
-            echo "<p>Showing tasks from category: $category</p>";
+            echo "<h1>$category List:</h1>";
             echo "<$listType>";
             foreach ($tasks as $task) {
                 $task_id = $task['id'];
@@ -125,12 +124,11 @@ if ($result->num_rows > 0) {
             echo "</$listType>";
         } else {
             // Invalid category id, show error message
-            echo "Invalid category id";
+            echo "Invalid category ID.";
         }
     } else {
         // Invalid API key, show error message
-        $error_message = "Invalid API key";
-        echo $error_message;
+        echo "Invalid API key.";
     }
     ?>
 </body>
