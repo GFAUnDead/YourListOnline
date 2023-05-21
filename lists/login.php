@@ -139,7 +139,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </nav>
     <div class="col-md-6">
         <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
+        <p>Please fill in your credentials to login.
+        <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
