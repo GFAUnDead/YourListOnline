@@ -40,8 +40,8 @@ if ($result->num_rows > 0) {
 <html>
 <head>
     <title>OBS TASK LIST</title>
-    <link rel="icon" href="img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="img/logo.png">
+    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
     <meta http-equiv="refresh" content="10">
     <style>
         body {
