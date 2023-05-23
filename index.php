@@ -4,15 +4,15 @@
 	<title>YourListOnline - HOME</title>
 	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
 	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script src="js/about.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.yourlist.online/css/home.css">
+	<script src="https://cdn.yourlist.online/js/about.js"></script>
 	<style type="text/css">
-    a.popup-link {
-      text-decoration: none;
-      color: black;
-      cursor: pointer;
-    }
-  </style>
+    	a.popup-link {
+    	  text-decoration: none;
+    	  color: black;
+    	  cursor: pointer;
+   		}
+  	</style>
 </head>
 <body>
 	<header>
