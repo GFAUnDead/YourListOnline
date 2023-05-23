@@ -79,7 +79,19 @@ user_id and objective are set to **INT** and **TEXT** data types, respectively.
 created_at and updated_at are set to **TIMESTAMP** data type to store the date and time values.
 
 completed is set to **TINYTEXT** data type to store a flag that indicates whether the todo item has been completed or not definded by **"Yes"** or **"No"**.
-
+### Categories
+The categories table has the following columns:
+* id: a unique identifier for the category
+* category: the name of the category
+### Showobs Table
+The showobs table has the following columns:
+* id: a unique identifier for the showobs entry
+* user_id: the id of the user associated with the showobs entry
+* font: the font setting value
+* color: the color setting value
+* list: the list type setting value (e.g., bullet, numbered)
+* shadow: a flag indicating whether the text shadow is enabled or not (0 or 1)
+* bold: a flag indicating whether the text bold is enabled or not (0 or 1)
 ## Database Connection Settings
 After you've created the database and tables, you'll have to add those deatils in the *[db_connect.php](../lists/db_connect.php)* file.
 ```php
