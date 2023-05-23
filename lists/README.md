@@ -116,7 +116,7 @@ To run this code on a VPS, you would need to ensure that the VPS meets the minim
 
 For example, this code is written in PHP and uses Apache as the web server, you would need to ensure that the VPS has PHP and Apache installed and configured correctly. You would also need to ensure that any required PHP extensions or libraries are installed.
 
-Additionally, you would need to ensure that the VPS has enough resources (such as CPU, RAM, and storage) to handle the expected traffic and workload of the website.
+Additionally, you would need to ensure that the VPS has enough resources (such as CPU, RAM, and storage) to handle the expected traffic and workload of this website.
 
 Finally, you would need to ensure that the VPS is secure, by configuring firewalls, installing security updates, and following best practices for server security.
 
