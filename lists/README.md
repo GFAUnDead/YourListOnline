@@ -114,7 +114,7 @@ if ($conn->connect_error) {
 ## Running the code
 To run this code on a VPS, you would need to ensure that the VPS meets the minimum system requirements for the programming language and web server being used.
 
-For example, if this code is written in PHP and uses Apache as the web server, you would need to ensure that the VPS has PHP and Apache installed and configured correctly. You would also need to ensure that any required PHP extensions or libraries are installed.
+For example, this code is written in PHP and uses Apache as the web server, you would need to ensure that the VPS has PHP and Apache installed and configured correctly. You would also need to ensure that any required PHP extensions or libraries are installed.
 
 Additionally, you would need to ensure that the VPS has enough resources (such as CPU, RAM, and storage) to handle the expected traffic and workload of the website.
 
