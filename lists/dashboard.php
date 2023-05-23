@@ -123,24 +123,28 @@ if (!$result) {
     </div>
 </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <h2>Your Current List:</h2>
-    <?php echo "Number of total tasks in your list: " . mysqli_num_rows($result); ?>
-    <select id="categoryFilter">
-      <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
-      <?php
-        // Fetch the categories from the database
-        $categories_sql = "SELECT id, category FROM categories";
-        $categories_result = mysqli_query($conn, $categories_sql);
 
-        // Loop through the categories and generate dropdown options
-        while ($category_row = mysqli_fetch_assoc($categories_result)) {
-          $categoryId = $category_row['id'];
-          $categoryName = $category_row['category'];
-          $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
-          echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
-        }
-      ?>
-    </select>
+    <!-- Category filter dropdown -->
+    <div class="category-filter">
+      <label for="categoryFilter">Filter by Category:</label>
+      <select id="categoryFilter" onchange="applyCategoryFilter()">
+        <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
+        <?php
+          $categories_sql = "SELECT id, category FROM categories";
+          $categories_result = mysqli_query($conn, $categories_sql);
+
+          while ($category_row = mysqli_fetch_assoc($categories_result)) {
+            $categoryId = $category_row['id'];
+            $categoryName = $category_row['category'];
+            $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
+            echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
+          }
+        ?>
+      </select>
+    </div>
+
+    <h2>Your Current List:</h2>
+    <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
     <table class="table">
       <thead>
         <tr>
