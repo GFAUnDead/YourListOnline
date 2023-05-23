@@ -38,7 +38,7 @@ CREATE TABLE showobs (
     user_id INT(11),
     font VARCHAR(255) COLLATE latin1_swedish_ci,
     color VARCHAR(255) COLLATE latin1_swedish_ci,
-    list VARCHAR(255) COLLATE latin1_swedish_ci,
+    list VARCHAR(255) COLLATE latin1_swedish_ci DEFAULT 'bullet',
     shadow TINYINT(1) DEFAULT 0,
     bold TINYINT(1) DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES users(id)
