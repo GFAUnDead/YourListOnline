@@ -32,6 +32,20 @@ CREATE TABLE categories (
     category VARCHAR(255) COLLATE utf8mb4_unicode_ci,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE showobs (
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    user_id INT(11),
+    font VARCHAR(255) COLLATE latin1_swedish_ci,
+    color VARCHAR(255) COLLATE latin1_swedish_ci,
+    list VARCHAR(255) COLLATE latin1_swedish_ci,
+    shadow TINYINT(1) DEFAULT 0,
+    bold TINYINT(1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 ```
 ### Users Table
 The users table has the following columns:
