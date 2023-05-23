@@ -31,8 +31,17 @@ $_SESSION['user_data'] = $user_data;
 // Set the is_admin flag in the $_SESSION variable
 $_SESSION['is_admin'] = $user_data['is_admin'];
 
+// Get the selected category filter, default to "all" if not provided
+$categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
+
+// Build the SQL query based on the category filter
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+if ($categoryFilter === 'all') {
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+} else {
+  $categoryFilter = mysqli_real_escape_string($conn, $categoryFilter);
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND category = '$categoryFilter' ORDER BY id ASC";
+}
 
 $result = mysqli_query($conn, $sql);
 
@@ -115,7 +124,23 @@ if (!$result) {
 </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h2>Your Current List:</h2>
-    <?php echo "Number of rows in your list: " . mysqli_num_rows($result); ?>    
+    <?php echo "Number of total tasks in your list: " . mysqli_num_rows($result); ?>
+    <select id="categoryFilter">
+      <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
+      <?php
+        // Fetch the categories from the database
+        $categories_sql = "SELECT id, category FROM categories";
+        $categories_result = mysqli_query($conn, $categories_sql);
+
+        // Loop through the categories and generate dropdown options
+        while ($category_row = mysqli_fetch_assoc($categories_result)) {
+          $categoryId = $category_row['id'];
+          $categoryName = $category_row['category'];
+          $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
+          echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
+        }
+      ?>
+    </select>
     <table class="table">
       <thead>
         <tr>
@@ -146,5 +171,13 @@ if (!$result) {
         <?php endwhile; ?>
       </tbody>
     </table>
+<script>
+  // JavaScript function to handle the category filter change
+  document.getElementById("categoryFilter").addEventListener("change", function() {
+    var selectedCategoryId = this.value;
+    // Redirect to the page with the selected category filter
+    window.location.href = "dashboard.php?category=" + selectedCategoryId;
+  });
+</script>
 </body>
 </html>
