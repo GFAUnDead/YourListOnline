@@ -46,7 +46,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/about.js"></script>
+  <script src="https://yourlist.online/js/about.js"></script>
   <script src="js/obsbutton.js"></script>
   <script src="js/profile.js"></script>
   <style type="text/css">
