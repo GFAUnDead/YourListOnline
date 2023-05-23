@@ -67,7 +67,7 @@ if ($_SESSION['is_admin'] == 1) {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/about.js"></script>
+  <script src="https://yourlist.online/js/about.js"></script>
   <style type="text/css">
     body {
       font: 14px sans-serif;
