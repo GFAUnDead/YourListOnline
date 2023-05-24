@@ -13,9 +13,19 @@ require_once "db_connect.php";
 
 // Get user's incomplete tasks
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM todos WHERE user_id = ? AND completed = 'No'";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+
+// Check if a specific category is selected
+if (isset($_GET['category'])) {
+    $category_id = $_GET['category'];
+    $sql = "SELECT * FROM todos WHERE user_id = ? AND category = ? AND completed = 'No'";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $user_id, $category_id);
+} else {
+    $sql = "SELECT * FROM todos WHERE user_id = ? AND completed = 'No'";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
@@ -51,6 +61,14 @@ if (isset($_POST['task_id'])) {
     header('Location: completed.php');
     $stmt->close();
 }
+
+// Retrieve categories for the filter dropdown
+$categorySql = "SELECT * FROM categories";
+$categoryResult = mysqli_query($conn, $categorySql);
+$categories = mysqli_fetch_all($categoryResult, MYSQLI_ASSOC);
+
+// Check if a specific category is selected
+$categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 ?>
 <!DOCTYPE html>
 <html>
@@ -125,8 +143,23 @@ if (isset($_POST['task_id'])) {
     </div>
 </nav>
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+
+<!-- Category filter dropdown -->
+<div class="category-filter">
+  <label for="categoryFilter">Filter by Category:</label>
+  <select id="categoryFilter" onchange="applyCategoryFilter()">
+    <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
+    <?php foreach ($categories as $category): ?>
+      <?php $categoryId = $category['id']; ?>
+      <?php $categoryName = $category['category']; ?>
+      <?php $selected = ($categoryFilter == $categoryId) ? 'selected' : ''; ?>
+      <option value="<?php echo $categoryId; ?>" <?php echo $selected; ?>><?php echo $categoryName; ?></option>
+    <?php endforeach; ?>
+  </select>
+</div>
+
 <h1>Completed Tasks:</h1>
-<?php echo "Number of total tasks in the category: " . count($incompleteTasks); ?>
+<p>Number of total tasks in the category: <?php echo count($incompleteTasks); ?></p>
 <table class="table">
     <thead>
     <tr>
@@ -156,5 +189,14 @@ if (isset($_POST['task_id'])) {
     <?php endforeach; ?>
     </tbody>
 </table>
+
+<script>
+  // JavaScript function to handle the category filter change
+  document.getElementById("categoryFilter").addEventListener("change", function() {
+    var selectedCategoryId = this.value;
+    // Redirect to the page with the selected category filter
+    window.location.href = "completed.php?category=" + selectedCategoryId;
+  });
+</script>
 </body>
 </html>
