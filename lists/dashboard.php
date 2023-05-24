@@ -175,6 +175,7 @@ if (!$result) {
         <?php endwhile; ?>
       </tbody>
     </table>
+
 <script>
   // JavaScript function to handle the category filter change
   document.getElementById("categoryFilter").addEventListener("change", function() {
