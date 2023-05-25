@@ -1,5 +1,8 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Initialize the session
 session_start();
 
@@ -45,17 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    // Check input errors before updating the database
-    if (empty($current_password_err) && empty($new_password_err) && empty($confirm_password_err)) {
-        // Check current password
-        $sql = "SELECT password FROM users WHERE user_id = ?";
-        $stmt = mysqli_prepare($conn, $sql);
-        if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "s", $_SESSION['user_id']);
-            mysqli_stmt_execute($stmt);
+// Check input errors before updating the database
+if (empty($current_password_err) && empty($new_password_err) && empty($confirm_password_err)) {
+    // Check current password
+    $sql = "SELECT password FROM users WHERE user_id = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $user_id);
+        if (mysqli_stmt_execute($stmt)) {
             $result = mysqli_stmt_get_result($stmt);
             if ($result) {
-                if (mysqli_num_rows($result) === 1) {
+                if (mysqli_num_rows($result) == 1) {
                     $row = mysqli_fetch_assoc($result);
                     $hashed_password = $row["password"];
                     if (password_verify($current_password, $hashed_password)) {
@@ -64,35 +67,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $sql = "UPDATE users SET password = ? WHERE user_id = ?";
                         $stmt = mysqli_prepare($conn, $sql);
                         if ($stmt) {
-                            mysqli_stmt_bind_param($stmt, "ss", $hashed_new_password, $_SESSION['user_id']);
-                            mysqli_stmt_execute($stmt);
-                            if (mysqli_stmt_affected_rows($stmt) > 0) {
-                                // Password updated successfully, redirect to login page
-                                mysqli_close($conn);
-                                header("Location: logout.php");
-                                exit();
+                            mysqli_stmt_bind_param($stmt, "ss", $hashed_new_password, $user_id);
+                            if (mysqli_stmt_execute($stmt)) {
+                                if ($stmt->affected_rows > 0) {
+                                    // Password updated successfully, redirect to login page
+                                    header("Location: logout.php");
+                                    exit();
+                                } else {
+                                    $error_message = "Oops! Something went wrong. Please try again later.";
+                                }
                             } else {
-                                $error_message = "Oops! Something went wrong. Please try again later.";
+                                $error_message = "Error executing the password update query: " . mysqli_stmt_error($stmt);
                             }
                         } else {
-                            $error_message = "Oops! Something went wrong. Please try again later.";
+                            $error_message = "Error preparing the password update statement: " . mysqli_error($conn);
                         }
                     } else {
                         $current_password_err = "The password you entered is not valid.";
                     }
                 } else {
-                    $error_message = "Oops! Something went wrong. Please try again later.";
+                    $error_message = "User not found or multiple users with the same ID exist.";
                 }
             } else {
-                $error_message = "Oops! Something went wrong. Please try again later.";
+                $error_message = "Error fetching the result of the password select query: " . mysqli_error($conn);
             }
         } else {
-            $error_message = "Oops! Something went wrong. Please try again later.";
+            $error_message = "Error executing the password select query: " . mysqli_stmt_error($stmt);
         }
+    } else {
+        $error_message = "Error preparing the password select statement: " . mysqli_error($conn);
     }
+}
 
     // Close database connection
     mysqli_close($conn);
+    header("Location: logout.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
