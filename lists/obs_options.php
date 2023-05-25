@@ -137,6 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </nav>
 <div class="col-md-6">
+    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
     <h1>Font & Color Settings:</h1>
     <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
