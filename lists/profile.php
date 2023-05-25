@@ -121,7 +121,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <br><br>
     <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <!--<a href="change_password.php" class="btn btn-primary">Change Password</a>-->
+    <?php if ($_SESSION['is_admin']) { ?><a href="change_password.php" class="btn btn-primary">Change Password</a><?php } ?>
     <a href="logout.php" class="btn btn-primary">Logout</a>
 </div>
 </body>
