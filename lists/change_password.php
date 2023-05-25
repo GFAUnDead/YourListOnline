@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     mysqli_stmt_execute($stmt);
                     if ($stmt->affected_rows > 0) {
                         // Password updated successfully, redirect to login page
-                        header("Location: login.php");
+                        header("Location: logout.php");
                         exit();
                     } else {
                         echo "Oops! Something went wrong. Please try again later.";
@@ -154,26 +154,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </nav>
 <div class="col-md-6">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <h2>Change Password</h2>
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-                <div class="form-group">
-                    <label for="current_password">Current Password:</label>
-                    <input type="password" class="form-control" id="current_password" name="current_password" required>
-                </div>
-                <div class="form-group">
-                    <label for="new_password">New Password:</label>
-                    <input type="password" class="form-control" id="new_password" name="new_password" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+    <h2>Change Password</h2>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <div class="form-group">
+            <label for="current_password">Current Password:</label>
+            <input type="password" class="form-control" id="current_password" name="current_password" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="new_password">New Password:</label>
+            <input type="password" class="form-control" id="new_password" name="new_password" required>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 </div>
 </body>
 </html>
