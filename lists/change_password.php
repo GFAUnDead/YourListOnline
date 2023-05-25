@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Initialize the session
 session_start();
@@ -47,51 +48,57 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Check input errors before updating the database
     if (empty($current_password_err) && empty($new_password_err) && empty($confirm_password_err)) {
         // Check current password
-        $username = $_SESSION['username'];
-        $sql = "SELECT password FROM users WHERE username = ?";
+        $sql = "SELECT password FROM users WHERE user_id = ?";
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "s", $username);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        if ($result) {
-            if (mysqli_num_rows($result) == 1) {
-                $row = mysqli_fetch_assoc($result);
-                $hashed_password = $row["password"];
-                if (password_verify($current_password, $hashed_password)) {
-                    // Update password
-                    $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
-                    $sql = "UPDATE users SET password = ? WHERE username = ?";
-                    $stmt = mysqli_prepare($conn, $sql);
-                    mysqli_stmt_bind_param($stmt, "ss", $hashed_new_password, $username);
-                    mysqli_stmt_execute($stmt);
-                    if ($stmt->affected_rows > 0) {
-                        // Password updated successfully, redirect to login page
-                        header("Location: logout.php");
-                        exit();
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "s", $_SESSION['user_id']);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            if ($result) {
+                if (mysqli_num_rows($result) === 1) {
+                    $row = mysqli_fetch_assoc($result);
+                    $hashed_password = $row["password"];
+                    if (password_verify($current_password, $hashed_password)) {
+                        // Update password
+                        $hashed_new_password = password_hash($new_password, PASSWORD_DEFAULT);
+                        $sql = "UPDATE users SET password = ? WHERE user_id = ?";
+                        $stmt = mysqli_prepare($conn, $sql);
+                        if ($stmt) {
+                            mysqli_stmt_bind_param($stmt, "ss", $hashed_new_password, $_SESSION['user_id']);
+                            mysqli_stmt_execute($stmt);
+                            if (mysqli_stmt_affected_rows($stmt) > 0) {
+                                // Password updated successfully, redirect to login page
+                                mysqli_close($conn);
+                                header("Location: logout.php");
+                                exit();
+                            } else {
+                                $error_message = "Oops! Something went wrong. Please try again later.";
+                            }
+                        } else {
+                            $error_message = "Oops! Something went wrong. Please try again later.";
+                        }
                     } else {
-                        echo "Oops! Something went wrong. Please try again later.";
+                        $current_password_err = "The password you entered is not valid.";
                     }
                 } else {
-                    $current_password_err = "The password you entered is not valid.";
+                    $error_message = "Oops! Something went wrong. Please try again later.";
                 }
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                $error_message = "Oops! Something went wrong. Please try again later.";
             }
         } else {
-            echo "Oops! Something went wrong. Please try again later.";
+            $error_message = "Oops! Something went wrong. Please try again later.";
         }
     }
 
     // Close database connection
     mysqli_close($conn);
-    header("Location: logout.php");
-    exit();
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Change Password - YourListOnline</title>
+    <title>YourListOnline - Change Password</title>
     <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
@@ -154,7 +161,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </nav>
 <div class="col-md-6">
-    <h2>Change Password</h2>
+    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    <h2>Change Your Password</h2>
+    <?php if (isset($error_message)) { ?>
+        <div class="alert alert-danger"><?php echo $error_message; ?></div>
+    <?php } ?>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <div class="form-group">
             <label for="current_password">Current Password:</label>
