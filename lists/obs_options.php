@@ -14,19 +14,20 @@ if (!isset($_SESSION['loggedin'])) {
 // Fetch the user's data from the database
 $user_id = $_SESSION['user_id'];
 
-// Retrieve font, color, list, shadow, and bold data for the user from the showobs table
+// Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $settings = $result->fetch_assoc();
 
-// Retrieve font, color, list, shadow, and bold data for the user from the showobs table
+// Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
 $color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
 $list = isset($settings['list']) && $settings['list'] !== '' ? $settings['list'] : 'Bullet';
 $shadow = isset($settings['shadow']) && $settings['shadow'] == 1 ? true : false;
 $bold = isset($settings['bold']) && $settings['bold'] == 1 ? true : false;
+$font_size = isset($settings['font_size']) ? $settings['font_size'] : '12px';
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -36,12 +37,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedList = isset($_POST["list"]) ? $_POST["list"] : 'Bullet';
     $selectedShadow = isset($_POST["shadow"]) ? 1 : 0;
     $selectedBold = isset($_POST["bold"]) ? 1 : 0;
+    $selectedFontSize = isset($_POST["font_size"]) ? $_POST["font_size"] : '12px';
 
     // Check if the user has existing settings
     if ($result->num_rows > 0) {
-        // Update the font, color, list, shadow, and bold data in the database
-        $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ?, list = ?, shadow = ?, bold = ? WHERE user_id = ?");
-        $stmt->bind_param("sssiii", $selectedFont, $selectedColor, $selectedList, $selectedShadow, $selectedBold, $user_id);
+        // Update the font, color, list, shadow, bold, and font_size data in the database
+        $stmt = $conn->prepare("UPDATE showobs SET font = ?, color = ?, list = ?, shadow = ?, bold = ?, font_size = ? WHERE user_id = ?");
+        $stmt->bind_param("sssiiis", $selectedFont, $selectedColor, $selectedList, $selectedShadow, $selectedBold, $selectedFontSize, $user_id);
         if ($stmt->execute()) {
             // Update successful
             header("Location: obs_options.php");
@@ -51,8 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         // Insert new settings for the user
-        $stmt = $conn->prepare("INSERT INTO showobs (user_id, font, color, list, shadow, bold) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssii", $user_id, $selectedFont, $selectedColor, $selectedList, $selectedShadow, $selectedBold);
+        $stmt = $conn->prepare("INSERT INTO showobs (user_id, font, color, list, shadow, bold, font_size) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssiiis", $user_id, $selectedFont, $selectedColor, $selectedList, $selectedShadow, $selectedBold, $selectedFontSize);
         if ($stmt->execute()) {
             // Insertion successful
             header("Location: obs_options.php");
@@ -211,6 +213,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <tr>
                 <td>Text Bold</td>
                 <td><?php echo $bold ? 'Enabled' : 'Disabled'; ?></td>
+            </tr>
+            <tr>
+                <td>Font Size</td>
+                <td><?php echo $font_size ?></td>
             </tr>
         </table>
     <?php } else { ?>
