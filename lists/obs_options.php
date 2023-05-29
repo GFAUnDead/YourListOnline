@@ -146,14 +146,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if ($font !== '' || $color !== '') { ?>
         <table class="table">
             <tr>
-                <th style="width: 15%;">Setting</th>
-                <th style="width: 20%;">Value</th>
+                <th style="width: 15%; height: 20%;">Setting</th>
+                <th style="width: 25%; height: 20%;">Value</th>
                 <th style="width: 60%;">Update</th>
             </tr>
             <tr>
                 <td>Font</td>
                 <td><?php echo $font ?></td>
-                <td rowspan="5">
+                <td rowspan="6">
                 <form method="post">
                     <div class="form-group">
                         <label for="font">Font:</label>
@@ -186,16 +186,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="font_size">Font Size:</label>
+                        <input type="text" name="font_size" value="<?php echo $font_size; ?>" class="form-control">
+                    </div>
+                    <div class="form-group">
                         <label for="shadow">Text Shadow:</label>
                         <input type="checkbox" name="shadow" value="1" <?php if ($shadow) echo 'checked'; ?>>
                     </div>
                     <div class="form-group">
                         <label for="bold">Text Bold:</label>
                         <input type="checkbox" name="bold" value="1" <?php if ($bold) echo 'checked'; ?>>
-                    </div>
-                    <div class="form-group">
-                        <label for="font_size">Font Size:</label>
-                        <input type="text" name="font_size" value="<?php echo $font_size; ?>" class="form-control">
                     </div>
                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
                     <input type="submit" value="Save" class="btn btn-primary">
