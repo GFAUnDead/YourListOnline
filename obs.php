@@ -128,7 +128,7 @@ if ($result->num_rows > 0) {
                         echo "<li>" . htmlspecialchars($objective) . "</li>";
                     }
                 }
-            }            
+            }
             echo "</$listType>";
         } else {
             // Invalid category id, show error message
