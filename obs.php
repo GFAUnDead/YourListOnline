@@ -22,7 +22,7 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
     $user_id = $user['id'];
-    // Retrieve font, color, list, and shadow data for the user from the showobs table
+    // Retrieve font, color, list, shadow, and font_size data for the user from the showobs table
     $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -32,6 +32,7 @@ if ($result->num_rows > 0) {
     $color = isset($settings['color']) ? $settings['color'] : null;
     $list = isset($settings['list']) ? $settings['list'] : null;
     $shadow = isset($settings['shadow']) ? $settings['shadow'] : null;
+    $font_size = isset($settings['font_size']) ? $settings['font_size'] : null;
     $listType = ($list === 'Numbered') ? 'ol' : 'ul';
     $bold = isset($settings['bold']) ? $settings['bold'] : null;
 }
