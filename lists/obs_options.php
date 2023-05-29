@@ -220,7 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </tr>
             <tr>
                 <td>Font Size</td>
-                <td><?php echo $font_size ?></td>
+                <td><?php echo $font_size ?>px</td>
             </tr>
         </table>
     <?php } else { ?>
