@@ -143,9 +143,10 @@ if ($_SESSION['is_admin'] == 1) {
             $categoryId = $category_row['id'];
             $categoryName = $category_row['category'];
             $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
-            echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
-          }
-        ?>
+            echo "<option value=\"$categoryId\" $selected>$categoryName</option>
+        ";
+          } ?>
+
       </select>
     </div>
 
@@ -166,7 +167,7 @@ if ($_SESSION['is_admin'] == 1) {
         <?php while ($row = mysqli_fetch_assoc($result)): ?>
           <tr>
             <td><?php echo $row['username']; ?></td>
-            <td><?php echo $row['objective']; ?></td>
+            <td><?php echo ($row['completed'] == 'Yes') ? '<s>' . $row['objective'] . '</s>' : $row['objective']; ?></td>
             <td>
               <?php
                 $category_id = $row['category'];
