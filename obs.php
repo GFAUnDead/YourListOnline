@@ -65,6 +65,9 @@ if ($result->num_rows > 0) {
                     }
                 }
             }
+            if ($font_size) {
+                echo "font-size: $font_size;";
+            }
             ?>
         }
     </style>
