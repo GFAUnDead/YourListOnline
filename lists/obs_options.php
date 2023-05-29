@@ -76,8 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <script src="https://cdn.yourlist.onlinejs/obsbutton.js"></script>
-    <script src="https://cdn.yourlist.onlinejs/profile.js"></script>
+    <script src="https://cdn.yourlist.online/js/obsbutton.js"></script>
+    <script src="https://cdn.yourlist.online/js/profile.js"></script>
     <style type="text/css">
         body {
             font: 14px sans-serif;
