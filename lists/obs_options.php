@@ -39,6 +39,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedBold = isset($_POST["bold"]) ? 1 : 0;
     $selectedFontSize = isset($_POST["font_size"]) ? $_POST["font_size"] : '12px';
 
+    // Check if the user has selected "Other" color option
+    if ($selectedColor === 'Other') {
+        $customColor = isset($_POST["custom_color"]) ? $_POST["custom_color"] : '';
+        if (!empty($customColor)) {
+            $selectedColor = $customColor;
+        }
+    }
+
     // Check if the user has existing settings
     if ($result->num_rows > 0) {
         // Update the font, color, list, shadow, bold, and font_size data in the database
@@ -174,10 +182,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="White"<?php if ($color === 'White') echo 'selected'; ?>>White</option>
                             <option value="Red"<?php if ($color === 'Red') echo 'selected'; ?>>Red</option>
                             <option value="Blue"<?php if ($color === 'Blue') echo 'selected'; ?>>Blue</option>
+                            <option value="Other"<?php if ($color === 'Other') echo 'selected'; ?>>Other</option>
                         </select>
                         <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
                     </div>
-                        <div class="form-group">
+                    <?php if ($color === 'Other') : ?>
+                    <div class="form-group">
+                        <label for="custom_color">Custom Color:</label>
+                        <input type="text" name="custom_color" class="form-control">
+                    </div>
+                    <div class="form-group">
                         <label for="list">List Type:</label>
                         <select name="list" class="form-control">
                             <!-- List type options -->
