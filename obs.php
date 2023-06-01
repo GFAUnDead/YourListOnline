@@ -66,9 +66,6 @@ if ($result->num_rows > 0) {
                     }
                 }
             }
-            if ($font_size) {
-                echo "font-size: $font_size;";
-            }
             ?>
         }
     </style>
@@ -117,15 +114,15 @@ if ($result->num_rows > 0) {
                 $completed = $task['completed'];
                 if ($completed == 'Yes') {
                     if ($bold == 1) {
-                        echo "<li><s><strong>" . htmlspecialchars($objective) . "</strong></s></li>";
+                        echo "<li style='font-size: {$font_size}px;'><s><strong>" . htmlspecialchars($objective) . "</strong></s></li>";
                     } else {
-                        echo "<li><s>" . htmlspecialchars($objective) . "</s></li>";
+                        echo "<li style='font-size: {$font_size}px;'><s>" . htmlspecialchars($objective) . "</s></li>";
                     }
                 } else {
                     if ($bold == 1) {
-                        echo "<li><strong>" . htmlspecialchars($objective) . "</strong></li>";
+                        echo "<li style='font-size: {$font_size}px;'><strong>" . htmlspecialchars($objective) . "</strong></li>";
                     } else {
-                        echo "<li>" . htmlspecialchars($objective) . "</li>";
+                        echo "<li style='font-size: {$font_size}px;'>" . htmlspecialchars($objective) . "</li>";
                     }
                 }
             }
