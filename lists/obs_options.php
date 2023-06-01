@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 // Require database connection
 require_once "db_connect.php";
 
@@ -189,12 +185,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="Other"<?php if ($color === 'Other') echo ' selected'; ?>>Other</option>
                         </select>
                         <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
-                    </div>
-                    <?php if ($color === 'Other') : ?>
-                        <div class="form-group">
-                            <label for="custom_color">Custom Color:</label>
-                            <input type="text" name="custom_color" class="form-control">
                         </div>
+                        <?php if ($color === 'Other') : ?>
+                            <div class="form-group">
+                                <label for="custom_color">Custom Color:</label>
+                                <input type="text" name="custom_color" class="form-control">
+                            </div>
                         <?php endif; ?>
                         <div class="form-group">
                             <label for="list">List Type:</label>
