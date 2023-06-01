@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Require database connection
 require_once "db_connect.php";
 
@@ -152,25 +156,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
     <?php if ($font !== '' || $color !== '') { ?>
-        <table class="table">
-            <tr>
-                <th style="width: 15%; height: 20%;">Setting</th>
-                <th style="width: 25%; height: 20%;">Value</th>
-                <th style="width: 60%;">Update</th>
-            </tr>
-            <tr>
-                <td>Font</td>
-                <td><?php echo $font ?></td>
-                <td rowspan="6">
+    <table class="table">
+        <tr>
+            <th style="width: 15%; height: 20%;">Setting</th>
+            <th style="width: 25%; height: 20%;">Value</th>
+            <th style="width: 60%;">Update</th>
+        </tr>
+        <tr>
+            <td>Font</td>
+            <td><?php echo $font; ?></td>
+            <td rowspan="6">
                 <form method="post">
                     <div class="form-group">
                         <label for="font">Font:</label>
                         <select name="font" class="form-control">
                             <!-- Font options -->
-                            <option value="Arial"<?php if ($font === 'Arial') echo 'selected'; ?>>Arial</option>
-                            <option value="Arial Narrow"<?php if ($font === 'Arial Narrow') echo 'selected'; ?>>Arial Narrow</option>
-                            <option value="Verdana"<?php if ($font === 'Verdana') echo 'selected'; ?>>Verdana</option>
-                            <option value="Times New Roman"<?php if ($font === 'Times New Roman') echo 'selected'; ?>>Times New Roman</option>
+                            <option value="Arial"<?php if ($font === 'Arial') echo ' selected'; ?>>Arial</option>
+                            <option value="Arial Narrow"<?php if ($font === 'Arial Narrow') echo ' selected'; ?>>Arial Narrow</option>
+                            <option value="Verdana"<?php if ($font === 'Verdana') echo ' selected'; ?>>Verdana</option>
+                            <option value="Times New Roman"<?php if ($font === 'Times New Roman') echo ' selected'; ?>>Times New Roman</option>
                         </select>
                         <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
                     </div>
@@ -178,68 +182,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="color">Color:</label>
                         <select name="color" class="form-control">
                             <!-- Color options -->
-                            <option value="Black"<?php if ($color === 'Black') echo 'selected'; ?>>Black</option>
-                            <option value="White"<?php if ($color === 'White') echo 'selected'; ?>>White</option>
-                            <option value="Red"<?php if ($color === 'Red') echo 'selected'; ?>>Red</option>
-                            <option value="Blue"<?php if ($color === 'Blue') echo 'selected'; ?>>Blue</option>
-                            <option value="Other"<?php if ($color === 'Other') echo 'selected'; ?>>Other</option>
+                            <option value="Black"<?php if ($color === 'Black') echo ' selected'; ?>>Black</option>
+                            <option value="White"<?php if ($color === 'White') echo ' selected'; ?>>White</option>
+                            <option value="Red"<?php if ($color === 'Red') echo ' selected'; ?>>Red</option>
+                            <option value="Blue"<?php if ($color === 'Blue') echo ' selected'; ?>>Blue</option>
+                            <option value="Other"<?php if ($color === 'Other') echo ' selected'; ?>>Other</option>
                         </select>
                         <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
                     </div>
                     <?php if ($color === 'Other') : ?>
-                    <div class="form-group">
-                        <label for="custom_color">Custom Color:</label>
-                        <input type="text" name="custom_color" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="list">List Type:</label>
-                        <select name="list" class="form-control">
-                            <!-- List type options -->
-                            <option value="Bullet" <?php if ($list === 'Bullet') echo 'selected'; ?>>Bullet List</option>
-                            <option value="Numbered" <?php if ($list === 'Numbered') echo 'selected'; ?>>Numbered List</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="font_size">Font Size:</label>
-                        <input type="text" name="font_size" value="<?php echo $font_size; ?>" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="shadow">Text Shadow:</label>
-                        <input type="checkbox" name="shadow" value="1" <?php if ($shadow) echo 'checked'; ?>>
-                    </div>
-                    <div class="form-group">
-                        <label for="bold">Text Bold:</label>
-                        <input type="checkbox" name="bold" value="1" <?php if ($bold) echo 'checked'; ?>>
-                    </div>
-                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                    <input type="submit" value="Save" class="btn btn-primary">
+                        <div class="form-group">
+                            <label for="custom_color">Custom Color:</label>
+                            <input type="text" name="custom_color" class="form-control">
+                        </div>
+                        <?php endif; ?>
+                        <div class="form-group">
+                            <label for="list">List Type:</label>
+                            <select name="list" class="form-control">
+                                <!-- List type options -->
+                                <option value="Bullet"<?php if ($list === 'Bullet') echo ' selected'; ?>>Bullet List</option>
+                                <option value="Numbered"<?php if ($list === 'Numbered') echo ' selected'; ?>>Numbered List</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="font_size">Font Size:</label>
+                            <input type="text" name="font_size" value="<?php echo $font_size; ?>" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="shadow">Text Shadow:</label>
+                            <input type="checkbox" name="shadow" value="1" <?php if ($shadow) echo 'checked'; ?>>
+                        </div>
+                        <div class="form-group">
+                            <label for="bold">Text Bold:</label>
+                            <input type="checkbox" name="bold" value="1" <?php if ($bold) echo 'checked'; ?>>
+                        </div>
+                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                        <input type="submit" value="Save" class="btn btn-primary">
                 </form>
-                </td>
-            </tr>
-            <tr>
-                <td>Color</td>
-                <td><?php echo $color ?></td>
-            </tr>
-            <tr>
-                <td>List Type</td>
-                <td><?php echo $list ?></td>
-            </tr>
-            <tr>
-                <td>Text Shadow</td>
-                <td><?php echo $shadow ? 'Enabled' : 'Disabled'; ?></td>
-            </tr>
-            <tr>
-                <td>Text Bold</td>
-                <td><?php echo $bold ? 'Enabled' : 'Disabled'; ?></td>
-            </tr>
-            <tr>
-                <td>Font Size</td>
-                <td><?php echo $font_size ?>px</td>
-            </tr>
-        </table>
-    <?php } else { ?>
-        <p>No font and color settings have been set.</p>
-    <?php } ?>
+            </td>
+        </tr>
+        <tr>
+            <td>Color</td>
+            <td><?php echo $color; ?></td>
+        </tr>
+        <tr>
+            <td>List Type</td>
+            <td><?php echo $list; ?></td>
+        </tr>
+        <tr>
+            <td>Text Shadow</td>
+            <td><?php echo $shadow ? 'Enabled' : 'Disabled'; ?></td>
+        </tr>
+        <tr>
+            <td>Text Bold</td>
+            <td><?php echo $bold ? 'Enabled' : 'Disabled'; ?></td>
+        </tr>
+        <tr>
+            <td>Font Size</td>
+            <td><?php echo $font_size; ?>px</td>
+        </tr>
+    </table>
+    <?php } else { 
+        echo 'No font and color settings have been set.';
+    } ?>
 </div>
 </body>
 </html>
