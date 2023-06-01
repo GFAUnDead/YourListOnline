@@ -176,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label for="color">Color:</label>
-                        <select name="color" class="form-control">
+                        <select name="color" id="color-select" class="form-control">
                             <!-- Color options -->
                             <option value="Black"<?php if ($color === 'Black') echo ' selected'; ?>>Black</option>
                             <option value="White"<?php if ($color === 'White') echo ' selected'; ?>>White</option>
@@ -186,12 +186,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </select>
                         <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
                         </div>
-                        <?php if ($color === 'Other') : ?>
-                            <div class="form-group">
-                                <label for="custom_color">Custom Color:</label>
-                                <input type="text" name="custom_color" class="form-control">
-                            </div>
-                        <?php endif; ?>
+                        <div class="form-group" id="custom-color-group"<?php if ($color !== 'Other') echo ' style="display: none;"'; ?>>
+                            <label for="custom_color">Custom Color:</label>
+                            <input type="text" name="custom_color" id="custom-color-input" class="form-control">
+                </div>
                         <div class="form-group">
                             <label for="list">List Type:</label>
                             <select name="list" class="form-control">
@@ -242,5 +240,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo 'No font and color settings have been set.';
     } ?>
 </div>
+<script>
+    // Get references to the select element and custom color group
+    var colorSelect = document.getElementById("color-select");
+    var customColorGroup = document.getElementById("custom-color-group");
+
+    // Add event listener to toggle custom color group visibility
+    colorSelect.addEventListener("change", function() {
+        if (colorSelect.value === "Other") {
+            customColorGroup.style.display = "block";
+        } else {
+            customColorGroup.style.display = "none";
+        }
+    });
+</script>
 </body>
 </html>
