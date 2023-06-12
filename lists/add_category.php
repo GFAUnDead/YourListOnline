@@ -75,14 +75,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($category_err)) {
 
         // Prepare an insert statement
-        $sql = "INSERT INTO categories (category) VALUES (?)";
+        $sql = "INSERT INTO categories (category, user_id) VALUES (?, ?)";
 
         if ($stmt = $conn->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_category);
+            $stmt->bind_param("si", $param_category, $param_user_id);
 
             // Set parameters
             $param_category = $category;
+            $param_user_id = $_SESSION['user_id'];
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
@@ -175,17 +176,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 <div class="col-md-6">
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <h3>Please fill in the form below to add a new category:</h3>
-            <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
-                <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
-                <span class="help-block"><?php echo $category_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <a href="categories.php" class="btn btn-default">Cancel</a>
-            </div>
-        </form>
+        <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+            <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
+            <span class="help-block"><?php echo $category_err; ?></span>
+        </div>
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit">
+            <a href="categories.php" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
 </div>
 </body>
 </html>
