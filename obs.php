@@ -43,8 +43,6 @@ if ($result->num_rows > 0) {
     <title>OBS TASK LIST</title>
     <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.yourlist.online/js/about.js"></script>
     <meta http-equiv="refresh" content="10">
