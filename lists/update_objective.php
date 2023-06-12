@@ -153,9 +153,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Check if there are any rows to edit
             if ($num_rows > 0) {
-              echo '<td colspan="3"><button type="submit" name="submit" class="btn btn-primary">Update All</button></td>';
+                echo '<td colspan="3"><button type="submit" name="submit" class="btn btn-primary">Update All</button></td>';
             } else {
-              echo 'There are no rows to edit';
+                echo '<h3 style="color: red;">There are no rows to edit</h3>';
             }
         ?>
         </tr>
