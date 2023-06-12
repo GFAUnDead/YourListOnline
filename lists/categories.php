@@ -92,7 +92,8 @@ if (!$result) {
     </div>
 </nav>
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-<h1>Here is the current list of categories you can filter your lists in, each category will be its own list.</h1>
+<h2>Here is the current list of categories you can filter your lists in, each category will be its own list.<br>
+    Shown in this list is only the categories you have made, using a category id that you haven't created will result in a blank page to be shown.</h2>
 <table class="table">
   <thead>
       <tr>
