@@ -11,8 +11,9 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get categories from database
-$query = "SELECT * FROM categories";
+// Get categories from database for the logged-in user
+$user_id = $_SESSION['user_id'];
+$query = "SELECT * FROM categories WHERE FIND_IN_SET('$user_id', user_id)";
 $result = $conn->query($query);
 
 if (!$result) {
@@ -91,7 +92,7 @@ if (!$result) {
     </div>
 </nav>
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-<h1>Here is the current list of categories you can filter your lists in, each category will be it's own list.</h1>
+<h1>Here is the current list of categories you can filter your lists in, each category will be its own list.</h1>
 <table class="table">
   <thead>
       <tr>
