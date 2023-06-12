@@ -11,10 +11,45 @@ if (!isset($_SESSION['loggedin'])) {
 // Connect to database
 require_once "db_connect.php";
 
-// Get user's to-do list
+// Fetch the user's data from the database
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY completed DESC";
-$result = $conn->query($sql);
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+
+// Check if the query succeeded
+if (!$result) {
+  echo "Error: " . mysqli_error($conn);
+  exit();
+}
+
+// Get the user's data from the query result
+$user_data = mysqli_fetch_assoc($result);
+
+// Store the user's data in the $_SESSION variable
+$_SESSION['user_data'] = $user_data;
+
+// Set the is_admin flag in the $_SESSION variable
+$_SESSION['is_admin'] = $user_data['is_admin'];
+
+// Get the selected category filter, default to "all" if not provided
+$categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
+
+// Build the SQL query based on the category filter
+$user_id = $_SESSION['user_id'];
+if ($categoryFilter === 'all') {
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+} else {
+  $categoryFilter = mysqli_real_escape_string($conn, $categoryFilter);
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND category = '$categoryFilter' ORDER BY id ASC";
+}
+
+$result = mysqli_query($conn, $sql);
+
+// Handle errors
+if (!$result) {
+  echo "Error: " . mysqli_error($conn);
+  exit();
+}
 
 // Handle remove item form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -101,6 +136,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </nav>
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    
+    <!-- Category filter dropdown -->
+    <div class="category-filter">
+      <label for="categoryFilter">Filter by Category:</label>
+      <select id="categoryFilter" onchange="applyCategoryFilter()">
+        <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
+        <?php
+          $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
+          $categories_result = mysqli_query($conn, $categories_sql);
+
+          while ($category_row = mysqli_fetch_assoc($categories_result)) {
+            $categoryId = $category_row['id'];
+            $categoryName = $category_row['category'];
+            $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
+            echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
+          }
+        ?>
+      </select>
+    </div>
+
     <h1>Please pick which task to remove from your list:</h1>
     <table class="table">
         <thead>
@@ -135,5 +190,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endwhile; ?>
         </tbody>
     </table>
+
+<script>
+  // JavaScript function to handle the category filter change
+  document.getElementById("categoryFilter").addEventListener("change", function() {
+    var selectedCategoryId = this.value;
+    // Redirect to the page with the selected category filter
+    window.location.href = "remove.php?category=" + selectedCategoryId;
+  });
+</script>
 </body>
 </html>
