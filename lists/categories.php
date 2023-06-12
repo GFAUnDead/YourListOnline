@@ -13,7 +13,7 @@ require_once "db_connect.php";
 
 // Get categories from database for the logged-in user
 $user_id = $_SESSION['user_id'];
-$query = "SELECT * FROM categories WHERE FIND_IN_SET('$user_id', user_id)";
+$query = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
 $result = $conn->query($query);
 
 if (!$result) {
