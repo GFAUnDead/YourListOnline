@@ -11,8 +11,9 @@ if (!isset($_SESSION['access_token'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get categories from database
-$query = "SELECT * FROM categories";
+// Get categories from database for the logged-in user
+$user_id = $_SESSION['user_id'];
+$query = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
 $result = $conn->query($query);
 
 if (!$result) {
@@ -26,10 +27,10 @@ if (!$result) {
     <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/about.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+    <script src="https://cdn.yourlist.online/js/about.js"></script>
     <style type="text/css">
       body {
         font: 14px sans-serif;
@@ -58,7 +59,7 @@ if (!$result) {
                 <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Category</a></li>
+                    <li><a href="update_category.php">Update Objective Category</a></li>
                 </ul>
             </li>
             <li><a href="completed.php">Completed</a></li>
@@ -82,7 +83,7 @@ if (!$result) {
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
-                <li><a href="admin.php">Admin Dashboard</a></li>
+                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
 			      	</ul>
             </li>
             <?php } ?>
@@ -91,7 +92,8 @@ if (!$result) {
     </div>
 </nav>
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-<h1>Here is the current list of categories you can filter your lists in, each category will be it's own list.</h1>
+<h2>Here is the current list of categories you can filter your lists in, each category will be its own list.<br>
+    Shown in this list is only the categories you have made, using a category id that you haven't created will result in a blank page to be shown.</h2>
 <table class="table">
   <thead>
       <tr>
