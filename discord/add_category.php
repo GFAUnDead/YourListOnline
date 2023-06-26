@@ -75,14 +75,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($category_err)) {
 
         // Prepare an insert statement
-        $sql = "INSERT INTO categories (category) VALUES (?)";
+        $sql = "INSERT INTO categories (category, user_id) VALUES (?, ?)";
 
         if ($stmt = $conn->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_category);
+            $stmt->bind_param("si", $param_category, $param_user_id);
 
             // Set parameters
             $param_category = $category;
+            $param_user_id = $_SESSION['user_id'];
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
@@ -109,10 +110,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="js/about.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+    <script src="https://cdn.yourlist.online/js/about.js"></script>
     <style type="text/css">
       body {
         font: 14px sans-serif;
@@ -141,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Category</a></li>
+                    <li><a href="update_category.php">Update Objective Category</a></li>
                 </ul>
             </li>
             <li><a href="remove.php">Remove</a></li>
@@ -165,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
-                <li><a href="admin.php">Admin Dashboard</a></li>
+                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
 			      	</ul>
             </li>
             <?php } ?>
@@ -175,17 +176,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </nav>
 <div class="col-md-6">
     <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <h3>Please fill in the form below to add a new category:</h3>
-            <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
-                <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
-                <span class="help-block"><?php echo $category_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <a href="categories.php" class="btn btn-default">Cancel</a>
-            </div>
-        </form>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <h3>Type in what your new category will be:</h3>
+        <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+            <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
+            <span class="help-block"><?php echo $category_err; ?></span>
+        </div>
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Submit">
+            <a href="categories.php" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
 </div>
 </body>
 </html>
