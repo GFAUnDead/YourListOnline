@@ -42,13 +42,12 @@ if(!isset($_SESSION["access_token"]) || $_SESSION["access_token"] !== true){
   <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
   <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/about.js"></script>
-  <script src="js/obsbutton.js"></script>
-  <script src="js/profile.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+  <script src="https://cdn.yourlist.online/js/about.js"></script>
+  <script src="https://cdn.yourlist.online/js/obsbutton.js"></script>
+  <script src="https://cdn.yourlist.online/js/profile.js"></script>
   <style type="text/css">
     body {
       font: 14px sans-serif;
@@ -77,7 +76,7 @@ if(!isset($_SESSION["access_token"]) || $_SESSION["access_token"] !== true){
                 <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Category</a></li>
+                    <li><a href="update_category.php">Update Objective Category</a></li>
                 </ul>
             </li>
             <li><a href="completed.php">Completed</a></li>
@@ -101,7 +100,7 @@ if(!isset($_SESSION["access_token"]) || $_SESSION["access_token"] !== true){
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
-                <li><a href="admin.php">Admin Dashboard</a></li>
+                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
 			      	</ul>
             </li>
             <?php } ?>
@@ -120,9 +119,9 @@ if(!isset($_SESSION["access_token"]) || $_SESSION["access_token"] !== true){
     <button type="button" class="btn btn-primary" id="show-api-key">Show API Key</button>
     <button type="button" class="btn btn-primary" id="hide-api-key" style="display:none;">Hide API Key</button>
     <br><br>
-    <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON STREAM</button>
+    <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <!--<a href="change_password.php" class="btn btn-primary">Change Password</a>-->
+    <?php if ($_SESSION['is_admin']) { ?><a href="change_password.php" class="btn btn-primary">Change Password</a><?php } ?>
     <a href="logout.php" class="btn btn-primary">Logout</a>
 </div>
 </body>
