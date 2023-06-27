@@ -93,7 +93,7 @@ if (isset($_GET['code'])) {
         // Redirect to the unauthorized page when it's built.
         // header('Location: unauthorized.php');
     }
-
+    echo "<br>";
     echo "Welcome " . $twitchUsername . ", we are logging you into the dashboard if you are authorized.<br>";
     echo "If you haven't been redirected to the dashboard yet: <a href='dashboard.php'>Click Here</a>";
 } else {
