@@ -66,7 +66,7 @@ if (isset($_GET['code'])) {
     if (isset($userInfo['data']) && count($userInfo['data']) > 0) {
         $twitchUsername = $userInfo['data'][0]['login'];
         // User is authorized, insert/update the access token in the 'users' table
-        $insertQuery = "INSERT INTO users (username, access_token) VALUES ('$twitchUsername', '$accessToken')
+        $insertQuery = "INSERT INTO users (username, access_token, api_key, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', 0)
                         ON DUPLICATE KEY UPDATE access_token = '$accessToken'";
         $insertResult = mysqli_query($conn, $insertQuery);
 
