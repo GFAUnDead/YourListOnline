@@ -2,6 +2,7 @@
 // Set your Twitch application credentials
 $clientID = ''; // CHANGE TO MAKE THIS WORK
 $redirectURI = ''; // CHANGE TO MAKE THIS WORK
+$clientSecret = '';  // CHANGE TO MAKE THIS WORK
 
 // Database credentials
 require_once "db_connect.php";
@@ -33,7 +34,7 @@ if (isset($_GET['code'])) {
     $tokenURL = 'https://id.twitch.tv/oauth2/token';
     $postData = array(
         'client_id' => $clientID,
-        'client_secret' => '', // CHANGE TO MAKE THIS WORK
+        'client_secret' => $clientSecret,
         'code' => $code,
         'grant_type' => 'authorization_code',
         'redirect_uri' => $redirectURI
