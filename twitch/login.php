@@ -2,7 +2,7 @@
 // Set your Twitch application credentials
 $clientID = ''; // CHANGE TO MAKE THIS WORK
 $redirectURI = ''; // CHANGE TO MAKE THIS WORK
-$clientSecret = '';  // CHANGE TO MAKE THIS WORK
+$clientSecret = ''; // CHANGE TO MAKE THIS WORK
 
 // Database credentials
 require_once "db_connect.php";
@@ -10,8 +10,14 @@ require_once "db_connect.php";
 // Start PHP session
 session_start();
 
+// If the user is already logged in, redirect them to the dashboard page
+if (isset($_SESSION['access_token'])) {
+    header('Location: dashboard.php');
+    exit;
+}
+
 // If the user is not logged in and no authorization code is present, redirect to Twitch authorization page
-if (!isset($_SESSION['access_token'])) {
+if (!isset($_SESSION['access_token']) && !isset($_GET['code'])) {
     header('Location: https://id.twitch.tv/oauth2/authorize' .
         '?client_id=' . $clientID .
         '&redirect_uri=' . $redirectURI .
@@ -39,6 +45,20 @@ if (isset($_GET['code'])) {
     curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($postData));
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($curl);
+
+    if ($response === false) {
+        // Handle cURL error
+        echo 'cURL error: ' . curl_error($curl);
+        exit;
+    }
+
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    if ($httpCode !== 200) {
+        // Handle non-successful HTTP response
+        echo 'HTTP error: ' . $httpCode;
+        exit;
+    }
+
     curl_close($curl);
 
     // Extract the access token from the response
@@ -57,6 +77,20 @@ if (isset($_GET['code'])) {
     ]);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     $userInfoResponse = curl_exec($curl);
+
+    if ($userInfoResponse === false) {
+        // Handle cURL error
+        echo 'cURL error: ' . curl_error($curl);
+        exit;
+    }
+
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    if ($httpCode !== 200) {
+        // Handle non-successful HTTP response
+        echo 'HTTP error: ' . $httpCode;
+        exit;
+    }
+
     curl_close($curl);
 
     $userInfo = json_decode($userInfoResponse, true);
@@ -85,17 +119,13 @@ if (isset($_GET['code'])) {
         } else {
             // Handle the case where the insertion failed
             echo "Failed to save user information.";
+            exit;
         }
     } else {
         // Failed to fetch user information from Twitch
         echo "Failed to fetch user information from Twitch.";
+        exit;
     }
-}
-
-// If the user is already logged in, redirect them to the dashboard page
-if (isset($_SESSION['access_token'])) {
-    header('Location: dashboard.php');
-    exit;
 }
 ?>
 <!DOCTYPE html>
