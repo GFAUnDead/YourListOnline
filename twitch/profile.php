@@ -2,36 +2,36 @@
 // Initialize the session
 session_start();
 
-// Check if the user is already logged in
-if(!isset($_SESSION["access_token"]) || $_SESSION["access_token"] !== true){
-    header("location: login.php");
-    exit;
-} else {
-    // Require database connection
-    require_once "db_connect.php";
+// Check if user is logged in
+if (!isset($_SESSION['access_token'])) {
+    header('Location: login.php');
+    exit();
+  }
 
-    // Get user information from the database
-    $user_id = $_SESSION['user_id'];
-    $sql = "SELECT username, signup_date, last_login, api_key, profile_image FROM users WHERE id = ?";
-    if($stmt = $conn->prepare($sql)){
-        $stmt->bind_param("i", $user_id);
-        if($stmt->execute()){
-            $stmt->store_result();
-            if($stmt->num_rows == 1){
-                $stmt->bind_result($username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
-                $stmt->fetch();
-                $_SESSION['signup_date'] = $signup_date;
-                $_SESSION['last_login'] = $last_login;
-                $_SESSION['api_key'] = $api_key;
-                $_SESSION['profile_image'] = $twitch_profile_image_url;
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-                exit;
-            }
+// Require database connection
+require_once "db_connect.php";
+
+// Get user information from the database
+$user_id = $_SESSION['access_token'];
+$sql = "SELECT username, signup_date, last_login, api_key, profile_image FROM users WHERE access_token = ?";
+if($stmt = $conn->prepare($sql)){
+    $stmt->bind_param("i", $user_id);
+    if($stmt->execute()){
+        $stmt->store_result();
+        if($stmt->num_rows == 1){
+            $stmt->bind_result($username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
+            $stmt->fetch();
+            $_SESSION['signup_date'] = $signup_date;
+            $_SESSION['last_login'] = $last_login;
+            $_SESSION['api_key'] = $api_key;
+            $_SESSION['profile_image'] = $twitch_profile_image_url;
         } else {
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "Can't get user information from the database.";
             exit;
         }
+    } else {
+        echo "No results found.";
+        exit;
     }
 }
 ?>
