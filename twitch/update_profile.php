@@ -11,8 +11,15 @@ if (!isset($_SESSION['access_token'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get user's Twitch profile image URL
-$username = $_SESSION['username'];
+// Get the username from the database using the access token
+$stmt = $conn->prepare("SELECT username FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $_SESSION['access_token']);
+$stmt->execute();
+$stmt->bind_result($username);
+$stmt->fetch();
+$stmt->close();
+
+// Construct the URL for the Twitch profile image
 $url = 'https://decapi.me/twitch/avatar/' . $username;
 
 // Initialize cURL session
@@ -29,29 +36,14 @@ curl_close($curl);
 // Set Twitch profile image URL to the response
 $twitch_profile_image_url = trim($response);
 
-// Check if form has been submitted to update the username
-if (isset($_POST['update_username'])) {
-    // Get new username from form data
-    $new_username = $_POST['twitch_username'];
-
-    // Update user's username in database
-    $stmt = $conn->prepare("UPDATE users SET username = ? WHERE id = ?");
-    $stmt->bind_param("si", $new_username, $_SESSION['user_id']);
-    $stmt->execute();
-
-    // Redirect to profile page
-    header("Location: logout.php");
-    exit();
-}
-
 // Check if form has been submitted to update the profile image
 if (isset($_POST['update_profile_image'])) {
     // Get new profile image URL from form data
     $twitch_profile_image_url = $_POST['twitch_profile_image_url'];
 
     // Update user's profile image URL in database
-    $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE id = ?");
-    $stmt->bind_param("si", $twitch_profile_image_url, $_SESSION['user_id']);
+    $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE access_token = ?");
+    $stmt->bind_param("ss", $twitch_profile_image_url, $_SESSION['access_token']);
     $stmt->execute();
     // Redirect to profile page
     header("Location: profile.php");
@@ -136,14 +128,6 @@ $conn->close();
 </nav>
 <div class="col-md-6">
     <h1>Updating profile for: <?php echo $_SESSION['username']; ?></h1>
-    <form action="update_profile.php" method="POST">
-        <h2>Update Username</h2>
-        <div>
-          <label for="twitch_username">Twitch Username:</label>
-          <input type="text" id="twitch_username" name="twitch_username" value="<?php echo $_SESSION['username']; ?>">
-          <button class="btn btn-primary" type="submit" name="update_username">Update Username</button>
-        </div>
-    </form>
     <form id="update-profile-image-form" action="update_profile.php" method="POST">
         <h2>Update Profile Image</h2>
         <div>
