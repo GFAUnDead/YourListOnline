@@ -64,30 +64,26 @@ if (isset($_GET['code'])) {
 
     $userInfo = json_decode($userInfoResponse, true);
 
-    if (isset($userInfo['data']) && count($userInfo['data']) > 0) {
-        $twitchUsername = $userInfo['data'][0]['login'];
-        // User is authorized, insert/update the access token in the 'users' table
-        $insertQuery = "INSERT INTO users (username, access_token, api_key, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', 0)
-                        ON DUPLICATE KEY UPDATE access_token = '$accessToken'";
-        $insertResult = mysqli_query($conn, $insertQuery);
-
-        if ($insertResult) {
-            // Update the last login time
-            $last_login = date('Y-m-d H:i:s');
-            $sql = "UPDATE users SET last_login = ? WHERE username = ?";
-            // Prepare and execute the update statement
-            $stmt = mysqli_prepare($conn, $sql);
-            mysqli_stmt_bind_param($stmt, 'ss', $last_login, $twitchUsername);
-            mysqli_stmt_execute($stmt);
-            mysqli_stmt_close($stmt);
-
-            // Redirect the user to the dashboard
-            header('Location: dashboard.php');
-            exit;
-        } else {
-            // Handle the case where the insertion failed
-            echo "Failed to save user information.";
-        }
+    $twitchUsername = $userInfo['data'][0]['login'];
+    // User is authorized, insert/update the access token in the 'users' table
+    $insertQuery = "INSERT INTO users (username, access_token, api_key, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', 0)
+                    ON DUPLICATE KEY UPDATE access_token = '$accessToken'";
+    $insertResult = mysqli_query($conn, $insertQuery);
+    if ($insertResult) {
+        // Update the last login time
+        $last_login = date('Y-m-d H:i:s');
+        $sql = "UPDATE users SET last_login = ? WHERE username = ?";
+        // Prepare and execute the update statement
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, 'ss', $last_login, $twitchUsername);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        // Redirect the user to the dashboard
+        header('Location: dashboard.php');
+        exit;
+    } else {
+        // Handle the case where the insertion failed
+        echo "Failed to save user information.";
     }
     echo "<br>";
     echo "Welcome " . $twitchUsername . ", we are logging you into the dashboard if you are authorized.<br>";
