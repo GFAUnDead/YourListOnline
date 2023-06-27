@@ -73,7 +73,7 @@ if (isset($_GET['code'])) {
         if ($insertResult) {
             // Update the last login time
             $last_login = date('Y-m-d H:i:s');
-            $sql = "UPDATE mods SET last_login = ? WHERE username = ?";
+            $sql = "UPDATE users SET last_login = ? WHERE username = ?";
             // Prepare and execute the update statement
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, 'ss', $last_login, $twitchUsername);
@@ -94,7 +94,7 @@ if (isset($_GET['code'])) {
         // header('Location: unauthorized.php');
     }
 
-    echo "Welcome " . $twitchUsername . ", we are logging you into the mod dashboard if you are authorized.<br>";
+    echo "Welcome " . $twitchUsername . ", we are logging you into the dashboard if you are authorized.<br>";
     echo "If you haven't been redirected to the dashboard yet: <a href='dashboard.php'>Click Here</a>";
 } else {
     // Failed to fetch user information from Twitch
