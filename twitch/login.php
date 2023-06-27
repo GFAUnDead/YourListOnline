@@ -10,14 +10,8 @@ require_once "db_connect.php";
 // Start PHP session
 session_start();
 
-// If the user is already logged in, redirect them to the dashboard page
-if (isset($_SESSION['access_token'])) {
-    header('Location: dashboard.php');
-    exit;
-}
-
 // If the user is not logged in and no authorization code is present, redirect to Twitch authorization page
-if (!isset($_SESSION['access_token']) && !isset($_GET['code'])) {
+if (!isset($_SESSION['access_token'])) {
     header('Location: https://id.twitch.tv/oauth2/authorize' .
         '?client_id=' . $clientID .
         '&redirect_uri=' . $redirectURI .
@@ -51,11 +45,14 @@ if (isset($_GET['code'])) {
     $responseData = json_decode($response, true);
     $accessToken = $responseData['access_token'];
 
+    // Store the access token in the session
+    $_SESSION['access_token'] = $accessToken;
+
     // Fetch the user's Twitch username
     $userInfoURL = 'https://api.twitch.tv/helix/users';
     $curl = curl_init($userInfoURL);
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . $accessToken,
+        'Authorization: Bearer ' . $_SESSION['access_token'],
         'Client-ID: ' . $clientID
     ]);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -64,33 +61,41 @@ if (isset($_GET['code'])) {
 
     $userInfo = json_decode($userInfoResponse, true);
 
-    $twitchUsername = $userInfo['data'][0]['login'];
-    // User is authorized, insert/update the access token in the 'users' table
-    $insertQuery = "INSERT INTO users (username, access_token, api_key, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', 0)
+    if (isset($userInfo['data']) && count($userInfo['data']) > 0) {
+        $twitchUsername = $userInfo['data'][0]['login'];
+
+        // Insert/update the access token in the 'users' table
+        $insertQuery = "INSERT INTO users (username, access_token, api_key, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', 0)
                     ON DUPLICATE KEY UPDATE access_token = '$accessToken'";
-    $insertResult = mysqli_query($conn, $insertQuery);
-    if ($insertResult) {
-        // Update the last login time
-        $last_login = date('Y-m-d H:i:s');
-        $sql = "UPDATE users SET last_login = ? WHERE username = ?";
-        // Prepare and execute the update statement
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, 'ss', $last_login, $twitchUsername);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-        // Redirect the user to the dashboard
-        header('Location: dashboard.php');
-        exit;
+        $insertResult = mysqli_query($conn, $insertQuery);
+
+        if ($insertResult) {
+            // Update the last login time
+            $last_login = date('Y-m-d H:i:s');
+            $sql = "UPDATE users SET last_login = ? WHERE username = '$twitchUsername'";
+            // Prepare and execute the update statement
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, 's', $last_login);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+
+            // Redirect the user to the dashboard
+            header('Location: dashboard.php');
+            exit;
+        } else {
+            // Handle the case where the insertion failed
+            echo "Failed to save user information.";
+        }
     } else {
-        // Handle the case where the insertion failed
-        echo "Failed to save user information.";
+        // Failed to fetch user information from Twitch
+        echo "Failed to fetch user information from Twitch.";
     }
-    echo "<br>";
-    echo "Welcome " . $twitchUsername . ", we are logging you into the dashboard if you are authorized.<br>";
-    echo "If you haven't been redirected to the dashboard yet: <a href='dashboard.php'>Click Here</a>";
-} else {
-    // Failed to fetch user information from Twitch
-    echo "Failed to fetch user information from Twitch.";
+}
+
+// If the user is already logged in, redirect them to the dashboard page
+if (isset($_SESSION['access_token'])) {
+    header('Location: dashboard.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
