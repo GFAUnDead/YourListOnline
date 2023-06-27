@@ -87,11 +87,6 @@ if (isset($_GET['code'])) {
             // Handle the case where the insertion failed
             echo "Failed to save user information.";
         }
-    } else {
-        // User is not authorized, display an error message
-        echo "You are not authorized to access this page.";
-        // Redirect to the unauthorized page when it's built.
-        // header('Location: unauthorized.php');
     }
     echo "<br>";
     echo "Welcome " . $twitchUsername . ", we are logging you into the dashboard if you are authorized.<br>";
