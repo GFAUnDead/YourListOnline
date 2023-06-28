@@ -2,38 +2,30 @@
 // Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
     header('Location: login.php');
     exit();
-  }
+}
 
-// Require database connection
+// Connect to database
 require_once "db_connect.php";
 
-// Get user information from the database
-$user_id = $_SESSION['access_token'];
-$sql = "SELECT * FROM users WHERE access_token = ?";
-if($stmt = $conn->prepare($sql)){
-    $stmt->bind_param("i", $user_id);
-    if($stmt->execute()){
-        $stmt->store_result();
-        if($stmt->num_rows == 1){
-            $stmt->bind_result($username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
-            $stmt->fetch();
-            $_SESSION['signup_date'] = $signup_date;
-            $_SESSION['last_login'] = $last_login;
-            $_SESSION['api_key'] = $api_key;
-            $_SESSION['profile_image'] = $twitch_profile_image_url;
-        } else {
-            echo "Can't get user information from the database.";
-            exit;
-        }
-    } else {
-        echo "No results found.";
-        exit;
-    }
-}
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token, $username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
+$signup_date = $user['signup_date'];
+$last_login = $user['last_login'];
+$api_key = $user['api_key'];
+$twitch_profile_image_url = $user['profile_image'];
+
 ?>
 <!DOCTYPE html>
 <html>
