@@ -1,35 +1,26 @@
 <?php
-// Start session
+// Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
     header('Location: login.php');
-    exit;
+    exit();
 }
 
 // Connect to database
 require_once "db_connect.php";
 
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE id = '$user_id'";
-$result = mysqli_query($conn, $sql);
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
 
-// Check if the query succeeded
-if (!$result) {
-  echo "Error: " . mysqli_error($conn);
-  exit();
-}
-
-// Get the user's data from the query result
-$user_data = mysqli_fetch_assoc($result);
-
-// Store the user's data in the $_SESSION variable
-$_SESSION['user_data'] = $user_data;
-
-// Set the is_admin flag in the $_SESSION variable
-$_SESSION['is_admin'] = $user_data['is_admin'];
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
 
 // Get the selected category filter, default to "all" if not provided
 $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
@@ -135,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    <h1>Welcome, <?php echo $username; ?>!</h1>
     
     <!-- Category filter dropdown -->
     <div class="category-filter">
