@@ -2,7 +2,7 @@
 // Initialize the session
 session_start();
 
-// Check if user is logged in
+// Check if the user is logged in
 if (!isset($_SESSION['access_token'])) {
     header("Location: login.php");
     exit;
@@ -11,14 +11,26 @@ if (!isset($_SESSION['access_token'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get categories from database for the logged-in user
-$user_id = $_SESSION['user_id'];
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT id, username FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+// Get categories from the database for the logged-in user
+$user_id = $user['id'];
 $query = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
 $result = $conn->query($query);
 
 if (!$result) {
     die("Error retrieving categories: " . $conn->error);
 }
+
+// Fetch the username from the database based on the access_token
+$username = $user['username'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,17 +44,18 @@ if (!$result) {
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
     <style type="text/css">
-      body {
-        font: 14px sans-serif;
-      }
-      .wrapper {
-        width: 350px; padding: 20px;
-      }
-      a.popup-link {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-      }
+        body {
+            font: 14px sans-serif;
+        }
+        .wrapper {
+            width: 350px;
+            padding: 20px;
+        }
+        a.popup-link {
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -71,44 +84,44 @@ if (!$result) {
                 </ul>
             </li>
             <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-			      		<li><a href="profile.php">View Profile</a></li>
-			      		<li><a href="update_profile.php">Update Profile</a></li>
-                        <li><a href="obs_options.php">OBS Viewing Options</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-			      	</ul>
+                <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="profile.php">View Profile</a></li>
+                    <li><a href="update_profile.php">Update Profile</a></li>
+                    <li><a href="obs_options.php">OBS Viewing Options</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
             </li>
             <?php if ($_SESSION['is_admin']) { ?>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-			      	</ul>
-            </li>
+                <li class="dropdown dropdown-hover">
+                    <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
+                    </ul>
+                </li>
             <?php } ?>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1>Welcome, <?php echo $username; ?>!</h1>
 <h2>Here is the current list of categories you can filter your lists in, each category will be its own list.<br>
-    Shown in this list is only the categories you have made, using a category id that you haven't created will result in a blank page to be shown.</h2>
+    Shown in this list are only the categories you have made. Using a category ID that you haven't created will result in a blank page.</h2>
 <table class="table">
-  <thead>
-      <tr>
-          <th style="width: 5%;">ID</th>
-          <th>Category</th>
-      </tr>
-  </thead>
-  <tbody>
-      <?php while ($row = $result->fetch_assoc()): ?>
-      <tr>
-          <td><?php echo htmlspecialchars($row['id']) ?></td>
-          <td><?php echo htmlspecialchars($row['category']) ?></td>
-      </tr>
-      <?php endwhile ?>
-  </tbody>
+    <thead>
+    <tr>
+        <th style="width: 5%;">ID</th>
+        <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php while ($row = $result->fetch_assoc()): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($row['id']) ?></td>
+            <td><?php echo htmlspecialchars($row['category']) ?></td>
+        </tr>
+    <?php endwhile ?>
+    </tbody>
 </table>
 </body>
 </html>
