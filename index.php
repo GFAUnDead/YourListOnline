@@ -25,7 +25,7 @@
 		<p>With this website you can keep track of all the tasks you need to complete.</p>
 		<p>To get started, simply log in with your account or use your Twitch or Discord account.</p>
 		<a href="https://access.yourlist.online/dashboard.php"><button class="button">Login</button></a>
-		<a href=""><button class="twitch-button">Login with Twitch (IN TESTINGS)</button></a>
+		<a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
 		<a href=""><button class="discord-button">Login with Discord (COMING SOON)</button></a>
 		<br><br>
 		<p><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
