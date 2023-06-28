@@ -21,6 +21,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$is_admin = ($user['admin'] == 1);
 
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
@@ -141,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
-            <?php if ($_SESSION['is_admin']) { ?>
+            <?php if ($is_admin) { ?>
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
