@@ -19,18 +19,16 @@ $stmt->bind_param("s", $access_token);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
 
 // Get categories from the database for the logged-in user
-$user_id = $user['id'];
 $query = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
 $result = $conn->query($query);
 
 if (!$result) {
     die("Error retrieving categories: " . $conn->error);
 }
-
-// Fetch the username from the database based on the access_token
-$username = $user['username'];
 ?>
 <!DOCTYPE html>
 <html>
