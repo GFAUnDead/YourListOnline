@@ -2,19 +2,19 @@
 // Initialize the session
 session_start();
 
-// Check if the user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
-    header("Location: login.php");
-    exit;
+    header('Location: login.php');
+    exit();
 }
 
-// Require database connection
+// Connect to database
 require_once "db_connect.php";
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
 
-$stmt = $conn->prepare("SELECT id, username FROM users WHERE access_token = ?");
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
 $stmt->bind_param("s", $access_token);
 $stmt->execute();
 $result = $stmt->get_result();
