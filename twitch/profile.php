@@ -24,6 +24,7 @@ $signup_date = $user['signup_date'];
 $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $twitch_profile_image_url = $user['profile_image'];
+$is_admin = ($user['admin'] == 1);
 ?>
 <!DOCTYPE html>
 <html>
@@ -86,7 +87,7 @@ $twitch_profile_image_url = $user['profile_image'];
                         <li><a href="logout.php">Logout</a></li>
 			      	</ul>
             </li>
-            <?php if ($_SESSION['is_admin']) { ?>
+            <?php if ($is_admin) { ?>
             <li class="dropdown dropdown-hover">
 			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
 			      	<ul class="dropdown-menu">
