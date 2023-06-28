@@ -11,16 +11,23 @@ if (!isset($_SESSION['access_token'])) {
     exit();
 }
 
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
 
+$stmt = $conn->prepare("SELECT id FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+// Retrieve the user_id
+$user_id = $user['user_id'];
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $settings = $result->fetch_assoc();
-
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $font = isset($settings['font']) && $settings['font'] !== '' ? $settings['font'] : 'Not set';
 $color = isset($settings['color']) && $settings['color'] !== '' ? $settings['color'] : 'Not set';
@@ -28,6 +35,17 @@ $list = isset($settings['list']) && $settings['list'] !== '' ? $settings['list']
 $shadow = isset($settings['shadow']) && $settings['shadow'] == 1 ? true : false;
 $bold = isset($settings['bold']) && $settings['bold'] == 1 ? true : false;
 $font_size = isset($settings['font_size']) ? $settings['font_size'] : '12px';
+
+
+// Fetch the username from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT username FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$username = $user['username'];
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -147,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    <h1>Welcome, <?php echo $username; ?>!</h1>
     <h1>Font & Color Settings:</h1>
     <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
