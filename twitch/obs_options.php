@@ -1,15 +1,15 @@
 <?php
-// Require database connection
-require_once "db_connect.php";
-
 // Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
-    header("Location: login.php");
+    header('Location: login.php');
     exit();
 }
+
+// Connect to database
+require_once "db_connect.php";
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
