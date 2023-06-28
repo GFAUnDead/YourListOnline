@@ -127,7 +127,7 @@ $conn->close();
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Updating profile for: <?php echo $_SESSION['username']; ?></h1>
+    <h1>Updating profile for: <?php echo $username; ?></h1>
     <form id="update-profile-image-form" action="update_profile.php" method="POST">
         <h2>Update Profile Image</h2>
         <div>
