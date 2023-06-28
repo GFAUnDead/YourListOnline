@@ -21,7 +21,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
-$is_admin = ($user['admin'] == 1);
+$is_admin = ($user['is_admin'] == 1);
 
 // Get user's to-do list
 $sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY id DESC";
