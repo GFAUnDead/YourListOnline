@@ -21,7 +21,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
-$is_admin = ($user['admin'] == 1);
+$is_admin = ($user['is_admin'] == 1);
 
 // Get categories from the database for the logged-in user
 $query = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
