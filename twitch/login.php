@@ -68,7 +68,7 @@ if (isset($_GET['code'])) {
     // Store the access token in the session
     $_SESSION['access_token'] = $accessToken;
 
-    // Fetch the user's Twitch username
+    // Fetch the user's Twitch username and profile image URL
     $userInfoURL = 'https://api.twitch.tv/helix/users';
     $curl = curl_init($userInfoURL);
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
@@ -97,10 +97,11 @@ if (isset($_GET['code'])) {
 
     if (isset($userInfo['data']) && count($userInfo['data']) > 0) {
         $twitchUsername = $userInfo['data'][0]['login'];
+        $profileImageUrl = $userInfo['data'][0]['profile_image_url'];
 
-        // Insert/update the access token in the 'users' table
-        $insertQuery = "INSERT INTO users (username, access_token, api_key, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', 0)
-                    ON DUPLICATE KEY UPDATE access_token = '$accessToken'";
+        // Insert/update the access token and profile image URL in the 'users' table
+        $insertQuery = "INSERT INTO users (username, access_token, api_key, profile_image, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', '$profileImageUrl', 0)
+                    ON DUPLICATE KEY UPDATE access_token = '$accessToken', profile_image = '$profileImageUrl'";
         $insertResult = mysqli_query($conn, $insertQuery);
 
         if ($insertResult) {
