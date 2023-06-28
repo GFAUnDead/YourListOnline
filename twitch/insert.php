@@ -2,17 +2,25 @@
 // Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
-  header('Location: login.php');
-  exit();
+    header('Location: login.php');
+    exit();
 }
 
-// connect to database
-require_once 'db_connect.php';
+// Connect to database
+require_once "db_connect.php";
 
-// get user ID from session
-$user_id = $_SESSION['user_id'];
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // get form data
@@ -99,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </nav>
   <div class="col-md-6">
-  <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+  <h1>Welcome, <?php echo $username; ?>!</h1>
       <form method="post">
       <h3>Please enter your task to add it to your list:</h3>
         <div class="form-group">
@@ -121,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ?>
           </select>
         </div>
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <button type="submit" class="btn btn-primary">Add</button>
         <a href="dashboard.php" class="btn btn-default">Cancel</a>
       </form>
