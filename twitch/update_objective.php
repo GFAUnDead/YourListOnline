@@ -1,18 +1,28 @@
 <?php
-// Start session
+// Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
-    header("Location: login.php");
-    exit;
+    header('Location: login.php');
+    exit();
 }
 
-// Require database connection
+// Connect to database
 require_once "db_connect.php";
 
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
+
 // Get user's to-do list
-$user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY id DESC";
 $result = $conn->query($sql);
 
@@ -111,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1>Welcome, <?php echo $username; ?>!</h1>
 <h1>Please pick which row to update on your list:</h1>
 <table class="table">
     <thead>
