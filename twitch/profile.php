@@ -13,7 +13,7 @@ require_once "db_connect.php";
 
 // Get user information from the database
 $user_id = $_SESSION['access_token'];
-$sql = "SELECT username, signup_date, last_login, api_key, profile_image FROM users WHERE access_token = ?";
+$sql = "SELECT * FROM users WHERE access_token = ?";
 if($stmt = $conn->prepare($sql)){
     $stmt->bind_param("i", $user_id);
     if($stmt->execute()){
