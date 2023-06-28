@@ -13,9 +13,8 @@ require_once "db_connect.php";
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
-
 $stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
-$stmt->bind_param("s", $access_token, $username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
+$stmt->bind_param("s", $access_token);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
@@ -25,7 +24,6 @@ $signup_date = $user['signup_date'];
 $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $twitch_profile_image_url = $user['profile_image'];
-
 ?>
 <!DOCTYPE html>
 <html>
