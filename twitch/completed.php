@@ -138,7 +138,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
 </nav>
-<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1>Welcome, <?php echo $username; ?>!</h1>
 
 <!-- Category filter dropdown -->
 <div class="category-filter">
