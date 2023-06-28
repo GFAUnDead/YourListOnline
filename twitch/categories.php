@@ -21,6 +21,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$is_admin = ($user['admin'] == 1);
 
 // Get categories from the database for the logged-in user
 $query = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
@@ -90,13 +91,13 @@ if (!$result) {
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </li>
-            <?php if ($_SESSION['is_admin']) { ?>
-                <li class="dropdown dropdown-hover">
-                    <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-                    </ul>
-                </li>
+            <?php if ($is_admin) { ?>
+            <li class="dropdown dropdown-hover">
+			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
+			      	</ul>
+            </li>
             <?php } ?>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
