@@ -8,16 +8,19 @@ if (!isset($_SESSION['access_token'])) {
     exit();
 }
 
-// Require database connection
+// Connect to database
 require_once "db_connect.php";
 
-// Get the username from the database using the access token
-$stmt = $conn->prepare("SELECT username FROM users WHERE access_token = ?");
-$stmt->bind_param("s", $_SESSION['access_token']);
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
 $stmt->execute();
-$stmt->bind_result($username);
-$stmt->fetch();
-$stmt->close();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
 
 // Construct the URL for the Twitch profile image
 $url = 'https://decapi.me/twitch/avatar/' . $username;
