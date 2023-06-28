@@ -21,6 +21,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$is_admin = ($user['admin'] == 1);
 
 // Check if a specific category is selected
 if (isset($_GET['category'])) {
@@ -125,12 +126,12 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </li>
-            <?php if ($_SESSION['is_admin']) { ?>
+            <?php if ($is_admin) { ?>
             <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-                </ul>
+			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
+			      	<ul class="dropdown-menu">
+                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
+			      	</ul>
             </li>
             <?php } ?>
         </ul>
