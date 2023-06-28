@@ -2,34 +2,25 @@
 // Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
-    header("Location: login.php");
-    exit;
-}
-
-// Require database connection
-require_once "db_connect.php";
-
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE id = '$user_id'";
-$result = mysqli_query($conn, $sql);
-
-// Check if the query succeeded
-if (!$result) {
-    echo "Error: " . mysqli_error($conn);
+    header('Location: login.php');
     exit();
 }
 
-// Get the user's data from the query result
-$user_data = mysqli_fetch_assoc($result);
+// Connect to database
+require_once "db_connect.php";
 
-// Store the user's data in the $_SESSION variable
-$_SESSION['user_data'] = $user_data;
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
 
-// Check if user is an admin
-$is_admin = $_SESSION['user_data']['is_admin'];
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
 
 // Initialize variables
 $category = "";
@@ -175,14 +166,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+    <h1>Welcome, <?php echo $username; ?>!</h1>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <h3>Type in what your new category will be:</h3>
         <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
             <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
             <span class="help-block"><?php echo $category_err; ?></span>
         </div>
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Submit">
             <a href="categories.php" class="btn btn-default">Cancel</a>
