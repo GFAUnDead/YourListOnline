@@ -14,14 +14,14 @@ if (!isset($_SESSION['access_token'])) {
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
 
-$stmt = $conn->prepare("SELECT id FROM users WHERE access_token = ?");
+$stmt = $conn->prepare("SELECT id, username FROM users WHERE access_token = ?");
 $stmt->bind_param("s", $access_token);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
 
-// Retrieve the user_id
-$user_id = $user['user_id'];
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
@@ -35,17 +35,6 @@ $list = isset($settings['list']) && $settings['list'] !== '' ? $settings['list']
 $shadow = isset($settings['shadow']) && $settings['shadow'] == 1 ? true : false;
 $bold = isset($settings['bold']) && $settings['bold'] == 1 ? true : false;
 $font_size = isset($settings['font_size']) ? $settings['font_size'] : '12px';
-
-
-// Fetch the username from the database based on the access_token
-$access_token = $_SESSION['access_token'];
-
-$stmt = $conn->prepare("SELECT username FROM users WHERE access_token = ?");
-$stmt->bind_param("s", $access_token);
-$stmt->execute();
-$result = $stmt->get_result();
-$user = $result->fetch_assoc();
-$username = $user['username'];
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
