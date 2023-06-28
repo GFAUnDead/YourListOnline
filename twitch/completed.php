@@ -2,17 +2,25 @@
 // Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
-    header("Location: login.php");
-    exit;
+    header('Location: login.php');
+    exit();
 }
 
-// Require database connection
+// Connect to database
 require_once "db_connect.php";
 
-// Get user's incomplete tasks
-$user_id = $_SESSION['user_id'];
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
 
 // Check if a specific category is selected
 if (isset($_GET['category'])) {
@@ -35,19 +43,6 @@ $incompleteTasks = [];
 while ($row = $result->fetch_assoc()) {
     $incompleteTasks[] = $row;
 }
-
-// Get user data
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user_data = $result->fetch_assoc();
-$stmt->close();
-
-// Set is_admin session variable
-$_SESSION['is_admin'] = $user_data['is_admin'];
 
 // Mark task as completed
 if (isset($_POST['task_id'])) {
