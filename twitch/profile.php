@@ -24,7 +24,7 @@ $signup_date = $user['signup_date'];
 $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $twitch_profile_image_url = $user['profile_image'];
-$is_admin = ($user['admin'] == 1);
+$is_admin = ($user['is_admin'] == 1);
 ?>
 <!DOCTYPE html>
 <html>
