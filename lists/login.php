@@ -124,40 +124,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="../index.php">Home</a></li>
-                <li class="active"><a href="login.php">Login</a></li>
-                <li><a href="register.php">Sign Up</a></li>
-            </ul>
-            <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
         </div>
-    </nav>
-    <div class="col-md-6">
-        <h2>Login</h2>
-        <p>Please fill in your credentials to login.
-        <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Username</label>
-                <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-                <span class="help-block"><?php echo $username_err; ?></span>
-            </div>    
-            <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control">
-                <span class="help-block"><?php echo $password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Login">
-                <a href="index.php" class="btn btn-link">Back to Home</a>
-            </div>
-            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
-        </form>
-    </div>    
+        <ul class="nav navbar-nav">
+            <li><a href="../index.php">Home</a></li>
+            <li class="active"><a href="login.php">Login</a></li>
+            <li><a href="register.php">Sign Up</a></li>
+        </ul>
+        <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
+    </div>
+</nav>
+<div class="col-md-6">
+    <h2>Login</h2>
+    <p>Please fill in your credentials to login.
+    <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.</p>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
+            <span class="help-block"><?php echo $username_err; ?></span>
+        </div>    
+        <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control">
+            <span class="help-block"><?php echo $password_err; ?></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Login">
+            <a href="index.php" class="btn btn-link">Back to Home</a>
+        </div>
+        <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+        <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
+    </form>
+</div>    
 </body>
 </html>
