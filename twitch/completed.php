@@ -48,14 +48,14 @@ while ($row = $result->fetch_assoc()) {
 // Mark task as completed
 if (isset($_POST['task_id'])) {
     $task_id = $_POST['task_id'];
-    $user_id = $_SESSION['user_id'];
-
     $sql = "UPDATE todos SET completed = 'Yes' WHERE id = ? AND user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $task_id, $user_id);
     $stmt->execute();
-    header('Location: completed.php');
     $stmt->close();
+    
+    header('Location: completed.php');
+    exit();
 }
 
 // Retrieve categories for the filter dropdown
