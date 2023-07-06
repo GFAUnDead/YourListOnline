@@ -89,22 +89,23 @@ if ($_SESSION['is_admin'] == 1) {
           <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
         </div>
         <ul class="nav navbar-nav">
-            <li><a href="../dashboard.php">Dashboard</a></li>
-            <li><a href="../insert.php">Add</a></li>
-            <li><a href="../remove.php">Remove</a></li>
+            <li><a href="../dashboard.php">User Dashboard</a></li>
+            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="insert.php">Add</a></li>
+            <li><a href="remove.php">Remove</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="../update_objective.php">Update Objective</a></li>
-                    <li><a href="../update_category.php">Update Objective Category</a></li>
+                    <li><a href="update_objective.php">Update Objective</a></li>
+                    <li><a href="update_category.php">Update Objective Category</a></li>
                 </ul>
             </li>
-            <li><a href="../completed.php">Completed</a></li>
+            <li><a href="completed.php">Completed</a></li>
             <li class="dropdown dropdown-hover">
                 <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="../categories.php">View Categories</a></li>
-                    <li><a href="../add_category.php">Add Category</a></li>
+                    <li><a href="categories.php">View Categories</a></li>
+                    <li><a href="add_category.php">Add Category</a></li>
                 </ul>
             </li>
             <li class="dropdown dropdown-hover">
@@ -116,14 +117,6 @@ if ($_SESSION['is_admin'] == 1) {
                 <li><a href="../logout.php">Logout</a></li>
 			      	</ul>
             </li>
-            <?php if ($_SESSION['is_admin']) { ?>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-                <li class="active"><a href="dashboard.php">Admin Dashboard</a></li>
-			      	</ul>
-            </li>
-            <?php } ?>
         </ul>
         <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
