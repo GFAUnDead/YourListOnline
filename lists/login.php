@@ -157,8 +157,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <a href="index.php" class="btn btn-link">Back to Home</a>
         </div>
         <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
-        <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
     </form>
+    <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
 </div>    
 </body>
 </html>
