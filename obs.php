@@ -8,7 +8,7 @@ if (!isset($_GET['api']) || empty($_GET['api'])) {
     echo "<br>Get your API Key from your <a href='https://access.yourlist.online/profile.php'>profile</a>";
     echo "<br>If you wish to define a working category, please add it like this:";
     echo "<br>https://yourlist.online/obs.php?api=API_KEY&category=1";
-    echo "<br>(where ID 1 is called Default defined on the <a href='https://access.yourlist.online/categories.php'>categories</a> page.";
+    echo "<br>(where ID 1 is called Default defined on the categories page.";
     exit;
 }
 
