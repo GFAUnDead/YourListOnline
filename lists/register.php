@@ -90,65 +90,61 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>YourListOnline - Sign Up</title>
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YourListOnline - Register</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <script src="https://cdn.yourlist.online/js/register.js"></script>
-    <style type="text/css">
-      body {
-        font: 14px sans-serif;
-      }
-      .wrapper {
-        width: 350px; padding: 20px;
-      }
-      a.popup-link {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-      }
-    </style>
-</head>
+  	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
+  	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+  </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="login.php">Login</a></li>
-                <li class="active"><a href="register.php">Sign Up</a></li>
-            </ul>
-            <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
-        </div>
-    </nav>
-    <div class="col-md-6">
-        <h2>Sign Up</h2>
-        <p>Please fill this form to create an account.</p>
-        <p>Welcome to OPEN BETA!</p>
-        <?php if (!$registration_enabled) { echo '<div id="registration-error" style="color: red;">Registration is currently disabled.</div>'; } ?>
-        <form action="register.php" method="post">
-          <div class="form-group">
-            <label>Username</label>
-            <input type="text" name="username" class="form-control">
-          </div>   
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="password" class="form-control">
-          </div>
-          <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Submit">
-            <input type="reset" class="btn btn-default" value="Reset">
-          </div>
-          <p>Already have an account? <a href="login.php">Login here</a>.</p>
-        </form>
-    </div>
+<!-- Navigation -->
+<nav class="top-bar stacked-for-medium">
+  <div class="top-bar-left">
+    <ul class="menu horizontal">
+      <li class="menu-text">YourListOnline</li>
+      <li><a href="https://yourlist.online">Home</a></li>
+      <li><a href="login.php">Login</a></li>
+      <li class="is-active"><a href="register.php">Sign Up</a></li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+    </ul>
+  </div>
+</nav>
+<!-- /Navigation -->
+
+<div class="row column">
+<br>
+<p>Please fill this form to create an account.<br>Welcome to OPEN BETA!</p>
+<?php if (!$registration_enabled) { echo '<div id="registration-error" style="color: red;">Registration is currently disabled.</div>'; } ?>
+<form action="register.php" method="post">
+<div class="medium-5 large-3 cell">
+  <div class="grid-x grid-padding-x">
+    <label>Username</label>
+    <input type="text" name="username" class="form-control">
+  </div>   
+  <div class="grid-x grid-padding-x">
+    <label>Password</label>
+    <input type="password" name="password" class="form-control">
+  </div>
+  <div class="grid-x grid-padding-x">
+    <input type="submit" class="defult-button" value="Submit">
+    <input type="reset" value="Reset">
+  </div>
+  <p>Already have an account? <a href="login.php">Login here</a>.</p>
+</div>
+</form>
+<a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>$(document).foundation();</script>
 </body>
 </html>
