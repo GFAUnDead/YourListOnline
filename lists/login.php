@@ -114,9 +114,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <div class="top-bar stacked-for-medium">
     <div class="top-bar-left">
         <div class="row columns">
-            <ul class="menu">
+            <ul class="menu horizontal">
                 <li class="menu-text">YourListOnline</li>
-                <li><a href="../index.php">Home</a></li>
+                <li><a href="https://yourlist.online">Home</a></li>
                 <li class="is-active"><a href="login.php">Login</a></li>
                 <li><a href="register.php">Sign Up</a></li>
             </ul>
@@ -131,33 +131,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!-- /Navigation -->
 
 <div class="row column">
-    <br>
-    <p>Please fill in your credentials to login.
-    <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.
-    <br>You can also login via Twitch by clicking the button below.</p>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    <div class="medium-5 large-3 cell">
-        <div class="grid-x grid-padding-x">
-            <label>Username</label>
-            <input type="text" name="username" class="medium-6 cell">
-        </div>    
-        <div class="grid-x grid-padding-x">
-            <label>Password</label>
-            <input type="password" name="password" class="medium-6 cell">
-        </div>
-        <div class="grid-x grid-padding-x">
-            <input type="submit" class="defult-button" value="Login">
-            <a href="index.php">Back to Home</a>
-        </div>
-        <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+<br>
+<p>Please fill in your credentials to login.
+<br>If you have signup on the YourStreamingTools website, you can use those same credentials here.
+<br>You can also login via Twitch by clicking the button below.</p>
+<form action="login.php" method="post">
+<div class="medium-5 large-3 cell">
+    <div class="grid-x grid-padding-x">
+        <label>Username</label>
+        <input type="text" name="username" class="medium-6 cell">
+    </div>    
+    <div class="grid-x grid-padding-x">
+        <label>Password</label>
+        <input type="password" name="password" class="medium-6 cell">
     </div>
-    </form>
-    <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
+    <div class="grid-x grid-padding-x">
+        <input type="submit" class="defult-button" value="Login">
+        <a href="https://yourlist.online">Back to Home</a>
+    </div>
+    <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
 </div>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
-    <script>
-      $(document).foundation();
-    </script>
-  </body>
+</form>
+<a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>$(document).foundation();</script>
+</body>
 </html>
