@@ -111,23 +111,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   </head>
 <body>
 <!-- Navigation -->
-<div class="top-bar stacked-for-medium">
-    <div class="top-bar-left">
-        <div class="row columns">
-            <ul class="menu horizontal">
-                <li class="menu-text">YourListOnline</li>
-                <li><a href="https://yourlist.online">Home</a></li>
-                <li class="is-active"><a href="login.php">Login</a></li>
-                <li><a href="register.php">Sign Up</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="top-bar-right">
-        <ul class="menu">
-            <a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></p>
-        </ul>
-    </div>
-</div>
+<nav class="top-bar stacked-for-medium">
+  <div class="top-bar-left">
+    <ul class="menu horizontal">
+      <li class="menu-text">YourListOnline</li>
+      <li><a href="https://yourlist.online">Home</a></li>
+      <li class="is-active"><a href="login.php">Login</a></li>
+      <li><a href="register.php">Sign Up</a></li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+    </ul>
+  </div>
+</nav>
 <!-- /Navigation -->
 
 <div class="row column">
