@@ -99,48 +99,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>YourListOnline - Login</title>
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YourListOnline - HOME</title>
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <style type="text/css">
-        body {
-            font: 14px sans-serif;
-        }
-        .wrapper {
-            width: 350px; padding: 20px;
-        }
-            a.popup-link {
-            text-decoration: none;
-            color: black;
-            cursor: pointer;
-        }
-    </style>
-</head>
+  	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
+  	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+  </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
+<!-- Navigation -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <div class="row columns">
+            <ul class="menu">
+                <li class="menu-text">YourListOnline</li>
+                <li><a href="../index.php">Home</a></li>
+                <li class="is-active"><a href="login.php">Login</a></li>
+                <li><a href="register.php">Sign Up</a></li>
+            </ul>
         </div>
-        <ul class="nav navbar-nav">
-            <li><a href="../index.php">Home</a></li>
-            <li class="active"><a href="login.php">Login</a></li>
-            <li><a href="register.php">Sign Up</a></li>
-        </ul>
-        <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
     </div>
-</nav>
-<div class="col-md-6">
-    <h2>Login</h2>
+</div>
+<!-- /Navigation -->
+
+<div class="row column">
+    <br>
     <p>Please fill in your credentials to login.
-    <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.</p>
+    <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.
+    <br>You can also login via Twitch by clicking the button below.</p>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
             <label>Username</label>
@@ -153,12 +142,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <span class="help-block"><?php echo $password_err; ?></span>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Login">
-            <a href="index.php" class="btn btn-link">Back to Home</a>
+            <input type="submit" class="defult-button" value="Login">
+            <a href="index.php">Back to Home</a>
         </div>
         <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
     </form>
     <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
-</div>    
-</body>
+</div>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
 </html>
