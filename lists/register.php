@@ -122,6 +122,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
 <div class="row column">
 <br>
 <p>Please fill this form to create an account.<br>Welcome to OPEN BETA!</p>
+<p>You can also login via Twitch by clicking the button below.</p>
 <?php if (!$registration_enabled) { echo '<div id="registration-error" style="color: red;">Registration is currently disabled.</div>'; } ?>
 <form action="register.php" method="post">
 <div class="medium-5 large-3 cell">
