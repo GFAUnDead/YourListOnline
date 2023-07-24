@@ -122,6 +122,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </ul>
         </div>
     </div>
+    <div class="top-bar-right">
+        <ul class="menu">
+            <a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></p>
+        </ul>
+    </div>
 </div>
 <!-- /Navigation -->
 
