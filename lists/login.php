@@ -111,7 +111,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   </head>
 <body>
 <!-- Navigation -->
-<div class="top-bar">
+<div class="top-bar stacked-for-medium">
     <div class="top-bar-left">
         <div class="row columns">
             <ul class="menu">
@@ -136,21 +136,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.
     <br>You can also login via Twitch by clicking the button below.</p>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+    <div class="medium-5 large-3 cell">
+        <div class="grid-x grid-padding-x">
             <label>Username</label>
-            <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
-            <span class="help-block"><?php echo $username_err; ?></span>
+            <input type="text" name="username" class="medium-6 cell">
         </div>    
-        <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+        <div class="grid-x grid-padding-x">
             <label>Password</label>
-            <input type="password" name="password" class="form-control">
-            <span class="help-block"><?php echo $password_err; ?></span>
+            <input type="password" name="password" class="medium-6 cell">
         </div>
-        <div class="form-group">
+        <div class="grid-x grid-padding-x">
             <input type="submit" class="defult-button" value="Login">
             <a href="index.php">Back to Home</a>
         </div>
         <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+    </div>
     </form>
     <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
 </div>
