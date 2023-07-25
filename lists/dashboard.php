@@ -65,7 +65,11 @@ if (!$result) {
   </head>
 <body>
 <!-- Navigation -->
-<nav class="top-bar stacked-for-medium">
+<div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+<nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown">
       <li class="menu-text">YourListOnline</li>
@@ -115,6 +119,7 @@ if (!$result) {
 <!-- /Navigation -->
 
 <div class="row column">
+<br>
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
 <br>
 <!-- Category filter dropdown -->
