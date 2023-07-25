@@ -139,11 +139,11 @@ if (!$result) {
   <table>
     <thead>
       <tr>
-        <th width="300">Objective</th>
-        <th width="300">Category</th>
-        <th width="300">Created</th>
-        <th width="300">Last Updated</th>
-        <th width="300">Completed</th>
+        <th>Objective</th>
+        <th width="400">Category</th>
+        <th width="600">Created</th>
+        <th width="600">Last Updated</th>
+        <th width="200">Completed</th>
       </tr>
     </thead>
     <tbody>
