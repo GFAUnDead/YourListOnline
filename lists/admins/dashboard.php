@@ -71,7 +71,11 @@ if ($_SESSION['is_admin'] == 1) {
   </head>
 <body>
 <!-- Navigation -->
-<nav class="top-bar stacked-for-medium">
+<div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+<nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-dropdown-menu data-responsive-menu="drilldown medium-dropdown">
       <li class="menu-text">YourListOnline</li>
