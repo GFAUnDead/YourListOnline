@@ -67,7 +67,7 @@ if (!$result) {
 <!-- Navigation -->
 <nav class="top-bar stacked-for-medium">
   <div class="top-bar-left">
-    <ul class="dropdown vertical medium-horizontal menu" data-dropdown-menu data-responsive-menu="drilldown medium-dropdown">
+    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown">
       <li class="menu-text">YourListOnline</li>
       <li class="is-active"><a href="dashboard.php">Dashboard</a></li>
       <li><a href="insert.php">Add</a></li>
