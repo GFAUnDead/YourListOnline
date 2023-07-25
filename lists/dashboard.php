@@ -78,7 +78,7 @@ if (!$result) {
       <li><a href="remove.php">Remove</a></li>
       <li>
         <a>Update</a>
-        <ul class="vertical menu">
+        <ul class="vertical menu" data-dropdown-menu>
           <li><a href="update_objective.php">Update Objective</a></li>
           <li><a href="update_category.php">Update Objective Category</a></li>
         </ul>
@@ -86,14 +86,14 @@ if (!$result) {
       <li><a href="completed.php">Completed</a></li>
       <li>
         <a>Categories</a>
-        <ul class="vertical menu">
+        <ul class="vertical menu" data-dropdown-menu>
           <li><a href="categories.php">View Categories</a></li>
           <li><a href="add_category.php">Add Category</a></li>
         </ul>
       </li>
       <li>
         <a>Profile</a>
-        <ul class="vertical menu">
+        <ul class="vertical menu" data-dropdown-menu>
 					<li><a href="profile.php">View Profile</a></li>
 					<li><a href="update_profile.php">Update Profile</a></li>
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
@@ -103,8 +103,8 @@ if (!$result) {
       <?php if ($_SESSION['is_admin']) { ?>
         <li>
         <a>Admins</a>
-        <ul class="vertical menu">
-					<li><a href="admins/dashboard.php">Admin Dashboard</a></li>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
         </ul>
       </li>
       <?php } ?>
