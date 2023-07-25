@@ -96,7 +96,7 @@ if ($_SESSION['is_admin'] == 1) {
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
     <?php
-          $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
+          $categories_sql = "SELECT id, category FROM categories";
           $categories_result = mysqli_query($conn, $categories_sql);
 
           while ($category_row = mysqli_fetch_assoc($categories_result)) {
