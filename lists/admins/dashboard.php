@@ -75,41 +75,8 @@ if ($_SESSION['is_admin'] == 1) {
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-dropdown-menu data-responsive-menu="drilldown medium-dropdown">
       <li class="menu-text">YourListOnline</li>
-      <li class="is-active"><a href="dashboard.php">Dashboard</a></li>
-      <li><a href="insert.php">Add</a></li>
-      <li><a href="remove.php">Remove</a></li>
-      <li>
-        <a>Update</a>
-        <ul class="vertical menu">
-          <li><a href="update_objective.php">Update Objective</a></li>
-          <li><a href="update_category.php">Update Objective Category</a></li>
-        </ul>
-      </li>
-      <li><a href="completed.php">Completed</a></li>
-      <li>
-        <a>Categories</a>
-        <ul class="vertical menu">
-          <li><a href="categories.php">View Categories</a></li>
-          <li><a href="add_category.php">Add Category</a></li>
-        </ul>
-      </li>
-      <li>
-        <a>Profile</a>
-        <ul class="vertical menu">
-					<li><a href="profile.php">View Profile</a></li>
-					<li><a href="update_profile.php">Update Profile</a></li>
-          <li><a href="obs_options.php">OBS Viewing Options</a></li>
-          <li><a href="logout.php">Logout</a></li>
-        </ul>
-      </li>
-      <?php if ($_SESSION['is_admin']) { ?>
-        <li>
-        <a>Admins</a>
-        <ul class="vertical menu">
-					<li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-        </ul>
-      </li>
-      <?php } ?>
+      <li><a href="../dashboard.php">User Dashboard</a></li>
+      <li class="is-active"><a href="dashboard.php">Admin Dashboard</a></li>
     </ul>
   </div>
   <div class="top-bar-right">
@@ -145,12 +112,12 @@ if ($_SESSION['is_admin'] == 1) {
 <table>
   <thead>
     <tr>
-      <th width="300">Username</th>
-      <th width="300">Objective</th>
-      <th width="300">Category</th>
-      <th width="300">Created</th>
-      <th width="300">Last Updated</th>
-      <th width="300">Completed</th>
+      <th>Username</th>
+      <th>Objective</th>
+      <th width="400">Category</th>
+      <th width="600">Created</th>
+      <th width="600">Last Updated</th>
+      <th width="200">Completed</th>
     </tr>
   </thead>
   <tbody>
