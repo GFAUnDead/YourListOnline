@@ -71,7 +71,7 @@ if (!$result) {
 </div>
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
-    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown">
+    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
       <li class="menu-text">YourListOnline</li>
       <li class="is-active"><a href="dashboard.php">Dashboard</a></li>
       <li><a href="insert.php">Add</a></li>
