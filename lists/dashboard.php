@@ -122,7 +122,7 @@ if (!$result) {
 <br>
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
 <br>
-<!-- Category filter dropdown -->
+<!-- Category Filter Dropdown -->
 <div class="category-filter">
   <label for="categoryFilter">Filter by Category:</label>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
@@ -140,6 +140,8 @@ if (!$result) {
         ?>
   </select>
 </div>
+<!-- /Category Filter Dropdown -->
+
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
   <table>
     <thead>
