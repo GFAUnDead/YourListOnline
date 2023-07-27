@@ -133,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   document.getElementById("categoryFilter").addEventListener("change", function() {
     var selectedCategoryId = this.value;
     // Redirect to the page with the selected category filter
-    window.location.href = "dashboard.php?category=" + selectedCategoryId;
+    window.location.href = "insert.php?category=" + selectedCategoryId;
   });
 </script>
 </body>
