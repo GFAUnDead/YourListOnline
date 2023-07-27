@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </select>
 </div>
 <!-- /Category Filter Dropdown -->
-
+<div class="row column">
 <h1>Please pick which task to remove from your list:</h1>
 <table>
     <thead>
@@ -188,6 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endwhile; ?>
     </tbody>
 </table>
+</div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
