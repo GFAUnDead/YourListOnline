@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- /Navigation -->
 <div class="row column">
 <br>
-<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <h2>Please pick which row to update on your list:</h2>
 <form method="POST">
