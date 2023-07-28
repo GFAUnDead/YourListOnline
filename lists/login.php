@@ -11,6 +11,17 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 // Include config file
 require_once "db_connect.php";
 
+// Get the current hour in 24-hour format (0-23)
+$currentHour = date('G');
+// Initialize the greeting variable
+$greeting = '';
+// Check if it's before 12 PM (noon)
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
+
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = "";
