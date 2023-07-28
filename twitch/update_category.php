@@ -11,6 +11,17 @@ if (!isset($_SESSION['access_token'])) {
 // Connect to database
 require_once "db_connect.php";
 
+// Get the current hour in 24-hour format (0-23)
+$currentHour = date('G');
+// Initialize the greeting variable
+$greeting = '';
+// Check if it's before 12 PM (noon)
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
+
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
 
@@ -52,89 +63,89 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YourListOnline - Update Objective Category</title>
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <style type="text/css">
-      body {
-        font: 14px sans-serif;
-      }
-      .wrapper {
-        width: 350px; padding: 20px;
-      }
-      a.popup-link {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-      }
-    </style>
-</head>
+  	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
+  	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+  </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="insert.php">Add</a></li>
-            <li><a href="remove.php">Remove</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Objective Category</a></li>
-                </ul>
-            </li>
-            <li><a href="completed.php">Completed</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="categories.php">View Categories</a></li>
-                    <li><a href="add_category.php">Add Category</a></li>
-                </ul>
-            </li>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-			      		<li><a href="profile.php">View Profile</a></li>
-			      		<li><a href="update_profile.php">Update Profile</a></li>
-                        <li><a href="obs_options.php">OBS Viewing Options</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-			      	</ul>
-            </li>
-            <?php if ($is_admin) { ?>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-			      	</ul>
-            </li>
-            <?php } ?>
+<!-- Navigation -->
+<div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+<nav class="top-bar stacked-for-medium" id="mobile-menu">
+  <div class="top-bar-left">
+    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
+      <li class="menu-text">YourListOnline</li>
+      <li><a href="dashboard.php">Dashboard</a></li>
+      <li><a href="insert.php">Add</a></li>
+      <li><a href="remove.php">Remove</a></li>
+      <li>
+        <a>Update</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="update_objective.php">Update Objective</a></li>
+          <li class="is-active"><a href="update_category.php">Update Objective Category</a></li>
         </ul>
-        <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
-    </div>
+      </li>
+      <li><a href="completed.php">Completed</a></li>
+      <li>
+        <a>Categories</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="categories.php">View Categories</a></li>
+          <li><a href="add_category.php">Add Category</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>Profile</a>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="profile.php">View Profile</a></li>
+					<li><a href="update_profile.php">Update Profile</a></li>
+          <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
+      </li>
+      <?php if ($is_admin) { ?>
+        <li>
+        <a>Admins</a>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
+        </ul>
+      </li>
+      <?php } ?>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+    </ul>
+  </div>
 </nav>
-<h1>Welcome, <?php echo $username; ?>!</h1>
-<h1>Please pick which row to update on your list:</h1>
-<table class="table">
+<!-- /Navigation -->
+<div class="row column">
+<br>
+<h1><?php echo "$greeting, $username!"; ?></h1>
+<br>
+<h2>Please pick which row to update on your list:</h2>
+<form method="POST">
+<?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="save-button">Update All</button>'; } ?>
+<?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
+<table>
     <thead>
         <tr>
-            <th>Objective</th>
-            <th>Category</th>
-            <th>Update Category</th>
+            <th width="500">Objective</th>
+            <th width="300">Category</th>
+            <th width="200">Update Category</th>
         </tr>
     </thead>
     <tbody>
-        <form method="POST">
-        <?php foreach ($rows as $row) { ?>
+          <?php foreach ($rows as $row) { ?>
             <tr>
                 <td><?php echo $row['objective']; ?></td>
                 <td>
@@ -164,27 +175,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </td>
             </tr>
         <?php } ?>
-        <tr>
-        <?php
-            // Check if the query succeeded
-            if (!$result) {
-              echo "Error: " . mysqli_error($conn);
-              exit();
-            }
-
-            // Get the number of rows in the result
-            $num_rows = mysqli_num_rows($result);
-
-            // Check if there are any rows to edit
-            if ($num_rows > 0) {
-                echo '<td colspan="3"><button type="submit" name="submit" class="btn btn-primary">Update All</button></td>';
-            } else {
-                echo '<h3 style="color: red;">There are no rows to edit</h3>';
-            }
-        ?>
-        </tr>
         </form>
     </tbody>
 </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>$(document).foundation();</script>
+<script>
+  // JavaScript function to handle the category filter change
+  document.getElementById("categoryFilter").addEventListener("change", function() {
+    var selectedCategoryId = this.value;
+    // Redirect to the page with the selected category filter
+    window.location.href = "update_category.php?category=" + selectedCategoryId;
+  });
+</script>
 </body>
 </html>
