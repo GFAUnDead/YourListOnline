@@ -138,7 +138,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <div class="row column">
 <br>
-<p>Please fill in your credentials to login.
+<p><?php echo "$greeting,"; ?> please fill in your credentials to login.
 <br>If you have signup on the YourStreamingTools website, you can use those same credentials here.
 <br>You can also login via Twitch by clicking the button below.</p>
 <form action="login.php" method="post">
