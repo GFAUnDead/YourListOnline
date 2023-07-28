@@ -121,9 +121,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </thead>
     <tbody>
         <form method="POST">
+        <?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<td colspan="3"><button type="submit" name="submit" class="defult-button">Update All</button></td>'; } ?>
+        <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
         <?php foreach ($rows as $row) { ?>
-          <?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<td colspan="3"><button type="submit" name="submit" class="defult-button">Update All</button></td>'; } ?>
-          <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
             <tr>
                 <td><?php echo $row['objective']; ?></td>
                 <td>
