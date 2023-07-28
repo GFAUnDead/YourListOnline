@@ -111,39 +111,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
 <br>
 <h2>Please pick which row to update on your list:</h2>
+<form method="POST">
+<?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="defult-button">Update All</button>'; } ?>
+<?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
 <table>
-    <thead>
-        <tr>
-            <th width="500">Objective</th>
-            <th width="300">Category</th>
-            <th width="200">Update Objective</th>
-        </tr>
-    </thead>
-    <tbody>
-        <form method="POST">
-        <?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<td colspan="3"><button type="submit" name="submit" class="defult-button">Update All</button></td>'; } ?>
-        <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
-        <?php foreach ($rows as $row) { ?>
-            <tr>
-                <td><?php echo $row['objective']; ?></td>
-                <td>
-                    <?php
-                        $category_id = $row['category'];
-                        $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
-                        $category_result = mysqli_query($conn, $category_sql);
-                        $category_row = mysqli_fetch_assoc($category_result);
-                        echo $category_row['category'];
-                    ?>
-                </td>
-                <td>
-                    <input type="text" name="objective[<?php echo $row['id']; ?>]" class="form-control" value="<?php echo $row['objective']; ?>">
-                </td>
-            </tr>
-        <?php } ?>
-        <tr>
-        </tr>
-        </form>
-    </tbody>
+<thead>
+  <tr>
+      <th width="500">Objective</th>
+      <th width="300">Category</th>
+      <th width="200">Update Objective</th>
+  </tr>
+</thead>
+<tbody>
+  <?php foreach ($rows as $row) { ?>
+    <tr>
+      <td><?php echo $row['objective']; ?></td>
+      <td>
+        <?php
+          $category_id = $row['category'];
+          $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
+          $category_result = mysqli_query($conn, $category_sql);
+          $category_row = mysqli_fetch_assoc($category_result);
+          echo $category_row['category'];
+        ?>
+      </td>
+      <td>
+        <input type="text" name="objective[<?php echo $row['id']; ?>]" class="form-control" value="<?php echo $row['objective']; ?>">
+      </td>
+    </tr>
+  <?php } ?>
+  </form>
+</tbody>
 </table>
 </div>
 
