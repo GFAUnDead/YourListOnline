@@ -106,7 +106,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
       <li class="menu-text">YourListOnline</li>
-      <li class="is-active"><a href="dashboard.php">Dashboard</a></li>
+      <li><a href="dashboard.php">Dashboard</a></li>
       <li><a href="insert.php">Add</a></li>
       <li><a href="remove.php">Remove</a></li>
       <li>
@@ -116,7 +116,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
           <li><a href="update_category.php">Update Objective Category</a></li>
         </ul>
       </li>
-      <li><a href="completed.php">Completed</a></li>
+      <li class="is-active"><a href="completed.php">Completed</a></li>
       <li>
         <a>Categories</a>
         <ul class="vertical menu" data-dropdown-menu>
