@@ -11,6 +11,17 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
+// Get the current hour in 24-hour format (0-23)
+$currentHour = date('G');
+// Initialize the greeting variable
+$greeting = '';
+// Check if it's before 12 PM (noon)
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
+
 // Get categories from database for the logged-in user
 $user_id = $_SESSION['user_id'];
 $query = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
