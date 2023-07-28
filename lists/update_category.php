@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <br>
 <h2>Please pick which row to update on your list:</h2>
 <form method="POST">
-<?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="defult-button">Update All</button>'; } ?>
+<?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="save-button">Update All</button>'; } ?>
 <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
 <table>
     <thead>
