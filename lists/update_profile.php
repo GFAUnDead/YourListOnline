@@ -157,7 +157,7 @@ $conn->close();
             <div>
             <label for="twitch_username">Twitch Username:</label>
             <input type="text" id="twitch_username" name="twitch_username" value="<?php echo $username; ?>">
-            <button class="defult-button" type="submit" name="update_username">Update Username</button>
+            <button class="save-button" type="submit" name="update_username">Update Username</button>
             </div>
             </form>
         </td>
@@ -166,7 +166,7 @@ $conn->close();
             <div><img id="profile-image" src="<?php echo $twitch_profile_image_url; ?>" width="100px" height="100px" alt="New Profile Image"></div>
             <div>
             <input type="hidden" name="twitch_profile_image_url" value="<?php echo $twitch_profile_image_url; ?>">
-            <button class="defult-button" id="update-profile-image-button" name="update_profile_image">Update New Profile Image</button>
+            <button class="save-button" id="update-profile-image-button" name="update_profile_image">Update New Profile Image</button>
             </div>
             </form>
         </td>
