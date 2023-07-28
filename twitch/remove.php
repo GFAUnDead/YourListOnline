@@ -24,7 +24,6 @@ if ($currentHour < 12) {
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
-
 $stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
 $stmt->bind_param("s", $access_token);
 $stmt->execute();
@@ -38,7 +37,6 @@ $is_admin = ($user['is_admin'] == 1);
 $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 // Build the SQL query based on the category filter
-$user_id = $_SESSION['user_id'];
 if ($categoryFilter === 'all') {
   $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
 } else {
