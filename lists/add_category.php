@@ -196,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
     <div class="form-group">
-        <input type="submit" class="defult-button" value="Submit">
+        <input type="submit" class="save-button" value="Submit">
         <a href="categories.php">Cancel</a>
     </div>
 </form>
