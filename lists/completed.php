@@ -150,7 +150,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 <div class="row column">
 <br>
-<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <!-- Category Filter Dropdown -->
 <div class="category-filter">
