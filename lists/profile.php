@@ -92,8 +92,8 @@ if($stmt = $conn->prepare($sql)){
             <li>
                 <a>Profile</a>
                 <ul class="vertical menu" data-dropdown-menu>
-                    <li><a href="profile.php">View Profile</a></li>
-                    <li class="is-active"><a href="update_profile.php">Update Profile</a></li>
+                    <li class="is-active"><a href="profile.php">View Profile</a></li>
+                    <li><a href="update_profile.php">Update Profile</a></li>
                     <li><a href="obs_options.php">OBS Viewing Options</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
