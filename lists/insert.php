@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </select>
   </div>
   <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
-  <button type="submit" class="defult-button">Add</button>
+  <button type="submit" class="save-button">Add</button>
   <a href="dashboard.php">Cancel</a>
 </form>
 </div>
