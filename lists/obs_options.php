@@ -194,7 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group" id="custom-color-group"<?php if ($color !== 'Other') echo ' style="display: none;"'; ?>>
                         <label for="custom_color">Custom Color:</label>
                         <input type="text" name="custom_color" id="custom-color-input" class="form-control">
-            </div>
+                    </div>
                     <div class="form-group">
                         <label for="list">List Type:</label>
                         <select name="list" class="form-control">
@@ -216,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="checkbox" name="bold" value="1" <?php if ($bold) echo 'checked'; ?>>
                     </div>
                     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                    <input type="submit" value="Save" class="btn btn-primary">
+                    <input type="submit" value="Save" class="save-button">
             </form>
         </td>
     </tr>
