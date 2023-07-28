@@ -132,15 +132,12 @@ if($stmt = $conn->prepare($sql)){
     <br><br>
     <?php if ($_SESSION['is_admin']) { ?><a href="change_password.php" class="defult-button">Change Password</a><br><br><?php } ?>
     <a href="logout.php" class="logout-button">Logout</a>
-</div
-<!-- Include jQuery first -->
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script
-<!-- Include your profile.js script next -->
+</div>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.yourlist.online/js/profile.js"></script>
 <script src="https://cdn.yourlist.online/js/about.js" defer></script>
 <script src="https://cdn.yourlist.online/js/obsbutton.js" defer></script>
-<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script
-<!-- Initialize Foundation at the end -->
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>$(document).foundation();</script>
 </body>
 </html>
