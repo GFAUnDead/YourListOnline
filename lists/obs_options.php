@@ -154,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="row column">
 <br>
-<h1><?php echo "<h1>$greeting, $username!</h1>"; ?></h1>
+<h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <h3>Font & Color Settings:</h3>
 <?php if ($font !== '' || $color !== '') { ?>
