@@ -178,26 +178,26 @@ if (empty($current_password_err) && empty($new_password_err) && empty($confirm_p
     </div>
 </nav>
 <div class="col-md-6">
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <h2>Change Your Password</h2>
-    <?php if (isset($error_message)) { ?>
-        <div class="alert alert-danger"><?php echo $error_message; ?></div>
-    <?php } ?>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <div class="form-group">
-            <label for="current_password">Current Password:</label>
-            <input type="password" class="form-control" id="current_password" name="current_password" required>
-        </div>
-        <div class="form-group">
-            <label for="new_password">New Password:</label>
-            <input type="password" class="form-control" id="new_password" name="new_password" required>
-        </div>
-        <div class="form-group">
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+<h1><?php echo "$greeting, $username!"; ?></h1>
+<h2>Change Your Password</h2>
+<?php if (isset($error_message)) { ?>
+    <div class="alert alert-danger"><?php echo $error_message; ?></div>
+<?php } ?>
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <div class="form-group">
+        <label for="current_password">Current Password:</label>
+        <input type="password" class="form-control" id="current_password" name="current_password" required>
+    </div>
+    <div class="form-group">
+        <label for="new_password">New Password:</label>
+        <input type="password" class="form-control" id="new_password" name="new_password" required>
+    </div>
+    <div class="form-group">
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
 </div>
 </body>
 </html>
