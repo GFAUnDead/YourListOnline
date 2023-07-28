@@ -1,7 +1,4 @@
 <?php
-// Require database connection
-require_once "db_connect.php";
-
 // Initialize the session
 session_start();
 
@@ -11,6 +8,8 @@ if (!isset($_SESSION['loggedin'])) {
     exit();
 }
 
+// Require database connection
+require_once "db_connect.php";
 // Fetch the user's data from the database
 $user_id = $_SESSION['user_id'];
 $username = $_SESSION['username'];
