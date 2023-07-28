@@ -32,31 +32,20 @@ $current_password_err = $new_password_err = $confirm_password_err = "";
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    // Validate current password
-    if (empty(trim($_POST["current_password"]))) {
-        $current_password_err = "Please enter your current password.";
-    } else {
-        $current_password = trim($_POST["current_password"]);
-    }
-
-    // Validate new password
-    if (empty(trim($_POST["new_password"]))) {
-        $new_password_err = "Please enter a new password.";
-    } elseif (strlen(trim($_POST["new_password"])) < 8) {
-        $new_password_err = "Password must have at least 8 characters.";
-    } else {
-        $new_password = trim($_POST["new_password"]);
-    }
-
-    // Validate confirm password
-    if (empty(trim($_POST["confirm_password"]))) {
-        $confirm_password_err = "Please confirm the new password.";
-    } else {
-        $confirm_password = trim($_POST["confirm_password"]);
-        if (empty($new_password_err) && ($new_password !== $confirm_password)) {
-            $confirm_password_err = "Passwords do not match.";
-        }
-    }
+// Validate current password
+if (empty(trim($_POST["current_password"]))) {
+    $current_password_err = "Please enter your current password.";
+} else {
+    $current_password = trim($_POST["current_password"]);
+}
+// Validate new password
+if (empty(trim($_POST["new_password"]))) {
+    $new_password_err = "Please enter a new password.";
+} elseif (strlen(trim($_POST["new_password"])) < 8) {
+    $new_password_err = "Password must have at least 8 characters.";
+} else {
+    $new_password = trim($_POST["new_password"]);
+}
 
 // Check input errors before updating the database
 if (empty($current_password_err) && empty($new_password_err) && empty($confirm_password_err)) {
@@ -116,91 +105,103 @@ if (empty($current_password_err) && empty($new_password_err) && empty($confirm_p
 }
 ?>
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YourListOnline - Change Password</title>
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <style type="text/css">
-      a.popup-link {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-      }
-    </style>
-</head>
+  	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
+  	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+  </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="insert.php">Add</a></li>
-            <li><a href="remove.php">Remove</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Objective Category</a></li>
-                </ul>
-            </li>
-            <li><a href="completed.php">Completed</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="categories.php">View Categories</a></li>
-                    <li><a href="add_category.php">Add Category</a></li>
-                </ul>
-            </li>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-			      		<li><a href="profile.php">View Profile</a></li>
-			      		<li><a href="update_profile.php">Update Profile</a></li>
-                        <li><a href="obs_options.php">OBS Viewing Options</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-			      	</ul>
-            </li>
-            <?php if ($_SESSION['is_admin']) { ?>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-			      	</ul>
-            </li>
-            <?php } ?>
+<!-- Navigation -->
+<div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+<nav class="top-bar stacked-for-medium" id="mobile-menu">
+  <div class="top-bar-left">
+    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
+      <li class="menu-text">YourListOnline</li>
+      <li><a href="dashboard.php">Dashboard</a></li>
+      <li><a href="insert.php">Add</a></li>
+      <li><a href="remove.php">Remove</a></li>
+      <li>
+        <a>Update</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="update_objective.php">Update Objective</a></li>
+          <li><a href="update_category.php">Update Objective Category</a></li>
         </ul>
-        <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
-    </div>
+      </li>
+      <li><a href="completed.php">Completed</a></li>
+      <li>
+        <a>Categories</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="categories.php">View Categories</a></li>
+          <li class="is-active"><a href="add_category.php">Add Category</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>Profile</a>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="profile.php">View Profile</a></li>
+					<li><a href="update_profile.php">Update Profile</a></li>
+          <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
+      </li>
+      <?php if ($_SESSION['is_admin']) { ?>
+        <li>
+        <a>Admins</a>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
+        </ul>
+      </li>
+      <?php } ?>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+    </ul>
+  </div>
 </nav>
-<div class="col-md-6">
+<!-- /Navigation -->
+
+<div class="row column">
+<br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
-<h2>Change Your Password</h2>
+<br>
+<h3>Change Your Password</h3>
 <?php if (isset($error_message)) { ?>
     <div class="alert alert-danger"><?php echo $error_message; ?></div>
 <?php } ?>
 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <div class="form-group">
+    <div class="medium-5 large-5 cell">
         <label for="current_password">Current Password:</label>
         <input type="password" class="form-control" id="current_password" name="current_password" required>
     </div>
-    <div class="form-group">
+    <div class="medium-5 large-5 cell">
         <label for="new_password">New Password:</label>
         <input type="password" class="form-control" id="new_password" name="new_password" required>
     </div>
-    <div class="form-group">
-        <label for="confirm_password">Confirm Password:</label>
-        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="defult-button">Submit</button>
 </form>
 </div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>$(document).foundation();</script>
+<script>
+  // JavaScript function to handle the category filter change
+  document.getElementById("categoryFilter").addEventListener("change", function() {
+    var selectedCategoryId = this.value;
+    // Redirect to the page with the selected category filter
+    window.location.href = "dashboard.php?category=" + selectedCategoryId;
+  });
+</script>
 </body>
 </html>
