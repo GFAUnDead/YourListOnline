@@ -9,7 +9,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 } 
 
 // Require database connection
-require_once "db_connect.php"
+require_once "db_connect.php";
+// Fetch the user's data from the database
+$user_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
