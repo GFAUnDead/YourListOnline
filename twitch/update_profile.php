@@ -117,7 +117,7 @@ $conn->close();
         <li><a href="logout.php">Logout</a></li>
         </ul>
       </li>
-      <?php if ($_SESSION['is_admin']) { ?>
+      <?php if ($is_admin) { ?>
         <li>
         <a>Admins</a>
         <ul class="vertical menu" data-dropdown-menu>
