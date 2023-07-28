@@ -121,10 +121,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </thead>
     <tbody>
         <form method="POST">
-        <?php foreach ($rows as $row) { 
-            if ($num_rows > 0) {
-                echo '<td colspan="3"><button type="submit" name="submit" class="btn btn-primary">Update All</button></td>';
-            } ?>
+        <?php foreach ($rows as $row) { ?>
+          <?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<td colspan="3"><button type="submit" name="submit" class="defult-button">Update All</button></td>'; } ?>
+          <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
             <tr>
                 <td><?php echo $row['objective']; ?></td>
                 <td>
@@ -155,21 +154,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tr>
         <?php } ?>
         <tr>
-        <?php
-            // Check if the query succeeded
-            if (!$result) {
-              echo "Error: " . mysqli_error($conn);
-              exit();
-            }
-
-            // Get the number of rows in the result
-            $num_rows = mysqli_num_rows($result);
-
-            // Check if there are any rows to edit
-            if ($num_rows < 1) {
-                echo '<h3 style="color: red;">There are no rows to edit</h3>';
-            }
-        ?>
         </tr>
         </form>
     </tbody>
