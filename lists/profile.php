@@ -6,46 +6,44 @@ session_start();
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
+} 
+
+// Require database connection
+require_once "db_connect.php"
+
+// Get the current hour in 24-hour format (0-23)
+$currentHour = date('G');
+// Initialize the greeting variable
+$greeting = '';
+// Check if it's before 12 PM (noon)
+if ($currentHour < 12) {
+    $greeting = "Good morning";
 } else {
-    // Require database connection
-    require_once "db_connect.php";
+    $greeting = "Good afternoon";
+}
 
-    // Get the current hour in 24-hour format (0-23)
-    $currentHour = date('G');
-
-    // Initialize the greeting variable
-    $greeting = '';
-
-    // Check if it's before 12 PM (noon)
-    if ($currentHour < 12) {
-        $greeting = "Good morning";
-    } else {
-        $greeting = "Good afternoon";
-    }
-
-    // Get user information from the database
-    $user_id = $_SESSION['user_id'];
-    $sql = "SELECT username, signup_date, last_login, api_key, profile_image FROM users WHERE id = ?";
-    if($stmt = $conn->prepare($sql)){
-        $stmt->bind_param("i", $user_id);
-        if($stmt->execute()){
-            $stmt->store_result();
-            if($stmt->num_rows == 1){
-                $stmt->bind_result($username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
-                $stmt->fetch();
-                $_SESSION['username'] = $username;
-                $_SESSION['signup_date'] = $signup_date;
-                $_SESSION['last_login'] = $last_login;
-                $_SESSION['api_key'] = $api_key;
-                $_SESSION['profile_image'] = $twitch_profile_image_url;
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-                exit;
-            }
+// Get user information from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT username, signup_date, last_login, api_key, profile_image FROM users WHERE id = ?";
+if($stmt = $conn->prepare($sql)){
+    $stmt->bind_param("i", $user_id);
+    if($stmt->execute()){
+        $stmt->store_result();
+        if($stmt->num_rows == 1){
+            $stmt->bind_result($username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
+            $stmt->fetch();
+            $_SESSION['username'] = $username;
+            $_SESSION['signup_date'] = $signup_date;
+            $_SESSION['last_login'] = $last_login;
+            $_SESSION['api_key'] = $api_key;
+            $_SESSION['profile_image'] = $twitch_profile_image_url;
         } else {
             echo "Oops! Something went wrong. Please try again later.";
             exit;
         }
+    } else {
+        echo "Oops! Something went wrong. Please try again later.";
+        exit;
     }
 }
 ?>
