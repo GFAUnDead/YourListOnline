@@ -100,7 +100,7 @@ if (!$result) {
 
 <div class="row column">
 <br>
-<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <p>Here is the current list of categories you can filter your lists in, each category is it's own list.<br>
    The categories in this list are either created by you or publicly accessible.</p>
