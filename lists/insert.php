@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="row column">
 <br>
-<h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
+<h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <form method="post">
 <h3>Please enter your task to add it to your list:</h3>
