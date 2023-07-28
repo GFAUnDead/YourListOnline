@@ -199,7 +199,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
             <td>
                 <form method="post" action="completed.php">
                     <input type="hidden" name="task_id" value="<?php echo $row['id']; ?>">
-                    <button type="submit" class="defult-button">Mark as Completed</button>
+                    <button type="submit" class="save-button">Mark as Completed</button>
                 </form>
             </td>
         </tr>
