@@ -13,6 +13,20 @@ if (!isset($_SESSION['loggedin'])) {
 
 // Fetch the user's data from the database
 $user_id = $_SESSION['user_id'];
+$username = $_SESSION['username'];
+
+// Get the current hour in 24-hour format (0-23)
+$currentHour = date('G');
+
+// Initialize the greeting variable
+$greeting = '';
+
+// Check if it's before 12 PM (noon)
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
 
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
@@ -74,171 +88,163 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YourListOnline - OBS Viewing Options</title>
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <script src="https://cdn.yourlist.online/js/obsbutton.js"></script>
-    <script src="https://cdn.yourlist.online/js/profile.js"></script>
-    <style type="text/css">
-        body {
-            font: 14px sans-serif;
-        }
-        .wrapper {
-            width: 350px; padding: 20px;
-        }
-        a.popup-link {
-            text-decoration: none;
-            color: black;
-            cursor: pointer;
-        }
-    </style>
-</head>
+  	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
+  	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+  </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="insert.php">Add</a></li>
-            <li><a href="remove.php">Remove</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Objective Category</a></li>
-                </ul>
-            </li>
-            <li><a href="completed.php">Completed</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="categories.php">View Categories</a></li>
-                    <li><a href="add_category.php">Add Category</a></li>
-                </ul>
-            </li>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-			      		<li><a href="profile.php">View Profile</a></li>
-			      		<li><a href="update_profile.php">Update Profile</a></li>
-                        <li class="active"><a href="obs_options.php">OBS Viewing Options</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-			      	</ul>
-            </li>
-            <?php if ($_SESSION['is_admin']) { ?>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-			      	</ul>
-            </li>
-            <?php } ?>
+<!-- Navigation -->
+<div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
+  <div class="title-bar-title">Menu</div>
+</div>
+<nav class="top-bar stacked-for-medium" id="mobile-menu">
+  <div class="top-bar-left">
+    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
+      <li class="menu-text">YourListOnline</li>
+      <li><a href="dashboard.php">Dashboard</a></li>
+      <li><a href="insert.php">Add</a></li>
+      <li><a href="remove.php">Remove</a></li>
+      <li>
+        <a>Update</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="update_objective.php">Update Objective</a></li>
+          <li><a href="update_category.php">Update Objective Category</a></li>
         </ul>
-        <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
-    </div>
+      </li>
+      <li><a href="completed.php">Completed</a></li>
+      <li>
+        <a>Categories</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="categories.php">View Categories</a></li>
+          <li><a href="add_category.php">Add Category</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>Profile</a>
+        <ul class="vertical menu" data-dropdown-menu>
+			<li><a href="profile.php">View Profile</a></li>
+		    <li class="is-active"><a href="update_profile.php">Update Profile</a></li>
+            <li><a href="obs_options.php">OBS Viewing Options</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+      </li>
+      <?php if ($_SESSION['is_admin']) { ?>
+        <li>
+        <a>Admins</a>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
+        </ul>
+      </li>
+      <?php } ?>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+    </ul>
+  </div>
 </nav>
-<div class="col-md-6">
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <h1>Font & Color Settings:</h1>
-    <button class="btn btn-primary" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
-    <br><br>
-    <?php if ($font !== '' || $color !== '') { ?>
-    <table class="table">
-        <tr>
-            <th style="width: 15%; height: 20%;">Setting</th>
-            <th style="width: 25%; height: 20%;">Value</th>
-            <th style="width: 60%;">Update</th>
-        </tr>
-        <tr>
-            <td>Font</td>
-            <td><?php echo $font; ?></td>
-            <td rowspan="6">
-                <form method="post">
+<!-- /Navigation -->
+
+<div class="row column">
+<br>
+<h1><?php echo "<h1>$greeting, $username!</h1>"; ?></h1>
+<br>
+<h3>Font & Color Settings:</h3>
+<?php if ($font !== '' || $color !== '') { ?>
+<table>
+    <tr>
+        <th style="width: 15%; height: 20%;">Setting</th>
+        <th style="width: 25%; height: 20%;">Value</th>
+        <th style="width: 60%;">Update</th>
+    </tr>
+    <tr>
+        <td>Font</td>
+        <td><?php echo $font; ?></td>
+        <td rowspan="6">
+            <form method="post">
+                <div class="form-group">
+                    <label for="font">Font:</label>
+                    <select name="font" class="form-control">
+                        <!-- Font options -->
+                        <option value="Arial"<?php if ($font === 'Arial') echo ' selected'; ?>>Arial</option>
+                        <option value="Arial Narrow"<?php if ($font === 'Arial Narrow') echo ' selected'; ?>>Arial Narrow</option>
+                        <option value="Verdana"<?php if ($font === 'Verdana') echo ' selected'; ?>>Verdana</option>
+                        <option value="Times New Roman"<?php if ($font === 'Times New Roman') echo ' selected'; ?>>Times New Roman</option>
+                    </select>
+                    <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
+                </div>
+                <div class="form-group">
+                    <label for="color">Color:</label>
+                    <select name="color" id="color-select" class="form-control">
+                        <!-- Color options -->
+                        <option value="Black"<?php if ($color === 'Black') echo ' selected'; ?>>Black</option>
+                        <option value="White"<?php if ($color === 'White') echo ' selected'; ?>>White</option>
+                        <option value="Red"<?php if ($color === 'Red') echo ' selected'; ?>>Red</option>
+                        <option value="Blue"<?php if ($color === 'Blue') echo ' selected'; ?>>Blue</option>
+                        <option value="Other"<?php if ($color === 'Other') echo ' selected'; ?>>Other</option>
+                    </select>
+                    <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
+                    </div>
+                    <div class="form-group" id="custom-color-group"<?php if ($color !== 'Other') echo ' style="display: none;"'; ?>>
+                        <label for="custom_color">Custom Color:</label>
+                        <input type="text" name="custom_color" id="custom-color-input" class="form-control">
+            </div>
                     <div class="form-group">
-                        <label for="font">Font:</label>
-                        <select name="font" class="form-control">
-                            <!-- Font options -->
-                            <option value="Arial"<?php if ($font === 'Arial') echo ' selected'; ?>>Arial</option>
-                            <option value="Arial Narrow"<?php if ($font === 'Arial Narrow') echo ' selected'; ?>>Arial Narrow</option>
-                            <option value="Verdana"<?php if ($font === 'Verdana') echo ' selected'; ?>>Verdana</option>
-                            <option value="Times New Roman"<?php if ($font === 'Times New Roman') echo ' selected'; ?>>Times New Roman</option>
+                        <label for="list">List Type:</label>
+                        <select name="list" class="form-control">
+                            <!-- List type options -->
+                            <option value="Bullet"<?php if ($list === 'Bullet') echo ' selected'; ?>>Bullet List</option>
+                            <option value="Numbered"<?php if ($list === 'Numbered') echo ' selected'; ?>>Numbered List</option>
                         </select>
-                        <?php if ($font === '') echo '<p class="text-danger">Please select a font.</p>'; ?>
                     </div>
                     <div class="form-group">
-                        <label for="color">Color:</label>
-                        <select name="color" id="color-select" class="form-control">
-                            <!-- Color options -->
-                            <option value="Black"<?php if ($color === 'Black') echo ' selected'; ?>>Black</option>
-                            <option value="White"<?php if ($color === 'White') echo ' selected'; ?>>White</option>
-                            <option value="Red"<?php if ($color === 'Red') echo ' selected'; ?>>Red</option>
-                            <option value="Blue"<?php if ($color === 'Blue') echo ' selected'; ?>>Blue</option>
-                            <option value="Other"<?php if ($color === 'Other') echo ' selected'; ?>>Other</option>
-                        </select>
-                        <?php if ($color === '') echo '<p class="text-danger">Please select a color.</p>'; ?>
-                        </div>
-                        <div class="form-group" id="custom-color-group"<?php if ($color !== 'Other') echo ' style="display: none;"'; ?>>
-                            <label for="custom_color">Custom Color:</label>
-                            <input type="text" name="custom_color" id="custom-color-input" class="form-control">
-                </div>
-                        <div class="form-group">
-                            <label for="list">List Type:</label>
-                            <select name="list" class="form-control">
-                                <!-- List type options -->
-                                <option value="Bullet"<?php if ($list === 'Bullet') echo ' selected'; ?>>Bullet List</option>
-                                <option value="Numbered"<?php if ($list === 'Numbered') echo ' selected'; ?>>Numbered List</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="font_size">Font Size:</label>
-                            <input type="text" name="font_size" value="<?php echo $font_size; ?>" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="shadow">Text Shadow:</label>
-                            <input type="checkbox" name="shadow" value="1" <?php if ($shadow) echo 'checked'; ?>>
-                        </div>
-                        <div class="form-group">
-                            <label for="bold">Text Bold:</label>
-                            <input type="checkbox" name="bold" value="1" <?php if ($bold) echo 'checked'; ?>>
-                        </div>
-                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                        <input type="submit" value="Save" class="btn btn-primary">
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Color</td>
-            <td><?php echo $color; ?></td>
-        </tr>
-        <tr>
-            <td>List Type</td>
-            <td><?php echo $list; ?></td>
-        </tr>
-        <tr>
-            <td>Text Shadow</td>
-            <td><?php echo $shadow ? 'Enabled' : 'Disabled'; ?></td>
-        </tr>
-        <tr>
-            <td>Text Bold</td>
-            <td><?php echo $bold ? 'Enabled' : 'Disabled'; ?></td>
-        </tr>
-        <tr>
-            <td>Font Size</td>
-            <td><?php echo $font_size; ?>px</td>
-        </tr>
-    </table>
-    <?php } else { 
-        echo 'No font and color settings have been set.';
-    } ?>
+                        <label for="font_size">Font Size:</label>
+                        <input type="text" name="font_size" value="<?php echo $font_size; ?>" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="shadow">Text Shadow:</label>
+                        <input type="checkbox" name="shadow" value="1" <?php if ($shadow) echo 'checked'; ?>>
+                    </div>
+                    <div class="form-group">
+                        <label for="bold">Text Bold:</label>
+                        <input type="checkbox" name="bold" value="1" <?php if ($bold) echo 'checked'; ?>>
+                    </div>
+                    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                    <input type="submit" value="Save" class="btn btn-primary">
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>Color</td>
+        <td><?php echo $color; ?></td>
+    </tr>
+    <tr>
+        <td>List Type</td>
+        <td><?php echo $list; ?></td>
+    </tr>
+    <tr>
+        <td>Text Shadow</td>
+        <td><?php echo $shadow ? 'Enabled' : 'Disabled'; ?></td>
+    </tr>
+    <tr>
+        <td>Text Bold</td>
+        <td><?php echo $bold ? 'Enabled' : 'Disabled'; ?></td>
+    </tr>
+    <tr>
+        <td>Font Size</td>
+        <td><?php echo $font_size; ?>px</td>
+    </tr>
+</table>
+<?php } else { echo 'No font and color settings have been set.'; } ?>
 </div>
 <script>
     // Get references to the select element and custom color group
@@ -254,5 +260,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     });
 </script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>$(document).foundation();</script>
 </body>
 </html>
