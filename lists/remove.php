@@ -195,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <td>
                     <form method="POST">
                         <input type="hidden" name="todo_id" value="<?= $row['id'] ?>">
-                        <button type="submit">Remove</button>
+                        <button type="submit" class="save-button">Remove</button>
                     </form>
                 </td>
             </tr>
