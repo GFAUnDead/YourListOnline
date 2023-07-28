@@ -111,6 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
 <br>
 <h2>Please pick which row to update on your list:</h2>
+<form method="POST">
+<?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="defult-button">Update All</button>'; } ?>
+<?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
 <table>
     <thead>
         <tr>
@@ -120,9 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </tr>
     </thead>
     <tbody>
-        <form method="POST">
-        <?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<td colspan="3"><button type="submit" name="submit" class="defult-button">Update All</button></td>'; } ?>
-        <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
           <?php foreach ($rows as $row) { ?>
             <tr>
                 <td><?php echo $row['objective']; ?></td>
@@ -153,8 +153,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </td>
             </tr>
         <?php } ?>
-        <tr>
-        </tr>
         </form>
     </tbody>
 </table>
