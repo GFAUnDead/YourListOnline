@@ -11,10 +11,6 @@ if (!isset($_SESSION['access_token'])) {
 // Connect to database
 require_once "db_connect.php";
 
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
-
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
 // Initialize the greeting variable
@@ -28,7 +24,6 @@ if ($currentHour < 12) {
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
-
 $stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
 $stmt->bind_param("s", $access_token);
 $stmt->execute();
@@ -143,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       ?>
     </select>
   </div>
-  <input type="hidden" name="user_id" value="<?php echo $_SESSION["user_id"]; ?>">
+  <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
   <button type="submit" class="save-button">Add</button>
   <a href="dashboard.php">Cancel</a>
 </form>
