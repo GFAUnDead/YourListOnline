@@ -33,6 +33,7 @@ $username = $user_data['username'];
 $signup_date = $user_data['signup_date'];
 $last_login = $user_data['last_login'];
 $api_key = $user_data['api_key'];
+$change_password = $user_data['change_password'];
 $twitch_profile_image_url = $user_data['profile_image'];
 
 ?>
@@ -81,6 +82,7 @@ $twitch_profile_image_url = $user_data['profile_image'];
                     <li class="is-active"><a href="profile.php">View Profile</a></li>
                     <li><a href="update_profile.php">Update Profile</a></li>
                     <li><a href="obs_options.php">OBS Viewing Options</a></li>
+                    <?php if ($change_password) { ?> <li><a href="change_password.php">Change Password</a></li>  <?php } ?>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </li>
@@ -116,7 +118,7 @@ $twitch_profile_image_url = $user_data['profile_image'];
     <br><br>
     <button class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <?php if ($is_admin) { ?><a href="change_password.php" class="defult-button">Change Password</a><br><br><?php } ?>
+    <?php if ($change_password) { ?><a href="change_password.php" class="defult-button">Change Password</a><br><br><?php } ?>
     <a href="logout.php" class="logout-button">Logout</a>
 </div>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
