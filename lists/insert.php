@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					<li><a href="profile.php">View Profile</a></li>
 					<li><a href="update_profile.php">Update Profile</a></li>
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
-          <?php if ($change_password) { ?> <li><a href="change_password.php">Change Password</a></li>  <?php } ?>
+          <?php if ($change_password) { ?><li><a href="change_password.php">Change Password</a></li><?php } ?>
           <li><a href="logout.php">Logout</a></li>
         </ul>
       </li>
