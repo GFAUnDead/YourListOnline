@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Initialize the session
 session_start();
@@ -10,9 +11,6 @@ if (!isset($_SESSION['loggedin'])) {
 
 // Require database connection
 require_once "db_connect.php";
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
@@ -25,8 +23,14 @@ if ($currentHour < 12) {
     $greeting = "Good afternoon";
 }
 
-// Get user's incomplete tasks
+// Get user information from the database
 $user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+$user_data = mysqli_fetch_assoc($result);
+$is_admin = $user_data['is_admin'];
+$username = $user_data['username'];
+$change_password = $user_data['change_password'];
 
 // Check if a specific category is selected
 if (isset($_GET['category'])) {
@@ -50,24 +54,9 @@ while ($row = $result->fetch_assoc()) {
     $incompleteTasks[] = $row;
 }
 
-// Get user data
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$user_data = $result->fetch_assoc();
-$stmt->close();
-
-// Set is_admin session variable
-$_SESSION['is_admin'] = $user_data['is_admin'];
-
 // Mark task as completed
 if (isset($_POST['task_id'])) {
     $task_id = $_POST['task_id'];
-    $user_id = $_SESSION['user_id'];
-
     $sql = "UPDATE todos SET completed = 'Yes' WHERE id = ? AND user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ii", $task_id, $user_id);
@@ -130,10 +119,11 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 					<li><a href="profile.php">View Profile</a></li>
 					<li><a href="update_profile.php">Update Profile</a></li>
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <?php if ($change_password) { ?> <li><a href="change_password.php">Change Password</a></li>  <?php } ?>
           <li><a href="logout.php">Logout</a></li>
         </ul>
       </li>
-      <?php if ($_SESSION['is_admin']) { ?>
+      <?php if ($is_admin) { ?>
         <li>
         <a>Admins</a>
         <ul class="vertical menu" data-dropdown-menu>
