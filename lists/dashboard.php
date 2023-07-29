@@ -23,21 +23,21 @@ if ($currentHour < 12) {
     $greeting = "Good afternoon";
 }
 
-// Fetch the user's data from the database
+
+// Get user information from the database
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
 $result = mysqli_query($conn, $sql);
+$user_data = mysqli_fetch_assoc($result);
+$is_admin = $user_data['is_admin'];
+$username = $user_data['username'];
+$change_password = $user_data['change_password'];
 
 // Check if the query succeeded
 if (!$result) {
   echo "Error: " . mysqli_error($conn);
   exit();
 }
-
-// Get the user's data from the query result
-$user_data = mysqli_fetch_assoc($result);
-$is_admin = $user_data['is_admin'];
-$username = $user_data['username'];
 
 // Get the selected category filter, default to "all" if not provided
 $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
@@ -102,9 +102,10 @@ if (!$result) {
       <li>
         <a>Profile</a>
         <ul class="vertical menu" data-dropdown-menu>
-					<li><a href="profile.php">View Profile</a></li>
-					<li><a href="update_profile.php">Update Profile</a></li>
+          <li><a href="profile.php">View Profile</a></li>
+          <li><a href="update_profile.php">Update Profile</a></li>
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <?php if ($change_password) { ?><li><a href="change_password.php">Change Password</a></li><?php } ?>
           <li><a href="logout.php">Logout</a></li>
         </ul>
       </li><!-- <?php echo "Is admin= '$is_admin'" ?> -->
