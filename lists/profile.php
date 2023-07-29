@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Initialize the session
 session_start();
@@ -10,9 +11,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 // Require database connection
 require_once "db_connect.php";
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
@@ -27,28 +25,16 @@ if ($currentHour < 12) {
 
 // Get user information from the database
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT username, signup_date, last_login, api_key, profile_image FROM users WHERE id = ?";
-if($stmt = $conn->prepare($sql)){
-    $stmt->bind_param("i", $user_id);
-    if($stmt->execute()){
-        $stmt->store_result();
-        if($stmt->num_rows == 1){
-            $stmt->bind_result($username, $signup_date, $last_login, $api_key, $twitch_profile_image_url);
-            $stmt->fetch();
-            $_SESSION['username'] = $username;
-            $_SESSION['signup_date'] = $signup_date;
-            $_SESSION['last_login'] = $last_login;
-            $_SESSION['api_key'] = $api_key;
-            $_SESSION['profile_image'] = $twitch_profile_image_url;
-        } else {
-            echo "Oops! Something went wrong. Please try again later.";
-            exit;
-        }
-    } else {
-        echo "Oops! Something went wrong. Please try again later.";
-        exit;
-    }
-}
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+$user_data = mysqli_fetch_assoc($result);
+$is_admin = $user_data['is_admin'];
+$username = $user_data['username'];
+$signup_date = $user_data['signup_date'];
+$last_login = $user_data['last_login'];
+$api_key = $user_data['api_key'];
+$twitch_profile_image_url = $user_data['profile_image'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +84,7 @@ if($stmt = $conn->prepare($sql)){
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </li>
-            <?php if ($_SESSION['is_admin']) { ?>
+            <?php if ($is_admin) { ?>
             <li>
                 <a>Admins</a>
                 <ul class="vertical menu" data-dropdown-menu>
@@ -121,16 +107,16 @@ if($stmt = $conn->prepare($sql)){
     <h2>Your Profile</h2>
     <img src="<?php echo $twitch_profile_image_url; ?>" width="150px" height="150px" alt="Twitch Profile Image for <?php echo $username; ?>">
     <br><br>
-    <p><strong>Your Username:</strong> <?php echo $_SESSION['username']; ?></p>
-    <p><strong>You Joined:</strong> <?php echo date('F j, Y', strtotime($_SESSION['signup_date'])); ?> (AET)</p>
-    <p><strong>Your Last Login:</strong> <?php echo date('F j, Y', strtotime($_SESSION['last_login'])); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
-    <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $_SESSION['api_key']; ?></span></p>
+    <p><strong>Your Username:</strong> <?php echo $username; ?></p>
+    <p><strong>You Joined:</strong> <?php echo date('F j, Y', strtotime($signup_date)); ?> (AET)</p>
+    <p><strong>Your Last Login:</strong> <?php echo date('F j, Y', strtotime($last_login)); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
+    <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
     <button type="button" class="defult-button" id="hide-api-key" style="display:none;">Hide API Key</button>
     <br><br>
     <button class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <?php if ($_SESSION['is_admin']) { ?><a href="change_password.php" class="defult-button">Change Password</a><br><br><?php } ?>
+    <?php if ($is_admin) { ?><a href="change_password.php" class="defult-button">Change Password</a><br><br><?php } ?>
     <a href="logout.php" class="logout-button">Logout</a>
 </div>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
