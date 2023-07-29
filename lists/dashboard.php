@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Start session
 session_start();
@@ -10,9 +11,6 @@ if (!isset($_SESSION['loggedin'])) {
 
 // Require database connection
 require_once "db_connect.php";
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
@@ -38,12 +36,8 @@ if (!$result) {
 
 // Get the user's data from the query result
 $user_data = mysqli_fetch_assoc($result);
-
-// Store the user's data in the $_SESSION variable
-$_SESSION['user_data'] = $user_data;
-
-// Set the is_admin flag in the $_SESSION variable
-$_SESSION['is_admin'] = $user_data['is_admin'];
+$is_admin = $user_data['is_admin'];
+$username = $user_data['username'];
 
 // Get the selected category filter, default to "all" if not provided
 $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
@@ -113,8 +107,8 @@ if (!$result) {
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
           <li><a href="logout.php">Logout</a></li>
         </ul>
-      </li>
-      <?php if ($_SESSION['is_admin']) { ?>
+      </li><!-- <?php echo "Is admin= '$is_admin'" ?> -->
+      <?php if ($is_admin) { ?>
         <li>
         <a>Admins</a>
         <ul class="vertical menu" data-dropdown-menu>
