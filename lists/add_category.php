@@ -10,9 +10,6 @@ if (!isset($_SESSION['loggedin'])) {
 
 // Require database connection
 require_once "db_connect.php";
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
@@ -25,25 +22,14 @@ if ($currentHour < 12) {
     $greeting = "Good afternoon";
 }
 
-// Fetch the user's data from the database
+// Get user information from the database
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
 $result = mysqli_query($conn, $sql);
-
-// Check if the query succeeded
-if (!$result) {
-    echo "Error: " . mysqli_error($conn);
-    exit();
-}
-
-// Get the user's data from the query result
 $user_data = mysqli_fetch_assoc($result);
-
-// Store the user's data in the $_SESSION variable
-$_SESSION['user_data'] = $user_data;
-
-// Check if user is an admin
-$is_admin = $_SESSION['user_data']['is_admin'];
+$is_admin = $user_data['is_admin'];
+$username = $user_data['username'];
+$change_password = $user_data['change_password'];
 
 // Initialize variables
 $category = "";
@@ -97,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Set parameters
             $param_category = $category;
-            $param_user_id = $_SESSION['user_id'];
+            $param_user_id = $user_id;
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
@@ -163,10 +149,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					<li><a href="profile.php">View Profile</a></li>
 					<li><a href="update_profile.php">Update Profile</a></li>
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <?php if ($change_password) { ?> <li><a href="change_password.php">Change Password</a></li>  <?php } ?>
           <li><a href="logout.php">Logout</a></li>
         </ul>
       </li>
-      <?php if ($_SESSION['is_admin']) { ?>
+      <?php if ($is_admin) { ?>
         <li>
         <a>Admins</a>
         <ul class="vertical menu" data-dropdown-menu>
@@ -190,12 +177,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <br>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     <h3>Type in what your new category will be:</h3>
-    <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+    <div class="medium-5 large-6 cell <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
         <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
         <span class="help-block"><?php echo $category_err; ?></span>
     </div>
-    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-    <div class="form-group">
+    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+    <div>
         <input type="submit" class="save-button" value="Submit">
         <a href="categories.php">Cancel</a>
     </div>
