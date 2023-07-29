@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Start session
 session_start();
@@ -36,6 +37,17 @@ if (!$result) {
   exit();
 }
 
+// Blank informatin for build
+$customer_name = '';
+$customer_email= '';
+//$paymentssql = "SELECT * FROM payments WHERE user_id = '$user_id'";
+//$paymentresults = mysqli_query($conn, $paymentssql);
+
+// Check if the query succeeded
+//if (!$paymentresults) {
+  //echo "Error: " . mysqli_error($conn);
+  //exit();
+//}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,8 +120,27 @@ if (!$result) {
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
-<br>
-
+<br><!-- 
+    PULL DATA FROM THE DATA BASE, IF THE USER HAS A SCRIPE CUSTOMER ACCOUNT WITH US (stripe_cutomer_id)
+    ELSE, DISPLY THE ERROR MESSAGE AND CREATE AN SUBSCRIPTION ACCOUTN WITH US
+    ANOTHER IF, THE CUTOMER ACCOUNT IS ALREADY WITH US, PULL THE SUBSCRIPTION ID AND ADD IT TO THE DATABASE (stripe_subscription_id)
+    EVERYTHING NEED TO GO THOUGH CURL (curl https://api.stripe.com/v1) FOR THE API. 
+    CAN PULL DATA USING (-d "expand[]"=customer) AND (-d "expand[]"="invoice.subscription") FOR THE INFORMATION THAT WE NEED 
+    (invoice.subscription) DISPLAY A LIST OF INVOICES THAT HAVE BEEN PAID FORE THE USER 
+    -->
+<table>
+  <tr>
+    <td width="300px">User Payment Information</td>
+    <td width="">Update User Payment Information</td>
+  </tr>
+  <tr>
+    <td>
+      <p>Your name: <?php echo $customer_name; ?></p>
+      <p>Your Email: <?php echo $customer_email; ?></p>
+      <p></p>
+    </td>
+    <td></td>
+</table>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
