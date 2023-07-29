@@ -10,9 +10,6 @@ if (!isset($_SESSION['loggedin'])) {
 
 // Require database connection
 require_once "db_connect.php";
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
@@ -25,8 +22,14 @@ if ($currentHour < 12) {
     $greeting = "Good afternoon";
 }
 
-// get user ID from session
+// Get user information from the database
 $user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+$user_data = mysqli_fetch_assoc($result);
+$is_admin = $user_data['is_admin'];
+$username = $user_data['username'];
+$change_password = $user_data['change_password'];
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // get form data
@@ -87,10 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 					<li><a href="profile.php">View Profile</a></li>
 					<li><a href="update_profile.php">Update Profile</a></li>
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <?php if ($change_password) { ?> <li><a href="change_password.php">Change Password</a></li>  <?php } ?>
           <li><a href="logout.php">Logout</a></li>
         </ul>
       </li>
-      <?php if ($_SESSION['is_admin']) { ?>
+      <?php if ($is_admin) { ?>
         <li>
         <a>Admins</a>
         <ul class="vertical menu" data-dropdown-menu>
