@@ -32,6 +32,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$twitchDisplayName = $user['twitch_display_name'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Construct the URL for the Twitch profile image
@@ -137,7 +138,7 @@ $conn->close();
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
 <br>
 <h3>Update Profile Image:</h3>
 <form id="update-profile-image-form" action="update_profile.php" method="POST">
