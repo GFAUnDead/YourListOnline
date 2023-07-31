@@ -32,6 +32,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$twitchDisplayName = $user['twitch_display_name'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Initialize variables
@@ -175,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
 <br>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     <h3>Type in what your new category will be:</h3>
