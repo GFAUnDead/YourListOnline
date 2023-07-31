@@ -33,6 +33,7 @@ $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
 $twitchDisplayName = $user['twitch_display_name'];
+$twitch_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Get categories from the database for the logged-in user
@@ -112,7 +113,7 @@ if (!$result) {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
 <p>Here is the current list of categories you can filter your lists in, each category is it's own list.<br>
    The categories in this list are either created by you or publicly accessible.</p>
