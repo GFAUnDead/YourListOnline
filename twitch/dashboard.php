@@ -32,6 +32,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$twitchDisplayName = $user['twitch_display_name'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Get the selected category filter, default to "all" if not provided
@@ -122,7 +123,7 @@ if (!$result) {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
 <br>
 <!-- Category Filter Dropdown -->
 <div class="category-filter">
