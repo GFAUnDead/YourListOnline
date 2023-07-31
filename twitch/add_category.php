@@ -8,7 +8,7 @@ if (!isset($_SESSION['access_token'])) {
     exit();
 }
 
-// Connect to database
+// Connect to the database
 require_once "db_connect.php";
 
 // Get the current hour in 24-hour format (0-23)
@@ -42,70 +42,69 @@ $category_err = "";
 
 // Process form submission when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Validate category
+  if (empty(trim($_POST["category"]))) {
+      $category_err = "Please enter a category name.";
+  } else {
+      // Prepare a select statement
+      $sql = "SELECT id FROM categories WHERE category = ?";
+      if ($stmt = $conn->prepare($sql)) {
+          // Bind variables to the prepared statement as parameters
+          $stmt->bind_param("s", $param_category);
 
-    // Validate category
-    if (empty(trim($_POST["category"]))) {
-        $category_err = "Please enter a category name.";
-    } else {
-        // Prepare a select statement
-        $sql = "SELECT id FROM categories WHERE category = ?";
+          // Set parameters
+          $param_category = trim($_POST["category"]);
 
-        if ($stmt = $conn->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_category);
+          // Attempt to execute the prepared statement
+          if ($stmt->execute()) {
+              // Store result
+              $stmt->store_result();
+              if ($stmt->num_rows == 1) {
+                  $category_err = "This category name already exists.";
+              } else {
+                  $category = trim($_POST["category"]);
+              }
+          } else {
+              echo "Oops! Something went wrong. Please try again later.";
+          }
+      }
+      // Close statement
+      $stmt->close();
+  }
 
-            // Set parameters
-            $param_category = trim($_POST["category"]);
+// Check input errors before inserting into the database
+if (empty($category_err)) {
+  // Check if the 'Public' checkbox is checked
+  $is_public = isset($_POST['public']) ? 1 : 0;
 
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-                // Store result
-                $stmt->store_result();
+  // If the category is public, set user_id to NULL; otherwise, use the user's ID
+  $param_user_id = $is_public ? NULL : $_SESSION['user_id'];
 
-                if ($stmt->num_rows == 1) {
-                    $category_err = "This category name already exists.";
-                } else {
-                    $category = trim($_POST["category"]);
-                }
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
+  // Prepare an insert statement
+  $sql = "INSERT INTO categories (category, user_id) VALUES (?, ?)";
 
-        // Close statement
-        $stmt->close();
-    }
+  if ($stmt = $conn->prepare($sql)) {
+      // Bind variables to the prepared statement as parameters
+      $stmt->bind_param("si", $param_category, $param_user_id);
 
-    // Check input errors before inserting into database
-    if (empty($category_err)) {
+      // Set parameters
+      $param_category = $category;
 
-        // Prepare an insert statement
-        $sql = "INSERT INTO categories (category, user_id) VALUES (?, ?)";
+      // Attempt to execute the prepared statement
+      if ($stmt->execute()) {
+          // Redirect to categories page
+          header("location: categories.php");
+          exit();
+      } else {
+          echo "Oops! Something went wrong. Please try again later.";
+      }
+  }
 
-        if ($stmt = $conn->prepare($sql)) {
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("si", $param_category, $param_user_id);
-
-            // Set parameters
-            $param_category = $category;
-            $param_user_id = $_SESSION['user_id'];
-
-            // Attempt to execute the prepared statement
-            if ($stmt->execute()) {
-                // Redirect to categories page
-                header("location: categories.php");
-                exit();
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-
-        // Close statement
-        $stmt->close();
-    }
-
-    // Close connection
-    $conn->close();
+  // Close statement
+  $stmt->close();
+}
+  // Close connection
+  $conn->close();
 }
 ?>
 <!DOCTYPE html>
@@ -181,12 +180,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <br>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     <h3>Type in what your new category will be:</h3>
-    <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+    <div class="medium-5 large-4 cell <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
         <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
         <span class="help-block"><?php echo $category_err; ?></span>
     </div>
+    <div class="medium-5 large-4 cell">
+        <input type="checkbox" name="public" id="publicCheckbox" value="1">
+        <label for="publicCheckbox">Public Category</label>
+    </div>
     <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-    <div class="form-group">
+    <div class="medium-5 large-4 cell">
         <input type="submit" class="save-button" value="Submit">
         <a href="categories.php">Cancel</a>
     </div>
