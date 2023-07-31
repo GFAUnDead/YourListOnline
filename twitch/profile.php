@@ -31,10 +31,11 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$twitchDisplayName = $user['twitch_display_name'];
+$twitch_profile_image_url = $user['profile_image'];
 $signup_date = $user['signup_date'];
 $last_login = $user['last_login'];
 $api_key = $user['api_key'];
-$twitch_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 ?>
 <!DOCTYPE html>
@@ -104,11 +105,12 @@ $is_admin = ($user['is_admin'] == 1);
 <!-- /Navigation -->
 <div class="row column">
     <br>
-    <h1><?php echo "<h1>$greeting, $username!</h1>"; ?></h1>
+    <h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
     <h2>Your Profile</h2>
     <img src="<?php echo $twitch_profile_image_url; ?>" width="150px" height="150px" alt="Twitch Profile Image for <?php echo $username; ?>">
     <br><br>
     <p><strong>Your Username:</strong> <?php echo $username; ?></p>
+    <p><strong>Display Name:</strong> <?php echo $twitchDisplayName; ?></p>
     <p><strong>You Joined:</strong> <?php echo date('F j, Y', strtotime($signup_date)); ?> (AET)</p>
     <p><strong>Your Last Login:</strong> <?php echo date('F j, Y', strtotime($last_login)); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
     <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
