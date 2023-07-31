@@ -40,8 +40,8 @@ $is_admin = ($user['is_admin'] == 1);
 
 // Convert the stored date and time to UTC using Sydney time zone (AEST/AEDT)
 date_default_timezone_set('Australia/Sydney');
-$signup_date_utc = gmdate('F j, Y g:i A', strtotime($signup_date));
-$last_login_utc = gmdate('F j, Y', strtotime($last_login)) . ' at ' . gmdate('g:i A', strtotime($last_login));
+$signup_date_utc = date_create_from_format('Y-m-d H:i:s', $signup_date)->setTimezone(new DateTimeZone('UTC'))->format('F j, Y g:i A');
+$last_login_utc = date_create_from_format('Y-m-d H:i:s', $last_login)->setTimezone(new DateTimeZone('UTC'))->format('F j, Y g:i A');
 
 // Determine the tester status message based on the flags
 $alpha_user_flag = $user['alpha_user'];
@@ -153,17 +153,30 @@ if ($alpha_user_flag && $beta_user_flag) {
 
 <!-- JavaScript code to convert and display the dates -->
 <script>
+  // Function to convert UTC date to local date in the desired format
+  function convertUTCToLocalFormatted(utcDateStr) {
+    const utcDate = new Date(utcDateStr);
+    const localDate = new Date(utcDate.getTime() + (utcDate.getTimezoneOffset() * 60000));
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      timeZoneName: 'short'
+    };
+    const dateTimeFormatter = new Intl.DateTimeFormat('en-US', options);
+    return dateTimeFormatter.format(localDate);
+  }
+
   // PHP variables holding the UTC date and time
   const signupDateUTC = "<?php echo $signup_date_utc; ?>";
   const lastLoginUTC = "<?php echo $last_login_utc; ?>";
 
-  // Convert UTC time to the user's local time
-  const localSignupDate = convertUTCToLocal(signupDateUTC);
-  const localLastLogin = convertUTCToLocal(lastLoginUTC);
-
   // Display the dates in the user's local time zone
-  document.getElementById('localSignupDate').innerText = localSignupDate;
-  document.getElementById('localLastLogin').innerText = localLastLogin;
+  document.getElementById('localSignupDate').innerText = convertUTCToLocalFormatted(signupDateUTC);
+  document.getElementById('localLastLogin').innerText = convertUTCToLocalFormatted(lastLoginUTC);
 </script>
 </body>
 </html>
