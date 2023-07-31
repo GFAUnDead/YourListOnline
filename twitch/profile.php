@@ -37,6 +37,21 @@ $signup_date = $user['signup_date'];
 $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $is_admin = ($user['is_admin'] == 1);
+
+// Determine the tester status message based on the flags
+$alpha_user_flag = $user['alpha_user'];
+$beta_user_flag = $user['beta_user'];
+$tester_status = "";
+
+if ($alpha_user_flag && $beta_user_flag) {
+    $tester_status = "Alpha & Beta Tester";
+} elseif ($alpha_user_flag) {
+    $tester_status = "Alpha Tester";
+} elseif ($beta_user_flag) {
+    $tester_status = "Beta Tester";
+} else {
+    $tester_status = "Not A Tester";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,6 +128,7 @@ $is_admin = ($user['is_admin'] == 1);
     <p><strong>Display Name:</strong> <?php echo $twitchDisplayName; ?></p>
     <p><strong>You Joined:</strong> <?php echo date('F j, Y', strtotime($signup_date)); ?> (AET)</p>
     <p><strong>Your Last Login:</strong> <?php echo date('F j, Y', strtotime($last_login)); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
+    <p><strong>Tester Status:</strong> <?php echo $tester_status; ?></p>
     <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
     <button type="button" class="defult-button" id="hide-api-key" style="display:none;">Hide API Key</button>
