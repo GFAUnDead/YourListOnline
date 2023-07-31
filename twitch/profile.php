@@ -155,8 +155,6 @@ if ($alpha_user_flag && $beta_user_flag) {
 <script>
   // Function to convert UTC date to local date in the desired format
   function convertUTCToLocalFormatted(utcDateStr) {
-    const utcDate = new Date(utcDateStr);
-    const localDate = new Date(utcDate.getTime() + (utcDate.getTimezoneOffset() * 60000));
     const options = {
       year: 'numeric',
       month: 'long',
@@ -166,6 +164,8 @@ if ($alpha_user_flag && $beta_user_flag) {
       hour12: true,
       timeZoneName: 'short'
     };
+    const utcDate = new Date(utcDateStr + ' UTC');
+    const localDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Australia/Sydney' }));
     const dateTimeFormatter = new Intl.DateTimeFormat('en-US', options);
     return dateTimeFormatter.format(localDate);
   }
