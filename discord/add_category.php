@@ -2,34 +2,37 @@
 // Initialize the session
 session_start();
 
-// Check if user is logged in
+// check if user is logged in
 if (!isset($_SESSION['access_token'])) {
-    header("Location: login.php");
-    exit;
-}
-
-// Require database connection
-require_once "db_connect.php";
-
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE id = '$user_id'";
-$result = mysqli_query($conn, $sql);
-
-// Check if the query succeeded
-if (!$result) {
-    echo "Error: " . mysqli_error($conn);
+    header('Location: login.php');
     exit();
 }
 
-// Get the user's data from the query result
-$user_data = mysqli_fetch_assoc($result);
+// Connect to database
+require_once "db_connect.php";
 
-// Store the user's data in the $_SESSION variable
-$_SESSION['user_data'] = $user_data;
+// Get the current hour in 24-hour format (0-23)
+$currentHour = date('G');
+// Initialize the greeting variable
+$greeting = '';
+// Check if it's before 12 PM (noon)
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
 
-// Check if user is an admin
-$is_admin = $_SESSION['user_data']['is_admin'];
+// Fetch the user's data from the database based on the access_token
+$access_token = $_SESSION['access_token'];
+
+$stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+$stmt->bind_param("s", $access_token);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+$username = $user['username'];
+$is_admin = ($user['is_admin'] == 1);
 
 // Initialize variables
 $category = "";
@@ -104,90 +107,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html>
-<head>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YourListOnline - Add Category</title>
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/list.css">
+    <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <style type="text/css">
-      body {
-        font: 14px sans-serif;
-      }
-      .wrapper {
-        width: 350px; padding: 20px;
-      }
-      a.popup-link {
-        text-decoration: none;
-        color: black;
-        cursor: pointer;
-      }
-    </style>
-</head>
+  	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
+  	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+  </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="https://yourlist.online/">YourListOnline</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="insert.php">Add</a></li>
-            <li><a href="completed.php">Completed</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Update <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Objective Category</a></li>
-                </ul>
-            </li>
-            <li><a href="remove.php">Remove</a></li>
-            <li class="dropdown dropdown-hover">
-                <a class="dropdown" data-toggle="dropdown">Categories <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="categories.php">View Categories</a></li>
-                    <li class="active"><a href="add_category.php">Add Category</a></li>
-                </ul>
-            </li>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Profile <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-			      		<li><a href="profile.php">View Profile</a></li>
-			      		<li><a href="update_profile.php">Update Profile</a></li>
-                        <li><a href="obs_options.php">OBS Viewing Options</a></li>
-                        <li><a href="logout.php">Logout</a></li>
-			      	</ul>
-            </li>
-            <?php if ($_SESSION['is_admin']) { ?>
-            <li class="dropdown dropdown-hover">
-			      <a class="dropdown" data-toggle="dropdown">Admins <span class="caret"></span></a>
-			      	<ul class="dropdown-menu">
-                <li><a href="admins/dashboard.php">Admin Dashboard</a></li>
-			      	</ul>
-            </li>
-            <?php } ?>
-        </ul>
-        <p class="navbar-text navbar-right"><a class="popup-link" onclick="showPopup()">&copy; <?php echo date("Y"); ?> YourListOnline. All rights reserved.</a></p>
-    </div>
-</nav>
-<div class="col-md-6">
-    <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-        <h3>Type in what your new category will be:</h3>
-        <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
-            <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
-            <span class="help-block"><?php echo $category_err; ?></span>
-        </div>
-        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Submit">
-            <a href="categories.php" class="btn btn-default">Cancel</a>
-        </div>
-    </form>
+<!-- Navigation -->
+<div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
+  <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
+  <div class="title-bar-title">Menu</div>
 </div>
+<nav class="top-bar stacked-for-medium" id="mobile-menu">
+  <div class="top-bar-left">
+    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
+      <li class="menu-text">YourListOnline</li>
+      <li><a href="dashboard.php">Dashboard</a></li>
+      <li><a href="insert.php">Add</a></li>
+      <li><a href="remove.php">Remove</a></li>
+      <li>
+        <a>Update</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="update_objective.php">Update Objective</a></li>
+          <li><a href="update_category.php">Update Objective Category</a></li>
+        </ul>
+      </li>
+      <li><a href="completed.php">Completed</a></li>
+      <li>
+        <a>Categories</a>
+        <ul class="vertical menu" data-dropdown-menu>
+          <li><a href="categories.php">View Categories</a></li>
+          <li class="is-active"><a href="add_category.php">Add Category</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>Profile</a>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="profile.php">View Profile</a></li>
+					<li><a href="update_profile.php">Update Profile</a></li>
+          <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
+      </li>
+      <?php if ($is_admin) { ?>
+        <li>
+        <a>Admins</a>
+        <ul class="vertical menu" data-dropdown-menu>
+					<li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
+        </ul>
+      </li>
+      <?php } ?>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+    </ul>
+  </div>
+</nav>
+<!-- /Navigation -->
+
+<div class="row column">
+<br>
+<h1><?php echo "$greeting, $username!"; ?></h1>
+<br>
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <h3>Type in what your new category will be:</h3>
+    <div class="form-group <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+        <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
+        <span class="help-block"><?php echo $category_err; ?></span>
+    </div>
+    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+    <div class="form-group">
+        <input type="submit" class="save-button" value="Submit">
+        <a href="categories.php">Cancel</a>
+    </div>
+</form>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script>$(document).foundation();</script>
+<script>
+  // JavaScript function to handle the category filter change
+  document.getElementById("categoryFilter").addEventListener("change", function() {
+    var selectedCategoryId = this.value;
+    // Redirect to the page with the selected category filter
+    window.location.href = "dashboard.php?category=" + selectedCategoryId;
+  });
+</script>
 </body>
 </html>
