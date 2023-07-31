@@ -180,7 +180,10 @@ $conn->close();
     </tr>
     </tbody>
 </table>
+<div class="row column">
+<p>Before you switch over to the Twitch Login;<br>Make sure your username above is the same as twitch.<br>This will insure the tasks sync over correctly.</p>
 <a href="https://twitch.yourlist.online/login.php"><button class="twitch-button">Switch to Twitch Login</button></a>
+</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
