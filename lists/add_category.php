@@ -73,6 +73,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check input errors before inserting into database
     if (empty($category_err)) {
+        // Check if the 'Public' checkbox is checked
+        $is_public = isset($_POST['public']) ? 1 : 0;
+
+        // If the category is public, set user_id to NULL; otherwise, use the user's ID
+        $param_user_id = $is_public ? NULL : $user_id;
 
         // Prepare an insert statement
         $sql = "INSERT INTO categories (category, user_id) VALUES (?, ?)";
@@ -83,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Set parameters
             $param_category = $category;
-            $param_user_id = $user_id;
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
@@ -176,16 +180,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    <h3>Type in what your new category will be:</h3>
-    <div class="medium-5 large-6 cell <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
-        <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
-        <span class="help-block"><?php echo $category_err; ?></span>
-    </div>
-    <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-    <div>
-        <input type="submit" class="save-button" value="Submit">
-        <a href="categories.php">Cancel</a>
-    </div>
+  <h3>Type in what your new category will be:</h3>
+  <div class="medium-5 large-6 cell <?php echo (!empty($category_err)) ? 'has-error' : ''; ?>">
+    <input type="text" name="category" class="form-control" value="<?php echo htmlspecialchars($category); ?>">
+    <span class="help-block"><?php echo $category_err; ?></span>
+  </div>
+  <div class="form-group">
+    <input type="checkbox" name="public" id="publicCheckbox" value="1">
+    <label for="publicCheckbox">Public</label>
+  </div>
+  <div>
+    <input type="submit" class="save-button" value="Submit">
+    <a href="categories.php">Cancel</a>
+  </div>
 </form>
 </div>
 
