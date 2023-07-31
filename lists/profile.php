@@ -27,15 +27,29 @@ if ($currentHour < 12) {
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
 $result = mysqli_query($conn, $sql);
-$user_data = mysqli_fetch_assoc($result);
-$is_admin = $user_data['is_admin'];
-$username = $user_data['username'];
-$signup_date = $user_data['signup_date'];
-$last_login = $user_data['last_login'];
-$api_key = $user_data['api_key'];
-$change_password = $user_data['change_password'];
-$twitch_profile_image_url = $user_data['profile_image'];
+$user = mysqli_fetch_assoc($result);
+$is_admin = $user['is_admin'];
+$username = $user['username'];
+$signup_date = $user['signup_date'];
+$last_login = $user['last_login'];
+$api_key = $user['api_key'];
+$change_password = $user['change_password'];
+$twitch_profile_image_url = $user['profile_image'];
 
+// Determine the tester status message based on the flags
+$alpha_user_flag = $user['alpha_user'];
+$beta_user_flag = $user['beta_user'];
+$tester_status = "";
+
+if ($alpha_user_flag && $beta_user_flag) {
+    $tester_status = "Alpha & Beta Tester";
+} elseif ($alpha_user_flag) {
+    $tester_status = "Alpha Tester";
+} elseif ($beta_user_flag) {
+    $tester_status = "Beta Tester";
+} else {
+    $tester_status = "Not A Tester";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,6 +126,7 @@ $twitch_profile_image_url = $user_data['profile_image'];
     <p><strong>Your Username:</strong> <?php echo $username; ?></p>
     <p><strong>You Joined:</strong> <?php echo date('F j, Y', strtotime($signup_date)); ?> (AET)</p>
     <p><strong>Your Last Login:</strong> <?php echo date('F j, Y', strtotime($last_login)); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
+    <p><strong>Tester Status:</strong> <?php echo $tester_status; ?></p>
     <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
     <button type="button" class="defult-button" id="hide-api-key" style="display:none;">Hide API Key</button>
