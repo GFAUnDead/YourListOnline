@@ -33,6 +33,7 @@ $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
 $twitchDisplayName = $user['twitch_display_name'];
+$twitch_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Get user's to-do list
@@ -131,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- /Navigation -->
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
 <h2>Please pick which row to update on your list:</h2>
 <form method="POST">
