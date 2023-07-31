@@ -33,6 +33,7 @@ $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
 $twitchDisplayName = $user['twitch_display_name'];
+$twitch_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
@@ -162,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
 <h3>Font & Color Settings:</h3>
 <?php if ($font !== '' || $color !== '') { ?>
