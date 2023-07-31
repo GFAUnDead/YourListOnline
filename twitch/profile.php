@@ -40,8 +40,8 @@ $is_admin = ($user['is_admin'] == 1);
 
 // Convert the stored date and time to UTC using Sydney time zone (AEST/AEDT)
 date_default_timezone_set('Australia/Sydney');
-$signup_date_utc = gmdate('Y-m-d H:i:s', strtotime($signup_date));
-$last_login_utc = gmdate('Y-m-d H:i:s', strtotime($last_login));
+$signup_date_utc = gmdate('F j, Y g:i A', strtotime($signup_date));
+$last_login_utc = gmdate('F j, Y', strtotime($last_login)) . ' at ' . gmdate('g:i A', strtotime($last_login));
 
 // Determine the tester status message based on the flags
 $alpha_user_flag = $user['alpha_user'];
@@ -162,8 +162,8 @@ if ($alpha_user_flag && $beta_user_flag) {
   const localLastLogin = convertUTCToLocal(lastLoginUTC);
 
   // Display the dates in the user's local time zone
-  document.getElementById('localSignupDate').innerText = new Date(localSignupDate).toLocaleString();
-  document.getElementById('localLastLogin').innerText = new Date(localLastLogin).toLocaleString();
+  document.getElementById('localSignupDate').innerText = localSignupDate;
+  document.getElementById('localLastLogin').innerText = localLastLogin;
 </script>
 </body>
 </html>
