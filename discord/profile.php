@@ -36,6 +36,26 @@ $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $twitch_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
+
+// Convert the stored date and time to UTC using Sydney time zone (AEST/AEDT)
+date_default_timezone_set('Australia/Sydney');
+$signup_date_utc = date_create_from_format('Y-m-d H:i:s', $signup_date)->setTimezone(new DateTimeZone('UTC'))->format('F j, Y g:i A');
+$last_login_utc = date_create_from_format('Y-m-d H:i:s', $last_login)->setTimezone(new DateTimeZone('UTC'))->format('F j, Y g:i A');
+
+// Determine the tester status message based on the flags
+$alpha_user_flag = $user['alpha_user'];
+$beta_user_flag = $user['beta_user'];
+$tester_status = "";
+
+if ($alpha_user_flag && $beta_user_flag) {
+    $tester_status = "Alpha & Beta Tester";
+} elseif ($alpha_user_flag) {
+    $tester_status = "Alpha Tester";
+} elseif ($beta_user_flag) {
+    $tester_status = "Beta Tester";
+} else {
+    $tester_status = "Not A Tester";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,8 +129,9 @@ $is_admin = ($user['is_admin'] == 1);
     <img src="<?php echo $twitch_profile_image_url; ?>" width="150px" height="150px" alt="Twitch Profile Image for <?php echo $username; ?>">
     <br><br>
     <p><strong>Your Username:</strong> <?php echo $username; ?></p>
-    <p><strong>You Joined:</strong> <?php echo date('F j, Y', strtotime($signup_date)); ?> (AET)</p>
-    <p><strong>Your Last Login:</strong> <?php echo date('F j, Y', strtotime($last_login)); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
+    <p><strong>You Joined:</strong> <span id="localSignupDate"></span></p>
+    <p><strong>Your Last Login:</strong> <span id="localLastLogin"></span></p>
+    <p><strong>Tester Status:</strong> <?php echo $tester_status; ?></p>
     <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
     <button type="button" class="defult-button" id="hide-api-key" style="display:none;">Hide API Key</button>
@@ -126,5 +147,34 @@ $is_admin = ($user['is_admin'] == 1);
 <script src="https://cdn.yourlist.online/js/obsbutton.js" defer></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>$(document).foundation();</script>
+<script src="https://cdn.yourlist.online/js/timezone.js"></script>
+
+<!-- JavaScript code to convert and display the dates -->
+<script>
+  // Function to convert UTC date to local date in the desired format
+  function convertUTCToLocalFormatted(utcDateStr) {
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      timeZoneName: 'short'
+    };
+    const utcDate = new Date(utcDateStr + ' UTC');
+    const localDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Australia/Sydney' }));
+    const dateTimeFormatter = new Intl.DateTimeFormat('en-US', options);
+    return dateTimeFormatter.format(localDate);
+  }
+
+  // PHP variables holding the UTC date and time
+  const signupDateUTC = "<?php echo $signup_date_utc; ?>";
+  const lastLoginUTC = "<?php echo $last_login_utc; ?>";
+
+  // Display the dates in the user's local time zone
+  document.getElementById('localSignupDate').innerText = convertUTCToLocalFormatted(signupDateUTC);
+  document.getElementById('localLastLogin').innerText = convertUTCToLocalFormatted(lastLoginUTC);
+</script>
 </body>
 </html>
