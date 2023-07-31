@@ -38,6 +38,11 @@ $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $is_admin = ($user['is_admin'] == 1);
 
+// Convert the stored date and time to UTC using Sydney time zone (AEST/AEDT)
+date_default_timezone_set('Australia/Sydney');
+$signup_date_utc = gmdate('Y-m-d H:i:s', strtotime($signup_date));
+$last_login_utc = gmdate('Y-m-d H:i:s', strtotime($last_login));
+
 // Determine the tester status message based on the flags
 $alpha_user_flag = $user['alpha_user'];
 $beta_user_flag = $user['beta_user'];
@@ -126,8 +131,8 @@ if ($alpha_user_flag && $beta_user_flag) {
     <br><br>
     <p><strong>Your Username:</strong> <?php echo $username; ?></p>
     <p><strong>Display Name:</strong> <?php echo $twitchDisplayName; ?></p>
-    <p><strong>You Joined:</strong> <?php echo date('F j, Y', strtotime($signup_date)); ?> (AET)</p>
-    <p><strong>Your Last Login:</strong> <?php echo date('F j, Y', strtotime($last_login)); ?> at <?php echo date('g:i A', strtotime($last_login)); ?> (AET)</p>
+    <p><strong>You Joined:</strong> <span id="localSignupDate"></span></p>
+    <p><strong>Your Last Login:</strong> <span id="localLastLogin"></span></p>
     <p><strong>Tester Status:</strong> <?php echo $tester_status; ?></p>
     <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
@@ -135,14 +140,30 @@ if ($alpha_user_flag && $beta_user_flag) {
     <br><br>
     <button class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <?php if ($is_admin) { ?><a href="change_password.php" class="defult-button">Change Password</a><br><br><?php } ?>
     <a href="logout.php" class="logout-button">Logout</a>
 </div>
+<!-- Include the JavaScript files -->
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.yourlist.online/js/profile.js"></script>
 <script src="https://cdn.yourlist.online/js/about.js" defer></script>
 <script src="https://cdn.yourlist.online/js/obsbutton.js" defer></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>$(document).foundation();</script>
+<script src="https://cdn.yourlist.online/js/timezone.js"></script>
+
+<!-- JavaScript code to convert and display the dates -->
+<script>
+  // PHP variables holding the UTC date and time
+  const signupDateUTC = "<?php echo $signup_date_utc; ?>";
+  const lastLoginUTC = "<?php echo $last_login_utc; ?>";
+
+  // Convert UTC time to the user's local time
+  const localSignupDate = convertUTCToLocal(signupDateUTC);
+  const localLastLogin = convertUTCToLocal(lastLoginUTC);
+
+  // Display the dates in the user's local time zone
+  document.getElementById('localSignupDate').innerText = new Date(localSignupDate).toLocaleString();
+  document.getElementById('localLastLogin').innerText = new Date(localLastLogin).toLocaleString();
+</script>
 </body>
 </html>
