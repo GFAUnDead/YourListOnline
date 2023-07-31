@@ -11,6 +11,17 @@ if (!isset($_SESSION['access_token'])) {
 // Connect to database
 require_once "../db_connect.php";
 
+// Get the current hour in 24-hour format (0-23)
+$currentHour = date('G');
+// Initialize the greeting variable
+$greeting = '';
+// Check if it's before 12 PM (noon)
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
+
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
 
@@ -21,6 +32,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$twitchDisplayName = $user['twitch_display_name'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Check if the user is an admin
@@ -86,7 +98,7 @@ if ($is_admin) {
 <!-- /Navigation -->
 
 <div class="row column">
-<h1>Welcome, <?php echo $username; ?>!</h1>
+<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
 <br>
 <!-- Category filter dropdown -->
 <div class="category-filter">
