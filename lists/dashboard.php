@@ -1,6 +1,5 @@
-<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
-// Start session
+// Initialize the session
 session_start();
 
 // Check if user is logged in
@@ -9,7 +8,7 @@ if (!isset($_SESSION['loggedin'])) {
   exit();
 }
 
-// Require database connection
+// Connect to database
 require_once "db_connect.php";
 
 // Get the current hour in 24-hour format (0-23)
@@ -108,7 +107,7 @@ if (!$result) {
           <?php if ($change_password) { ?><li><a href="change_password.php">Change Password</a></li><?php } ?>
           <li><a href="logout.php">Logout</a></li>
         </ul>
-      </li><!-- <?php echo "Is admin= '$is_admin'" ?> -->
+      </li>
       <?php if ($is_admin) { ?>
         <li>
         <a>Admins</a>
@@ -131,57 +130,58 @@ if (!$result) {
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
-<!-- Category Filter Dropdown -->
-<div class="category-filter">
-  <label for="categoryFilter">Filter by Category:</label>
+<!-- Category Filter Dropdown & Search Bar-->
+<div class="search-and-filter">
+  <form method="GET" action="">
+    <input type="text" name="search" placeholder="Search todos" class="search-input">
+  </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
     <?php
-          $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
-          $categories_result = mysqli_query($conn, $categories_sql);
-
-          while ($category_row = mysqli_fetch_assoc($categories_result)) {
+        $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
+        $categories_result = mysqli_query($conn, $categories_sql);
+        while ($category_row = mysqli_fetch_assoc($categories_result)) {
             $categoryId = $category_row['id'];
             $categoryName = $category_row['category'];
             $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
             echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
-          }
-        ?>
+        }
+    ?>
   </select>
 </div>
-<!-- /Category Filter Dropdown -->
+<!-- /Category Filter Dropdown & Search Bar -->
 
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
-  <table>
-    <thead>
+<table>
+  <thead>
+    <tr>
+      <th>Objective</th>
+      <th width="400">Category</th>
+      <th width="600">Created</th>
+      <th width="600">Last Updated</th>
+      <th width="200">Completed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php while ($row = mysqli_fetch_assoc($result)): ?>
       <tr>
-        <th>Objective</th>
-        <th width="400">Category</th>
-        <th width="600">Created</th>
-        <th width="600">Last Updated</th>
-        <th width="200">Completed</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php while ($row = mysqli_fetch_assoc($result)): ?>
-        <tr>
-          <td><?php echo ($row['completed'] == 'Yes') ? '<s>' . $row['objective'] . '</s>' : $row['objective']; ?></td>
-          <td>
-            <?php
+        <td><?php echo ($row['completed'] == 'Yes') ? '<s>' . $row['objective'] . '</s>' : $row['objective']; ?></td>
+        <td>
+          <?php
               $category_id = $row['category'];
               $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
               $category_result = mysqli_query($conn, $category_sql);
               $category_row = mysqli_fetch_assoc($category_result);
               echo $category_row['category'];
-            ?>
-          </td>
-          <td><?php echo $row['created_at']; ?></td>
-          <td><?php echo $row['updated_at']; ?></td>
-          <td><?php echo $row['completed']; ?></td>
-        </tr>
-      <?php endwhile; ?>
-    </tbody>
-  </table>
+          ?>
+        </td>
+        <td><?php echo $row['created_at']; ?></td>
+        <td><?php echo $row['updated_at']; ?></td>
+        <td><?php echo $row['completed']; ?></td>
+      </tr>
+    <?php endwhile; ?>
+  </tbody>
+</table>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
