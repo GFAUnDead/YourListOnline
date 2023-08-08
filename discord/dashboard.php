@@ -32,6 +32,8 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$twitchDisplayName = $user['twitch_display_name'];
+$twitch_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Get the selected category filter, default to "all" if not provided
@@ -122,59 +124,60 @@ if (!$result) {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
-<!-- Category Filter Dropdown -->
-<div class="category-filter">
-  <label for="categoryFilter">Filter by Category:</label>
+<!-- Category Filter Dropdown & Search Bar-->
+<div class="search-and-filter">
+  <form method="GET" action="">
+    <input type="text" name="search" placeholder="Search todos" class="search-input">
+  </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
     <?php
-          $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
-          $categories_result = mysqli_query($conn, $categories_sql);
-
-          while ($category_row = mysqli_fetch_assoc($categories_result)) {
+        $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
+        $categories_result = mysqli_query($conn, $categories_sql);
+        while ($category_row = mysqli_fetch_assoc($categories_result)) {
             $categoryId = $category_row['id'];
             $categoryName = $category_row['category'];
             $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
             echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
-          }
-        ?>
+        }
+    ?>
   </select>
 </div>
-<!-- /Category Filter Dropdown -->
+<!-- /Category Filter Dropdown & Search Bar -->
 
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
-  <table>
-    <thead>
+<table>
+  <thead>
+    <tr>
+      <th>Objective</th>
+      <th width="400">Category</th>
+      <th width="600">Created</th>
+      <th width="600">Last Updated</th>
+      <th width="200">Completed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php while ($row = mysqli_fetch_assoc($result)): ?>
       <tr>
-        <th>Objective</th>
-        <th width="400">Category</th>
-        <th width="600">Created</th>
-        <th width="600">Last Updated</th>
-        <th width="200">Completed</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php while ($row = mysqli_fetch_assoc($result)): ?>
-        <tr>
-          <td><?php echo ($row['completed'] == 'Yes') ? '<s>' . $row['objective'] . '</s>' : $row['objective']; ?></td>
-          <td>
-            <?php
+        <td><?php echo ($row['completed'] == 'Yes') ? '<s>' . $row['objective'] . '</s>' : $row['objective']; ?></td>
+        <td>
+          <?php
               $category_id = $row['category'];
               $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
               $category_result = mysqli_query($conn, $category_sql);
               $category_row = mysqli_fetch_assoc($category_result);
               echo $category_row['category'];
-            ?>
-          </td>
-          <td><?php echo $row['created_at']; ?></td>
-          <td><?php echo $row['updated_at']; ?></td>
-          <td><?php echo $row['completed']; ?></td>
-        </tr>
-      <?php endwhile; ?>
-    </tbody>
-  </table>
+          ?>
+        </td>
+        <td><?php echo $row['created_at']; ?></td>
+        <td><?php echo $row['updated_at']; ?></td>
+        <td><?php echo $row['completed']; ?></td>
+      </tr>
+    <?php endwhile; ?>
+  </tbody>
+</table>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
