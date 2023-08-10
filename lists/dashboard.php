@@ -41,14 +41,24 @@ if (!$result) {
 // Get the selected category filter, default to "all" if not provided
 $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
-// Build the SQL query based on the category filter
+// Get the search keyword if provided
+$searchKeyword = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Build the SQL query based on the category filter and search keyword
 $user_id = $_SESSION['user_id'];
 if ($categoryFilter === 'all') {
-  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id'";
 } else {
   $categoryFilter = mysqli_real_escape_string($conn, $categoryFilter);
-  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND category = '$categoryFilter' ORDER BY id ASC";
+  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND category = '$categoryFilter'";
 }
+
+if (!empty($searchKeyword)) {
+  $searchKeyword = mysqli_real_escape_string($conn, $searchKeyword);
+  $sql .= " AND objective LIKE '%$searchKeyword%'";
+}
+
+$sql .= " ORDER BY id ASC";
 
 $result = mysqli_query($conn, $sql);
 
@@ -133,7 +143,7 @@ if (!$result) {
 <!-- Category Filter Dropdown & Search Bar-->
 <div class="search-and-filter">
   <form method="GET" action="">
-    <input type="text" name="search" placeholder="Search todos" class="search-input">
+    <input type="text" name="search" placeholder="Search todos" class="search-input" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
   </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
