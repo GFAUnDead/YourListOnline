@@ -32,7 +32,10 @@ $_SESSION['is_admin'] = $user_data['is_admin'];
 // Check if the user is an admin
 if ($_SESSION['is_admin'] == 1) {
   // Get the category filter value if set
-  $categoryFilter = $_GET['categoryFilter'] ?? 'all';
+  $categoryFilter = isset($_GET['categoryFilter']) ? $_GET['categoryFilter'] : 'all';
+
+  // Get the search keyword if provided
+  $searchKeyword = isset($_GET['search']) ? $_GET['search'] : '';
 
   // Build the SQL query based on the category filter
   $sql = "SELECT todos.*, users.username FROM todos INNER JOIN users ON todos.user_id = users.id";
@@ -40,6 +43,11 @@ if ($_SESSION['is_admin'] == 1) {
   if ($categoryFilter !== 'all') {
     // Add a WHERE condition to filter by category
     $sql .= " INNER JOIN categories ON todos.category = categories.id WHERE categories.id = '$categoryFilter'";
+  }
+
+  if (!empty($searchKeyword)) {
+    $searchKeyword = mysqli_real_escape_string($conn, $searchKeyword);
+    $sql .= " AND todos.objective LIKE '%$searchKeyword%'";
   }
 
   $sql .= " ORDER BY todos.id ASC";
@@ -94,9 +102,11 @@ if ($_SESSION['is_admin'] == 1) {
 <div class="row column">
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
 <br>
-<!-- Category filter dropdown -->
-<div class="category-filter">
-  <label for="categoryFilter">Filter by Category:</label>
+<!-- Category filter dropdown & search bar -->
+<div class="search-and-filter">
+  <form method="GET" action="">
+    <input type="text" name="search" placeholder="Search todos" class="search-input" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+  </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
     <?php
@@ -112,6 +122,7 @@ if ($_SESSION['is_admin'] == 1) {
         ?>
   </select>
 </div>
+<!-- /Category filter dropdown & search bar -->
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
 <table>
   <thead>
