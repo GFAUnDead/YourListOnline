@@ -33,29 +33,38 @@ $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
 $twitchDisplayName = $user['twitch_display_name'];
+$twitch_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Check if the user is an admin
 if ($is_admin) {
   // Get the category filter value if set
   $categoryFilter = $_GET['categoryFilter'] ?? 'all';
-
-  // Build the SQL query based on the category filter
+  
+  // Get the search keyword from the form
+  $searchKeyword = isset($_GET['search']) ? $_GET['search'] : '';
+  
+  // Build the SQL query based on the category filter and search keyword
   $sql = "SELECT todos.*, users.username FROM todos INNER JOIN users ON todos.user_id = users.id";
-
+  
   if ($categoryFilter !== 'all') {
-    // Add a WHERE condition to filter by category
-    $sql .= " INNER JOIN categories ON todos.category = categories.id WHERE categories.id = '$categoryFilter'";
+      // Add a WHERE condition to filter by category
+      $sql .= " INNER JOIN categories ON todos.category = categories.id WHERE categories.id = '$categoryFilter'";
   }
-
+  
+  if (!empty($searchKeyword)) {
+      // Add a WHERE condition to filter by objective containing the search keyword
+      $sql .= " AND todos.objective LIKE '%$searchKeyword%'";
+  }
+  
   $sql .= " ORDER BY todos.id ASC";
   
   $result = mysqli_query($conn, $sql);
-
+  
   // Handle errors
   if (!$result) {
-    echo "Error: " . mysqli_error($conn);
-    exit();
+      echo "Error: " . mysqli_error($conn);
+      exit();
   }
 } else {
   // The user is not an admin, redirect to dashboard.php
@@ -98,26 +107,28 @@ if ($is_admin) {
 <!-- /Navigation -->
 
 <div class="row column">
-<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
-<!-- Category filter dropdown -->
-<div class="category-filter">
-  <label for="categoryFilter">Filter by Category:</label>
+<!-- Category Filter Dropdown & Search Bar-->
+<div class="search-and-filter">
+  <form method="GET" action="">
+    <input type="text" name="search" placeholder="Search todos" class="search-input">
+  </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
     <?php
-          $categories_sql = "SELECT id, category FROM categories";
-          $categories_result = mysqli_query($conn, $categories_sql);
-
-          while ($category_row = mysqli_fetch_assoc($categories_result)) {
+        $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
+        $categories_result = mysqli_query($conn, $categories_sql);
+        while ($category_row = mysqli_fetch_assoc($categories_result)) {
             $categoryId = $category_row['id'];
             $categoryName = $category_row['category'];
             $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
             echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
-          }
-        ?>
+        }
+    ?>
   </select>
 </div>
+<!-- /Category Filter Dropdown & Search Bar -->
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
 <table>
   <thead>
