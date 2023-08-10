@@ -39,20 +39,31 @@ $is_admin = ($user['is_admin'] == 1);
 // Get the selected category filter, default to "all" if not provided
 $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
-// Build the SQL query based on the category filter
+// Get the search keyword from the form
+$searchKeyword = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Build the SQL query based on the category filter and search keyword
 if ($categoryFilter === 'all') {
-  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+    if (!empty($searchKeyword)) {
+        $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND title LIKE '%$searchKeyword%' ORDER BY id ASC";
+    } else {
+        $sql = "SELECT * FROM todos WHERE user_id = '$user_id' ORDER BY id ASC";
+    }
 } else {
-  $categoryFilter = mysqli_real_escape_string($conn, $categoryFilter);
-  $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND category = '$categoryFilter' ORDER BY id ASC";
+    $categoryFilter = mysqli_real_escape_string($conn, $categoryFilter);
+    if (!empty($searchKeyword)) {
+        $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND category = '$categoryFilter' AND title LIKE '%$searchKeyword%' ORDER BY id ASC";
+    } else {
+        $sql = "SELECT * FROM todos WHERE user_id = '$user_id' AND category = '$categoryFilter' ORDER BY id ASC";
+    }
 }
 
 $result = mysqli_query($conn, $sql);
 
 // Handle errors
 if (!$result) {
-  echo "Error: " . mysqli_error($conn);
-  exit();
+    echo "Error: " . mysqli_error($conn);
+    exit();
 }
 ?>
 <!DOCTYPE html>
