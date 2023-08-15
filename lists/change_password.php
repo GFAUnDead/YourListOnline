@@ -10,9 +10,6 @@ if (!isset($_SESSION['loggedin'])) {
 
 // Require database connection
 require_once "db_connect.php";
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
@@ -25,9 +22,22 @@ if ($currentHour < 12) {
     $greeting = "Good afternoon";
 }
 
+// Get user information from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE id = '$user_id'";
+$result = mysqli_query($conn, $sql);
+$user = mysqli_fetch_assoc($result);
+$is_admin = $user['is_admin'];
+$username = $user['username'];
+$signup_date = $user['signup_date'];
+$last_login = $user['last_login'];
+$api_key = $user['api_key'];
+$change_password = $user['change_password'];
+$twitch_profile_image_url = $user['profile_image'];
+
 // Define variables and initialize with empty values
-$current_password = $new_password = $confirm_password = "";
-$current_password_err = $new_password_err = $confirm_password_err = "";
+$current_password = $new_password = "";
+$current_password_err = $new_password_err = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -120,56 +130,57 @@ if (empty($current_password_err) && empty($new_password_err) && empty($confirm_p
 <body>
 <!-- Navigation -->
 <div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
-  <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
-  <div class="title-bar-title">Menu</div>
+    <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
+    <div class="title-bar-title">Menu</div>
 </div>
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
-  <div class="top-bar-left">
-    <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
-      <li class="menu-text">YourListOnline</li>
-      <li><a href="dashboard.php">Dashboard</a></li>
-      <li><a href="insert.php">Add</a></li>
-      <li><a href="remove.php">Remove</a></li>
-      <li>
-        <a>Update</a>
-        <ul class="vertical menu" data-dropdown-menu>
-          <li><a href="update_objective.php">Update Objective</a></li>
-          <li><a href="update_category.php">Update Objective Category</a></li>
+    <div class="top-bar-left">
+        <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
+            <li class="menu-text">YourListOnline</li>
+            <li><a href="dashboard.php">Dashboard</a></li>
+            <li><a href="insert.php">Add</a></li>
+            <li><a href="remove.php">Remove</a></li>
+            <li>
+                <a>Update</a>
+                <ul class="vertical menu" data-dropdown-menu>
+                    <li><a href="update_objective.php">Update Objective</a></li>
+                    <li><a href="update_category.php">Update Objective Category</a></li>
+                </ul>
+            </li>
+            <li><a href="completed.php">Completed</a></li>
+            <li>
+                <a>Categories</a>
+                <ul class="vertical menu" data-dropdown-menu>
+                    <li><a href="categories.php">View Categories</a></li>
+                    <li><a href="add_category.php">Add Category</a></li>
+                </ul>
+            </li>
+            <li>
+                <a>Profile</a>
+                <ul class="vertical menu" data-dropdown-menu>
+                    <li><a href="profile.php">View Profile</a></li>
+                    <li><a href="update_profile.php">Update Profile</a></li>
+                    <li><a href="obs_options.php">OBS Viewing Options</a></li>
+                    <li class="is-active"><a href="change_password.php">Change Password</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+            </li>
+            <?php if ($is_admin) { ?>
+            <li>
+                <a>Admins</a>
+                <ul class="vertical menu" data-dropdown-menu>
+                    <li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
+                </ul>
+            </li>
+            <?php } ?>
         </ul>
-      </li>
-      <li><a href="completed.php">Completed</a></li>
-      <li>
-        <a>Categories</a>
-        <ul class="vertical menu" data-dropdown-menu>
-          <li><a href="categories.php">View Categories</a></li>
-          <li class="is-active"><a href="add_category.php">Add Category</a></li>
-        </ul>
-      </li>
-      <li>
-        <a>Profile</a>
-        <ul class="vertical menu" data-dropdown-menu>
-					<li><a href="profile.php">View Profile</a></li>
-					<li><a href="update_profile.php">Update Profile</a></li>
-          <li><a href="obs_options.php">OBS Viewing Options</a></li>
-          <li><a href="logout.php">Logout</a></li>
-        </ul>
-      </li>
-      <?php if ($_SESSION['is_admin']) { ?>
-        <li>
-        <a>Admins</a>
-        <ul class="vertical menu" data-dropdown-menu>
-					<li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
-        </ul>
-      </li>
-      <?php } ?>
-    </ul>
-  </div>
-  <div class="top-bar-right">
-    <ul class="menu">
-      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
-      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
-    </ul>
-  </div>
+    </div>
+    <div class="top-bar-right">
+      <ul class="menu">
+        <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
+        <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+      </ul>
+    </div>
 </nav>
 <!-- /Navigation -->
 
