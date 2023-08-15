@@ -153,8 +153,8 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
-<!-- Category Filter Dropdown & Search Bar-->
 <?php if ($num_rows < 1) {} else { ?>
+<!-- Category Filter Dropdown & Search Bar-->
 <div class="search-and-filter">
   <form method="GET" action="">
     <input type="text" name="search" placeholder="Search todos" class="search-input">
@@ -173,8 +173,8 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
     ?>
   </select>
 </div>
-<?php } ?>
 <!-- /Category Filter Dropdown & Search Bar -->
+<?php } ?>
 
 <?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h3>Completed Tasks:</h3><br><h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; ?>
 
