@@ -51,6 +51,7 @@ if (isset($_GET['category'])) {
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();
+$num_rows = mysqli_num_rows($result);
 
 // Assign incomplete tasks to the $incompleteTasks variable
 $incompleteTasks = [];
@@ -152,28 +153,31 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
-<!-- Category Filter Dropdown -->
-<div class="category-filter">
-  <label for="categoryFilter">Filter by Category:</label>
+<!-- Category Filter Dropdown & Search Bar-->
+<?php if ($num_rows < 1) {} else { ?>
+<div class="search-and-filter">
+  <form method="GET" action="">
+    <input type="text" name="search" placeholder="Search todos" class="search-input">
+  </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
     <?php
-          $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
-          $categories_result = mysqli_query($conn, $categories_sql);
-
-          while ($category_row = mysqli_fetch_assoc($categories_result)) {
+        $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
+        $categories_result = mysqli_query($conn, $categories_sql);
+        while ($category_row = mysqli_fetch_assoc($categories_result)) {
             $categoryId = $category_row['id'];
             $categoryName = $category_row['category'];
             $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
             echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
-          }
-        ?>
+        }
+    ?>
   </select>
 </div>
-<!-- /Category Filter Dropdown -->
+<?php } ?>
+<!-- /Category Filter Dropdown & Search Bar -->
 
-<h3>Completed Tasks:</h3>
-<p>Number of total tasks in the category: <?php echo count($incompleteTasks); ?></p>
+<?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h3>Completed Tasks:</h3><br><h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; ?>
+
 <table class="sortable">
     <thead>
     <tr>
@@ -184,25 +188,28 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
     </thead>
     <tbody>
     <?php foreach ($incompleteTasks as $row): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($row['objective']); ?></td>
-            <?php
-            $category_id = $row['category'];
-            $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
-            $category_result = mysqli_query($conn, $category_sql);
-            $category_row = mysqli_fetch_assoc($category_result);
-            echo $category_row['category'];
-            ?>
-            <td>
-                <form method="post" action="completed.php">
-                    <input type="hidden" name="task_id" value="<?php echo $row['id']; ?>">
-                    <button type="submit" class="save-button">Mark as Completed</button>
-                </form>
-            </td>
-        </tr>
+      <tr>
+        <td><?php echo htmlspecialchars($row['objective']); ?></td>
+        <td>
+        <?php
+        $category_id = $row['category'];
+        $category_sql = "SELECT category FROM categories WHERE id = '$category_id'";
+        $category_result = mysqli_query($conn, $category_sql);
+        $category_row = mysqli_fetch_assoc($category_result);
+        echo $category_row['category'];
+        ?>
+        </td>
+        <td>
+          <form method="post" action="completed.php">
+              <input type="hidden" name="task_id" value="<?php echo $row['id']; ?>">
+              <button type="submit" class="save-button">Mark as completed</button>
+          </form>
+        </td>
+      </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php } ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
