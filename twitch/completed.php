@@ -89,7 +89,6 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
     <script src="https://cdn.yourlist.online/js/sorttable.js"></script>
-    <script src="https://cdn.yourlist.online/js/darkmode.js"></script>
   	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
   	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
   </head>
@@ -142,7 +141,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
+      <!--<li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>-->
       <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
@@ -208,6 +207,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
 <script>
   // JavaScript function to handle the category filter change
