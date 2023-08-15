@@ -161,7 +161,7 @@ if (!$result) {
 </div>
 <!-- /Category Filter Dropdown & Search Bar -->
 
-<?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; } ?>
+<?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; ?>
 
 <table class="sortable">
   <thead>
@@ -193,6 +193,7 @@ if (!$result) {
     <?php endwhile; ?>
   </tbody>
 </table>
+<?php } ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
