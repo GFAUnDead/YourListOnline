@@ -77,6 +77,7 @@ if (!$result) {
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
+    <script src="https://cdn.yourlist.online/js/sorttable.js"></script>
   	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
   	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
   </head>
@@ -162,7 +163,7 @@ if (!$result) {
 <!-- /Category Filter Dropdown & Search Bar -->
 
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
-<table>
+<table class="sortable">
   <thead>
     <tr>
       <th>Objective</th>
