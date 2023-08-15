@@ -136,10 +136,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
-<h2>Please pick which row to update on your list:</h2>
 <form method="POST">
 <?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="save-button">Update All</button>'; } ?>
-<?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
+<?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } else { echo "<h2>Please pick which row to update on your list:</h2>"; ?>
 <table class="sortable">
     <thead>
         <tr>
@@ -182,6 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </tbody>
 </table>
+<?php } ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
