@@ -24,7 +24,6 @@ if ($currentHour < 12) {
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
-
 $stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
 $stmt->bind_param("s", $access_token);
 $stmt->execute();
@@ -32,6 +31,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$discord_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Check if a specific category is selected
@@ -86,6 +86,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
+    <script src="https://cdn.yourlist.online/js/sorttable.js"></script>
   	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
   	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
   </head>
@@ -146,7 +147,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$discord_profile_image_url' width='50px' height='50px' alt='$username Profile Image'>$username!"; ?></h1>
 <br>
 <!-- Category Filter Dropdown -->
 <div class="category-filter">
@@ -170,7 +171,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 <h3>Completed Tasks:</h3>
 <p>Number of total tasks in the category: <?php echo count($incompleteTasks); ?></p>
-<table>
+<table class="sortable">
     <thead>
     <tr>
         <th width="700">Objective</th>
