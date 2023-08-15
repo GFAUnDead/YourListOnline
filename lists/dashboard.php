@@ -145,9 +145,10 @@ if (!$result) {
 <h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <!-- Category Filter Dropdown & Search Bar-->
+<?php if ($num_rows < 1) {} else { ?>
 <div class="search-and-filter">
   <form method="GET" action="">
-    <input type="text" name="search" placeholder="Search todos" class="search-input" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+    <input type="text" name="search" placeholder="Search todos" class="search-input">
   </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
@@ -163,9 +164,10 @@ if (!$result) {
     ?>
   </select>
 </div>
+<?php } ?>
 <!-- /Category Filter Dropdown & Search Bar -->
 
-<?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; } ?>
+<?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; ?>
 
 <table class="sortable">
   <thead>
@@ -197,6 +199,7 @@ if (!$result) {
     <?php endwhile; ?>
   </tbody>
 </table>
+<?php } ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
