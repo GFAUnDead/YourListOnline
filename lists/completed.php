@@ -148,25 +148,28 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
-<!-- Category Filter Dropdown -->
-<div class="category-filter">
-  <label for="categoryFilter">Filter by Category:</label>
+<!-- Category Filter Dropdown & Search Bar-->
+<?php if ($num_rows < 1) {} else { ?>
+<div class="search-and-filter">
+  <form method="GET" action="">
+    <input type="text" name="search" placeholder="Search todos" class="search-input">
+  </form>
   <select id="categoryFilter" onchange="applyCategoryFilter()">
     <option value="all" <?php if ($categoryFilter === 'all') echo 'selected'; ?>>All</option>
     <?php
-          $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
-          $categories_result = mysqli_query($conn, $categories_sql);
-
-          while ($category_row = mysqli_fetch_assoc($categories_result)) {
+        $categories_sql = "SELECT * FROM categories WHERE user_id = '$user_id' OR user_id IS NULL";
+        $categories_result = mysqli_query($conn, $categories_sql);
+        while ($category_row = mysqli_fetch_assoc($categories_result)) {
             $categoryId = $category_row['id'];
             $categoryName = $category_row['category'];
             $selected = ($categoryFilter == $categoryId) ? 'selected' : '';
             echo "<option value=\"$categoryId\" $selected>$categoryName</option>";
-          }
-        ?>
+        }
+    ?>
   </select>
 </div>
-<!-- /Category Filter Dropdown -->
+<?php } ?>
+<!-- /Category Filter Dropdown & Search Bar -->
 
 <h3>Completed Tasks:</h3>
 <p>Number of total tasks in the category: <?php echo count($incompleteTasks); ?></p>
