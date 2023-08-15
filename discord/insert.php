@@ -31,6 +31,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$discord_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -115,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$discord_profile_image_url' width='50px' height='50px' alt='$username Profile Image'>$username!"; ?></h1>
 <br>
 <form method="post">
 <h3>Please enter your task to add it to your list:</h3>
