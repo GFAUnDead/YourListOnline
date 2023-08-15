@@ -34,7 +34,7 @@ $username = $user['username'];
 $signup_date = $user['signup_date'];
 $last_login = $user['last_login'];
 $api_key = $user['api_key'];
-$twitch_profile_image_url = $user['profile_image'];
+$discord_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Convert the stored date and time to UTC using Sydney time zone (AEST/AEDT)
