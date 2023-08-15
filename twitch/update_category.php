@@ -39,6 +39,7 @@ $is_admin = ($user['is_admin'] == 1);
 // Get user's to-do list
 $sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY id DESC";
 $result = $conn->query($sql);
+$num_rows = mysqli_num_rows($result);
 
 if ($result) {
   $rows = $result->fetch_all(MYSQLI_ASSOC);
