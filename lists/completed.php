@@ -82,6 +82,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
+    <script src="https://cdn.yourlist.online/js/sorttable.js"></script>
   	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
   	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
   </head>
@@ -167,7 +168,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 <h3>Completed Tasks:</h3>
 <p>Number of total tasks in the category: <?php echo count($incompleteTasks); ?></p>
-<table>
+<table class="sortable">
     <thead>
     <tr>
         <th width="700">Objective</th>
