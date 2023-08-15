@@ -129,7 +129,8 @@ if (!$result) {
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button> <a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
 </nav>
@@ -160,7 +161,8 @@ if (!$result) {
 </div>
 <!-- /Category Filter Dropdown & Search Bar -->
 
-<?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
+<?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; } ?>
+
 <table class="sortable">
   <thead>
     <tr>
