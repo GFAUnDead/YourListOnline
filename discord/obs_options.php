@@ -24,7 +24,6 @@ if ($currentHour < 12) {
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
-
 $stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
 $stmt->bind_param("s", $access_token);
 $stmt->execute();
@@ -32,6 +31,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
+$discord_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
@@ -161,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$discord_profile_image_url' width='50px' height='50px' alt='$username Profile Image'>$username!"; ?></h1>
 <br>
 <h3>Font & Color Settings:</h3>
 <?php if ($font !== '' || $color !== '') { ?>
