@@ -140,8 +140,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
-<!-- Category Filter Dropdown & Search Bar-->
 <?php if ($num_rows < 1) {} else { ?>
+<!-- Category Filter Dropdown & Search Bar-->
 <div class="search-and-filter">
   <form method="GET" action="">
     <input type="text" name="search" placeholder="Search todos" class="search-input">
@@ -160,8 +160,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
   </select>
 </div>
-<?php } ?>
 <!-- /Category Filter Dropdown & Search Bar -->
+<?php } ?>
 
 <div class="row column">
 <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } else { ?>
