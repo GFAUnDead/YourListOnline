@@ -24,7 +24,6 @@ if ($currentHour < 12) {
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
-
 $stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
 $stmt->bind_param("s", $access_token);
 $stmt->execute();
@@ -32,8 +31,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $username = $user['username'];
-$twitchDisplayName = $user['twitch_display_name'];
-$twitch_profile_image_url = $user['profile_image'];
+$discord_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
 
 // Initialize variables
@@ -176,7 +174,7 @@ if (empty($category_err)) {
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
+<h1><?php echo "$greeting, <img id='profile-image' src='$discord_profile_image_url' width='50px' height='50px' alt='$username Profile Image'>$username!"; ?></h1>
 <br>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
     <h3>Type in what your new category will be:</h3>
