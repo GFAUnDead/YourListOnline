@@ -76,6 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
+    <script src="https://cdn.yourlist.online/js/sorttable.js"></script>
   	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
   	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
   </head>
@@ -158,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!-- /Category Filter Dropdown -->
 <div class="row column">
 <h1>Please pick which task to remove from your list:</h1>
-<table>
+<table class="sortable">
     <thead>
         <tr>
             <th width="500">Objective</th>
