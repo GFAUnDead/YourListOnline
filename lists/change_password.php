@@ -166,7 +166,8 @@ if (empty($current_password_err) && empty($new_password_err) && empty($confirm_p
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button> <a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
 </nav>
