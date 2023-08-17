@@ -102,7 +102,8 @@ if ($alpha_user_flag && $beta_user_flag) {
                     <li class="is-active"><a href="profile.php">View Profile</a></li>
                     <li><a href="update_profile.php">Update Profile</a></li>
                     <li><a href="obs_options.php">OBS Viewing Options</a></li>
-                    <?php if ($change_password) { ?> <li><a href="change_password.php">Change Password</a></li>  <?php } ?>
+                    <?php if ($change_password) { ?><li><a href="change_password.php">Change Password</a></li><?php } ?>
+                    
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
             </li>
@@ -140,9 +141,12 @@ if ($alpha_user_flag && $beta_user_flag) {
     <br><br>
     <button type="button" class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <a href="https://payments.yourlist.online" type="button" class="defult-button">Payments</a>
-    <br><br>
-    <?php if ($change_password) { ?><a href="change_password.php"  type="button" class="defult-button">Change Password</a><br><br><?php } ?>
+    <?php if ($is_admin) { ?><a href="https://payments.yourlist.online" type="button" class="defult-button">Payments</a>
+    <br><br><?php } ?>
+
+    <?php if ($change_password) { ?><a href="change_password.php" type="button" class="defult-button">Change Password</a>
+    <br><br><?php } ?>
+
     <a href="logout.php" type="button" class="logout-button">Logout</a>
 </div>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
