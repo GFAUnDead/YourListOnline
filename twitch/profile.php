@@ -141,8 +141,9 @@ if ($alpha_user_flag && $beta_user_flag) {
     <br><br>
     <button type="button" class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <a href="https://payments.yourlist.online" type="button" class="defult-button">Payments</a>
-    <br><br>
+    <?php if ($is_admin) { ?><a href="https://payments.yourlist.online" type="button" class="defult-button">Payments</a>
+    <br><br><?php } ?>
+    
     <a href="logout.php" type="button" class="logout-button">Logout</a>
 </div>
 <!-- Include the JavaScript files -->
