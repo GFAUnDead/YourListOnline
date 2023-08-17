@@ -28,7 +28,7 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['access_token'])) {
       exit();
   } else {
       // Redirect to a default index page
-      header("Location: login.php");
+      header("Location: https://yourlist.online/");
       exit();
   }
 }
