@@ -24,12 +24,12 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['access_token'])) {
     if (in_array($referrerDomain, $allowedDomains)) {
       // Redirect to login page of the respective domain
       $loginUrl = "https://$referrerDomain/login.php";
-      //header("Location: $loginUrl");
-      //exit();
+      header("Location: $loginUrl");
+      exit();
   } else {
-      // Redirect to a default login page if referrer domain is not recognized
-      //header("Location: login.php");
-      //exit();
+      // Redirect to a default index page
+      header("Location: login.php");
+      exit();
   }
 }
 
