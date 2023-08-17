@@ -3,17 +3,64 @@
 // Start session
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['loggedin'])) {
-  header("Location: login.php");
-  exit();
+// Store the referrer URL in a session variable
+if(isset($_SERVER['HTTP_REFERER'])) {
+  $_SESSION['referrer_url'] = $_SERVER['HTTP_REFERER'];
 }
 
-// Require database connection
-require_once "db_connect.php";
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$username = $_SESSION['username'];
+// Check if user is logged in
+if (!isset($_SESSION['loggedin']) && !isset($_SESSION['access_token'])) {
+  // Get the referrer domain
+  $referrerDomain = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
+
+  // Define allowed referrer domains
+  $allowedDomains = [
+      'access.yourlist.online',
+      'discord.yourlist.online',
+      'twitch.yourlist.online'
+  ];
+
+    // Check if the referrer domain is in the allowed list
+    if (in_array($referrerDomain, $allowedDomains)) {
+      // Redirect to login page of the respective domain
+      $loginUrl = "https://$referrerDomain/login.php";
+      //header("Location: $loginUrl");
+      //exit();
+  } else {
+      // Redirect to a default login page if referrer domain is not recognized
+      //header("Location: login.php");
+      //exit();
+  }
+}
+
+$DisplayName = 'user';
+// User is logged in, fetch user data based on session
+include 'db_connect.php';
+
+if (isset($_SESSION['loggedin'])) {
+    // Get user information from the database
+    $user_id = $_SESSION['user_id'];
+    $sql = "SELECT * FROM users WHERE id = '$user_id'";
+    $result = mysqli_query($conn, $sql);
+    $user = mysqli_fetch_assoc($result);
+    $username = $user['username'];
+    $DisplayName = $username;
+    $twitch_profile_image_url = $user['profile_image'];
+    $is_admin = ($user['is_admin'] ==1);
+} elseif (isset($_SESSION['access_token'])) {
+    // Fetch the user's data from the database based on the access_token
+    $access_token = $_SESSION['access_token'];
+    $stmt = $conn->prepare("SELECT * FROM users WHERE access_token = ?");
+    $stmt->bind_param("s", $access_token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $user_id = $user['id'];
+    $username = $user['username'];
+    $DisplayName = $user['twitch_display_name'];
+    $twitch_profile_image_url = $user['profile_image'];
+    $is_admin = ($user['is_admin'] == 1);
+}
 
 // Get the current hour in 24-hour format (0-23)
 $currentHour = date('G');
@@ -24,17 +71,6 @@ if ($currentHour < 12) {
     $greeting = "Good morning";
 } else {
     $greeting = "Good afternoon";
-}
-
-// Fetch the user's data from the database
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT * FROM users WHERE id = '$user_id'";
-$result = mysqli_query($conn, $sql);
-
-// Check if the query succeeded
-if (!$result) {
-  echo "Error: " . mysqli_error($conn);
-  exit();
 }
 
 // Blank informatin for build
@@ -72,42 +108,8 @@ $customer_email= '';
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
       <li class="menu-text">YourListOnline</li>
-      <li><a href="dashboard.php">Dashboard</a></li>
-      <li><a href="insert.php">Add</a></li>
-      <li><a href="remove.php">Remove</a></li>
-      <li>
-        <a>Update</a>
-        <ul class="vertical menu" data-dropdown-menu>
-          <li><a href="update_objective.php">Update Objective</a></li>
-          <li><a href="update_category.php">Update Objective Category</a></li>
-        </ul>
-      </li>
-      <li><a href="completed.php">Completed</a></li>
-      <li>
-        <a>Categories</a>
-        <ul class="vertical menu" data-dropdown-menu>
-          <li><a href="categories.php">View Categories</a></li>
-          <li><a href="add_category.php">Add Category</a></li>
-        </ul>
-      </li>
-      <li>
-        <a>Profile</a>
-        <ul class="vertical menu" data-dropdown-menu>
-		    <li><a href="profile.php">View Profile</a></li>
-		    <li><a href="update_profile.php">Update Profile</a></li>
-            <li><a href="obs_options.php">OBS Viewing Options</a></li>
-            <li class="is-active"><a href="payments.php">Payments</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-      </li>
-      <?php if ($_SESSION['is_admin']) { ?>
-        <li>
-        <a>Admins</a>
-        <ul class="vertical menu" data-dropdown-menu>
-					<li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
-        </ul>
-      </li>
-      <?php } ?>
+      <li class="is-active"><a href="payments.php">Payments</a></li>
+      <li><a href="https://<?php echo $referrerDomain; ?>">BACK</a></li>
     </ul>
   </div>
   <div class="top-bar-right">
@@ -121,7 +123,7 @@ $customer_email= '';
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $username!"; ?></h1>
+<h1><?php echo "$greeting, $DisplayName!"; ?></h1>
 <br><!-- 
     PULL DATA FROM THE DATA BASE, IF THE USER HAS A SCRIPE CUSTOMER ACCOUNT WITH US (stripe_cutomer_id)
     ELSE, DISPLY THE ERROR MESSAGE AND CREATE AN SUBSCRIPTION ACCOUTN WITH US
