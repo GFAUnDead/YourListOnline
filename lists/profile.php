@@ -138,10 +138,12 @@ if ($alpha_user_flag && $beta_user_flag) {
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
     <button type="button" class="defult-button" id="hide-api-key" style="display:none;">Hide API Key</button>
     <br><br>
-    <button class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
+    <button type="button" class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <?php if ($change_password) { ?><a href="change_password.php" class="defult-button">Change Password</a><br><br><?php } ?>
-    <a href="logout.php" class="logout-button">Logout</a>
+    <a href="https://payments.yourlist.online" type="button" class="defult-button">Payments</a>
+    <br><br>
+    <?php if ($change_password) { ?><a href="change_password.php"  type="button" class="defult-button">Change Password</a><br><br><?php } ?>
+    <a href="logout.php" type="button" class="logout-button">Logout</a>
 </div>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.yourlist.online/js/profile.js"></script>
