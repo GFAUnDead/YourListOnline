@@ -144,6 +144,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
@@ -173,7 +174,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 <?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h3>Completed Tasks:</h3><br><h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; ?>
 
-<table class="sortable">
+<table class="sortable dark-mode-table">
     <thead>
     <tr>
         <th width="700">Objective</th>
@@ -219,5 +220,6 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
     window.location.href = "completed.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
