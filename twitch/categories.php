@@ -59,6 +59,8 @@ if (!$result) {
   </head>
 <body>
 <!-- Navigation -->
+
+<div class="dark-mode-content">
 <div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
   <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
   <div class="title-bar-title">Menu</div>
@@ -106,7 +108,7 @@ if (!$result) {
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <!--<li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>-->
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
       <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
@@ -119,7 +121,7 @@ if (!$result) {
 <br>
 <p>Here is the current list of categories you can filter your lists in, each category is it's own list.<br>
    The categories in this list are either created by you or publicly accessible.</p>
-<table class="sortable">
+<table class="sortable dark-mode-table">
   <thead>
     <tr>
       <th width="50">ID</th>
@@ -149,5 +151,6 @@ if (!$result) {
     window.location.href = "categories.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
