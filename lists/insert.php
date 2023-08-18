@@ -113,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
@@ -156,5 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     window.location.href = "insert.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
