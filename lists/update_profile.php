@@ -149,6 +149,7 @@ $conn->close();
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
@@ -191,5 +192,6 @@ $conn->close();
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
+</div>
 </body>
 </html>
