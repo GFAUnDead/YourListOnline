@@ -135,6 +135,7 @@ if (!$result) {
   </div>
 </nav>
 <!-- /Navigation -->
+
 <div class="dark-mode-content">
 <div class="row column">
 <br>
