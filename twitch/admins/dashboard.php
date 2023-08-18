@@ -108,6 +108,7 @@ if ($is_admin) {
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
@@ -132,7 +133,7 @@ if ($is_admin) {
 </div>
 <!-- /Category Filter Dropdown & Search Bar -->
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
-<table class="sortable">
+<table class="sortable dark-mode-table">
   <thead>
     <tr>
       <th>Username</th>
@@ -177,5 +178,6 @@ if ($is_admin) {
     window.location.href = "dashboard.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
