@@ -137,6 +137,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <p><?php echo "$greeting,"; ?> please fill in your credentials to login.
@@ -166,5 +167,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
+</div>
 </body>
 </html>
