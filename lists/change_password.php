@@ -183,6 +183,7 @@ if (empty($current_password_err) && empty($new_password_err) && empty($confirm_p
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
@@ -216,5 +217,6 @@ if (empty($current_password_err) && empty($new_password_err) && empty($confirm_p
     window.location.href = "dashboard.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
