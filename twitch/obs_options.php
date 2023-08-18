@@ -155,20 +155,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <!--<li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>-->
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
       <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
 <h3>Font & Color Settings:</h3>
 <?php if ($font !== '' || $color !== '') { ?>
-<table>
+<table class="dark-mode-table">
     <tr>
         <th style="width: 15%; height: 20%;">Setting</th>
         <th style="width: 25%; height: 20%;">Value</th>
