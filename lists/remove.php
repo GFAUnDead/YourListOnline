@@ -141,6 +141,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </div>
 </nav>
 <!-- /Navigation -->
+
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
@@ -171,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="row column">
 <?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no rows to edit</h4>'; } else { ?>
 <h1>Please pick which task to remove from your list:</h1>
-<table class="sortable">
+<table class="sortable dark-mode-table">
     <thead>
         <tr>
             <th width="500">Objective</th>
@@ -219,5 +221,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     window.location.href = "remove.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
