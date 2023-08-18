@@ -127,12 +127,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <!--<li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>-->
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
       <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
 </nav>
 <!-- /Navigation -->
+
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
@@ -140,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <form method="POST">
 <?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } else { echo "<h2>Please pick which row to update on your list:</h2>"; ?>
   <?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="save-button">Update All</button>'; } ?>
-<table class="sortable">
+<table class="sortable dark-mode-table">
 <thead>
   <tr>
       <th width="500">Objective</th>
@@ -184,5 +186,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     window.location.href = "update_objective.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
