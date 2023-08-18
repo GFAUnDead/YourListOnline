@@ -75,7 +75,6 @@ if ($_SESSION['is_admin'] == 1) {
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
     <script src="https://cdn.yourlist.online/js/about.js"></script>
     <script src="https://cdn.yourlist.online/js/sorttable.js"></script>
-    <script src="https://cdn.yourlist.online/js/darkmode.js"></script>
   	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
   	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
   </head>
@@ -102,6 +101,7 @@ if ($_SESSION['is_admin'] == 1) {
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
 <br>
@@ -127,7 +127,7 @@ if ($_SESSION['is_admin'] == 1) {
 </div>
 <!-- /Category filter dropdown & search bar -->
 <?php echo "Number of total tasks in the category: " . mysqli_num_rows($result); ?>
-<table class="sortable">
+<table class="sortable dark-mode-table">
   <thead>
     <tr>
       <th>Username</th>
@@ -162,6 +162,7 @@ if ($_SESSION['is_admin'] == 1) {
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
 <script>
   // JavaScript function to handle the category filter change
@@ -171,5 +172,6 @@ if ($_SESSION['is_admin'] == 1) {
     window.location.href = "dashboard.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
