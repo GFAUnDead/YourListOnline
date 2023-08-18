@@ -124,6 +124,8 @@ if ($alpha_user_flag && $beta_user_flag) {
     </div>
 </nav>
 <!-- /Navigation -->
+
+<div class="dark-mode-content">
 <div class="row column">
     <br>
     <h1><?php echo "<h1>$greeting, $username!</h1>"; ?></h1>
@@ -184,5 +186,6 @@ if ($alpha_user_flag && $beta_user_flag) {
   document.getElementById('localSignupDate').innerText = convertUTCToLocalFormatted(signupDateUTC);
   document.getElementById('localLastLogin').innerText = convertUTCToLocalFormatted(lastLoginUTC);
 </script>
+</div>
 </body>
 </html>
