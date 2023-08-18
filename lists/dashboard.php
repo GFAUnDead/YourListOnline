@@ -139,6 +139,7 @@ if (!$result) {
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
@@ -168,7 +169,7 @@ if (!$result) {
 
 <?php if ($num_rows < 1) { echo '<h4 style="color: red;">There are no tasks to show.</h4>'; } else { echo "<h4>Number of total tasks in the category: " . mysqli_num_rows($result); echo "</h4>"; ?>
 
-<table class="sortable">
+<table class="sortable dark-mode-table">
   <thead>
     <tr>
       <th>Objective</th>
@@ -213,5 +214,6 @@ if (!$result) {
     window.location.href = "dashboard.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
