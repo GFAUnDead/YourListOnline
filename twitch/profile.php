@@ -118,12 +118,14 @@ if ($alpha_user_flag && $beta_user_flag) {
     </div>
     <div class="top-bar-right">
       <ul class="menu">
-        <!--<li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>-->
+        <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
         <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
       </ul>
     </div>
 </nav>
 <!-- /Navigation -->
+
+<div class="dark-mode-content">
 <div class="row column">
     <br>
     <h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
@@ -183,5 +185,6 @@ if ($alpha_user_flag && $beta_user_flag) {
   document.getElementById('localSignupDate').innerText = convertUTCToLocalFormatted(signupDateUTC);
   document.getElementById('localLastLogin').innerText = convertUTCToLocalFormatted(lastLoginUTC);
 </script>
+</div>
 </body>
 </html>
