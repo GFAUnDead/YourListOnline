@@ -109,13 +109,14 @@ if (!$result) {
 </nav>
 <!-- /Navigation -->
 
+<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
 <p>Here is the current list of categories you can filter your lists in, each category is it's own list.<br>
    The categories in this list are either created by you or publicly accessible.</p>
-<table class="sortable">
+<table class="sortable dark-mode-table">
   <thead>
     <tr>
       <th width="50">ID</th>
@@ -145,5 +146,6 @@ if (!$result) {
     window.location.href = "categories.php?category=" + selectedCategoryId;
   });
 </script>
+</div>
 </body>
 </html>
