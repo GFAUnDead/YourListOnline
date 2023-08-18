@@ -64,7 +64,6 @@ if ($alpha_user_flag && $beta_user_flag) {
     <title>YourListOnline - Profile</title>
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
     <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
-    <script src="https://cdn.yourlist.online/js/darkmode.js"></script>
     <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
     <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
 </head>
@@ -119,7 +118,7 @@ if ($alpha_user_flag && $beta_user_flag) {
     </div>
     <div class="top-bar-right">
       <ul class="menu">
-        <!--<li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>-->
+        <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
         <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
       </ul>
     </div>
@@ -153,6 +152,7 @@ if ($alpha_user_flag && $beta_user_flag) {
 <script src="https://cdn.yourlist.online/js/profile.js"></script>
 <script src="https://cdn.yourlist.online/js/about.js" defer></script>
 <script src="https://cdn.yourlist.online/js/obsbutton.js" defer></script>
+<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>$(document).foundation();</script>
 <script src="https://cdn.yourlist.online/js/timezone.js"></script>
