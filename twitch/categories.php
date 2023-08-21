@@ -60,7 +60,6 @@ if (!$result) {
 <body>
 <!-- Navigation -->
 
-<div class="dark-mode-content">
 <div class="title-bar" data-responsive-toggle="mobile-menu" data-hide-for="medium">
   <button class="menu-icon" type="button" data-toggle="mobile-menu"></button>
   <div class="title-bar-title">Menu</div>
@@ -68,7 +67,7 @@ if (!$result) {
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="dashboard.php">Dashboard</a></li>
       <li><a href="insert.php">Add</a></li>
       <li><a href="remove.php">Remove</a></li>
@@ -151,6 +150,5 @@ if (!$result) {
     window.location.href = "categories.php?category=" + selectedCategoryId;
   });
 </script>
-</div>
 </body>
 </html>
