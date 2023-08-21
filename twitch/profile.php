@@ -78,7 +78,7 @@ if ($alpha_user_flag && $beta_user_flag) {
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
     <div class="top-bar-left">
         <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
-            <li class="menu-text">YourListOnline</li>
+            <li class="menu-text menu-text-black">YourListOnline</li>
             <li><a href="dashboard.php">Dashboard</a></li>
             <li><a href="insert.php">Add</a></li>
             <li><a href="remove.php">Remove</a></li>
@@ -125,7 +125,6 @@ if ($alpha_user_flag && $beta_user_flag) {
 </nav>
 <!-- /Navigation -->
 
-<div class="dark-mode-content">
 <div class="row column">
     <br>
     <h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
@@ -137,7 +136,7 @@ if ($alpha_user_flag && $beta_user_flag) {
     <p><strong>You Joined:</strong> <span id="localSignupDate"></span></p>
     <p><strong>Your Last Login:</strong> <span id="localLastLogin"></span></p>
     <p><strong>Tester Status:</strong> <?php echo $tester_status; ?></p>
-    <p><strong>Your API Key:</strong> <span class="api-key-wrapper" style="display: none;"><?php echo $api_key; ?></span></p>
+    <p><strong>Your API Key:</strong> <span class="api-key-wrapper api-text-black" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
     <button type="button" class="defult-button" id="hide-api-key" style="display:none;">Hide API Key</button>
     <br><br>
@@ -185,6 +184,5 @@ if ($alpha_user_flag && $beta_user_flag) {
   document.getElementById('localSignupDate').innerText = convertUTCToLocalFormatted(signupDateUTC);
   document.getElementById('localLastLogin').innerText = convertUTCToLocalFormatted(lastLoginUTC);
 </script>
-</div>
 </body>
 </html>
