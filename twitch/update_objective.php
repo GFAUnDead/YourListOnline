@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="dashboard.php">Dashboard</a></li>
       <li><a href="insert.php">Add</a></li>
       <li><a href="remove.php">Remove</a></li>
@@ -134,7 +134,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </nav>
 <!-- /Navigation -->
 
-<div class="dark-mode-content">
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
@@ -186,6 +185,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     window.location.href = "update_objective.php?category=" + selectedCategoryId;
   });
 </script>
-</div>
 </body>
 </html>
