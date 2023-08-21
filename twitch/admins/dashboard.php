@@ -94,7 +94,7 @@ if ($is_admin) {
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-dropdown-menu data-responsive-menu="drilldown medium-dropdown">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="../dashboard.php">User Dashboard</a></li>
       <li class="is-active"><a href="dashboard.php">Admin Dashboard</a></li>
     </ul>
@@ -108,7 +108,6 @@ if ($is_admin) {
 </nav>
 <!-- /Navigation -->
 
-<div class="dark-mode-content">
 <div class="row column">
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
@@ -178,6 +177,5 @@ if ($is_admin) {
     window.location.href = "dashboard.php?category=" + selectedCategoryId;
   });
 </script>
-</div>
 </body>
 </html>
