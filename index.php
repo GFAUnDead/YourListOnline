@@ -16,31 +16,33 @@
 <div class="top-bar">
   <div class="top-bar-left">
     <ul class="menu">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
+    </ul>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
+      <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
 </div>
 <!-- /Navigation -->
+<br>
+<div class="row column text-center">
+  <h2>Welcome to Your List Online</h2>
+  <hr>
+  <p>With this website you can keep track of all the tasks you need to complete.</p>
+  <p>To get started, simply log in with your account or use your Twitch or Discord account.</p>
+  <a href="https://access.yourlist.online/dashboard.php"><button class="defult-button">Login</button></a>
+  <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
+  <a href=""><button class="discord-button">Login with Discord (COMING SOON)</button></a>
+</div>
+<div class="row small-up-2 large-up-4">
+</div>
 
-    <div class="row column text-center">
-      <h2>Welcome to Your List Online</h2>
-      <hr>
-      <p>With this website you can keep track of all the tasks you need to complete.</p>
-		  <p>To get started, simply log in with your account or use your Twitch or Discord account.</p>
-		  <a href="https://access.yourlist.online/dashboard.php"><button class="defult-button">Login</button></a>
-		  <a href="https://twitch.yourlist.online/dashboard.php"><button class="twitch-button">Login with Twitch</button></a>
-		  <a href=""><button class="discord-button">Login with Discord (COMING SOON)</button></a>
-		  <br><br>
-		  <p><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></p>
-    </div>
-    <div class="row small-up-2 large-up-4">
-     
-    </div>
-
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
-    <script>
-      $(document).foundation();
-    </script>
-  </body>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
+<script>$(document).foundation();</script>
+</body>
 </html>
