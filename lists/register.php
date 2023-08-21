@@ -116,7 +116,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
 <nav class="top-bar stacked-for-medium">
   <div class="top-bar-left">
     <ul class="menu horizontal">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="https://yourlist.online">Home</a></li>
       <li><a href="login.php">Login</a></li>
       <li class="is-active"><a href="register.php">Sign Up</a></li>
@@ -131,7 +131,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
 </nav>
 <!-- /Navigation -->
 
-<div class="dark-mode-content">
 <div class="row column">
 <br>
 <p><?php echo "$greeting,"; ?> please fill this form to create an account.<br>Welcome to OPEN BETA!</p>
@@ -160,6 +159,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && $registration_enabled){
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>$(document).foundation();</script>
-</div>
 </body>
 </html>
