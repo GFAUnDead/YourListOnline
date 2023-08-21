@@ -87,7 +87,7 @@ if ($_SESSION['is_admin'] == 1) {
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-dropdown-menu data-responsive-menu="drilldown medium-dropdown">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="../dashboard.php">User Dashboard</a></li>
       <li class="is-active"><a href="dashboard.php">Admin Dashboard</a></li>
     </ul>
@@ -101,7 +101,6 @@ if ($_SESSION['is_admin'] == 1) {
 </nav>
 <!-- /Navigation -->
 
-<div class="dark-mode-content">
 <div class="row column">
 <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
 <br>
@@ -172,6 +171,5 @@ if ($_SESSION['is_admin'] == 1) {
     window.location.href = "dashboard.php?category=" + selectedCategoryId;
   });
 </script>
-</div>
 </body>
 </html>
