@@ -122,7 +122,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <nav class="top-bar stacked-for-medium">
   <div class="top-bar-left">
     <ul class="menu horizontal">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="https://yourlist.online">Home</a></li>
       <li class="is-active"><a href="login.php">Login</a></li>
       <li><a href="register.php">Sign Up</a></li>
@@ -137,7 +137,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </nav>
 <!-- /Navigation -->
 
-<div class="dark-mode-content">
 <div class="row column">
 <br>
 <p><?php echo "$greeting,"; ?> please fill in your credentials to login.
@@ -167,6 +166,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
-</div>
 </body>
 </html>
