@@ -99,10 +99,11 @@ if (isset($_GET['code'])) {
         $twitchUsername = $userInfo['data'][0]['login'];
         $twitchDisplayName = $userInfo['data'][0]['display_name'];
         $profileImageUrl = $userInfo['data'][0]['profile_image_url'];
-    
+        $twitchId = $userInfo['data'][0]['id'];
+
         // Insert/update the access token, profile image URL, and display name in the 'users' table
-        $insertQuery = "INSERT INTO users (username, access_token, api_key, profile_image, twitch_display_name, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', '$profileImageUrl', '$twitchDisplayName', 0)
-                    ON DUPLICATE KEY UPDATE access_token = '$accessToken', profile_image = '$profileImageUrl', twitch_display_name = '$twitchDisplayName'";
+        $insertQuery = "INSERT INTO users (username, access_token, api_key, profile_image, twitch_display_name, twitch_id, is_admin) VALUES ('$twitchUsername', '$accessToken', '" . bin2hex(random_bytes(16)) . "', '$profileImageUrl', '$twitchDisplayName', '$twitchId', 0)
+                ON DUPLICATE KEY UPDATE access_token = '$accessToken', profile_image = '$profileImageUrl', twitch_display_name = '$twitchDisplayName', twitch_id = '$twitchId'";
         $insertResult = mysqli_query($conn, $insertQuery);
 
         if ($insertResult) {
