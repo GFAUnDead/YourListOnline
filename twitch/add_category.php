@@ -78,7 +78,7 @@ if (empty($category_err)) {
   $is_public = isset($_POST['public']) ? 1 : 0;
 
   // If the category is public, set user_id to NULL; otherwise, use the user's ID
-  $param_user_id = $is_public ? NULL : $_SESSION['user_id'];
+  $param_user_id = $is_public ? NULL : $user_id;
 
   // Prepare an insert statement
   $sql = "INSERT INTO categories (category, user_id) VALUES (?, ?)";
