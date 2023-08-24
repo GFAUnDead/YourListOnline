@@ -76,45 +76,46 @@ if ($alpha_user_flag && $beta_user_flag) {
     <div class="title-bar-title">Menu</div>
 </div>
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
-    <div class="top-bar-left">
-        <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
-            <li class="menu-text menu-text-black">YourListOnline</li>
-            <li><a href="dashboard.php">Dashboard</a></li>
-            <li><a href="insert.php">Add</a></li>
-            <li><a href="remove.php">Remove</a></li>
-            <li>
-                <a>Update</a>
-                <ul class="vertical menu" data-dropdown-menu>
-                    <li><a href="update_objective.php">Update Objective</a></li>
-                    <li><a href="update_category.php">Update Objective Category</a></li>
-                </ul>
-            </li>
-            <li><a href="completed.php">Completed</a></li>
-            <li>
-                <a>Categories</a>
-                <ul class="vertical menu" data-dropdown-menu>
-                    <li><a href="categories.php">View Categories</a></li>
-                    <li><a href="add_category.php">Add Category</a></li>
-                </ul>
-            </li>
-            <li>
-                <a>Profile</a>
-                <ul class="vertical menu" data-dropdown-menu>
-                    <li class="is-active"><a href="profile.php">View Profile</a></li>
-                    <li><a href="update_profile.php">Update Profile</a></li>
-                    <li><a href="obs_options.php">OBS Viewing Options</a></li>
-                    <li><a href="logout.php">Logout</a></li>
-                </ul>
-            </li>
-            <?php if ($is_admin) { ?>
-            <li>
-                <a>Admins</a>
-                <ul class="vertical menu" data-dropdown-menu>
-                    <li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
-                </ul>
-            </li>
-            <?php } ?>
+<div class="top-bar-left">
+<ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
+    <li class="menu-text menu-text-black">YourListOnline</li>
+    <li><a href="dashboard.php">Dashboard</a></li>
+    <li><a href="insert.php">Add</a></li>
+    <li><a href="remove.php">Remove</a></li>
+    <li>
+        <a>Update</a>
+        <ul class="vertical menu" data-dropdown-menu>
+            <li><a href="update_objective.php">Update Objective</a></li>
+            <li><a href="update_category.php">Update Objective Category</a></li>
         </ul>
+    </li>
+    <li><a href="completed.php">Completed</a></li>
+    <li>
+        <a>Categories</a>
+        <ul class="vertical menu" data-dropdown-menu>
+            <li><a href="categories.php">View Categories</a></li>
+            <li><a href="add_category.php">Add Category</a></li>
+        </ul>
+    </li>
+    <li>
+      <a>Profile</a>
+      <ul class="vertical menu" data-dropdown-menu>
+        <li><a href="profile.php">View Profile</a></li>
+        <li><a href="update_profile.php">Update Profile</a></li>
+        <li><a href="obs_options.php">OBS Viewing Options</a></li>
+        <li><a href="twitch_mods.php">Twitch Mods</a></li>
+        <li><a href="logout.php">Logout</a></li>
+      </ul>
+    </li>
+    <?php if ($is_admin) { ?>
+    <li>
+        <a>Admins</a>
+        <ul class="vertical menu" data-dropdown-menu>
+            <li><a href="../admins/dashboard.php" target="_self">Admin Dashboard</a></li>
+        </ul>
+    </li>
+    <?php } ?>
+  </ul>
     </div>
     <div class="top-bar-right">
       <ul class="menu">
