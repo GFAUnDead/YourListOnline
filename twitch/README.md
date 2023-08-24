@@ -23,30 +23,21 @@ CREATE TABLE users (
 
 CREATE TABLE categories (
   id INT(11) AUTO_INCREMENT,
-  category VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  category VARCHAR(255) CHARACTER SET utf8mb4 COLLATE latin1_swedish_ci,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE todos (
-  id INT(11) AUTO_INCREMENT,
+  id INT(255) AUTO_INCREMENT,
   user_id INT(11),
-  category_id INT(11),
-  title VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  description TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  category VARCHAR(255) DEFAULT 'Default',
+  objective VARCHAR(255) CHARACTER SET utf8mb4 COLLATE latin1_swedish_ci,
   completed ENUM('YES','NO') DEFAULT 'NO',
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (category_id) REFERENCES categories(id)
-);
-
-CREATE TABLE tokens (
-  id INT(11) AUTO_INCREMENT,
-  user_id INT(11),
-  token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-  expires_at DATETIME,
-  PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 ```
 ### twitch_users
