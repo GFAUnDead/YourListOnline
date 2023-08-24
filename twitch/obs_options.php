@@ -137,10 +137,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <li>
         <a>Profile</a>
         <ul class="vertical menu" data-dropdown-menu>
-			<li><a href="profile.php">View Profile</a></li>
-		    <li class="is-active"><a href="update_profile.php">Update Profile</a></li>
-            <li><a href="obs_options.php">OBS Viewing Options</a></li>
-            <li><a href="logout.php">Logout</a></li>
+          <li><a href="profile.php">View Profile</a></li>
+          <li><a href="update_profile.php">Update Profile</a></li>
+          <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <li><a href="twitch_mods.php">Twitch Mods</a></li>
+          <li><a href="logout.php">Logout</a></li>
         </ul>
       </li>
       <?php if ($is_admin) { ?>
