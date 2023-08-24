@@ -96,7 +96,8 @@ if ($is_admin) {
     <ul class="dropdown vertical medium-horizontal menu" data-dropdown-menu data-responsive-menu="drilldown medium-dropdown">
       <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="../dashboard.php">User Dashboard</a></li>
-      <li class="is-active"><a href="dashboard.php">Admin Dashboard</a></li>
+      <li class="is-active"><a href="dashboard.php">Dashboard</a></li>
+      <li><a href="insert.php">Insert</a></li>
     </ul>
   </div>
   <div class="top-bar-right">
