@@ -9,13 +9,13 @@ To get started, you will need to create a SQL database and use the following cod
 
 ```sql
 CREATE TABLE users (
-  id INT(11) AUTO_INCREMENT,
+  id INT(255) AUTO_INCREMENT,
   username VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  access_token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  twitch_display_name VARCHAR(255),
+  twitch_id INT(255),
   is_admin TINYINT(1) DEFAULT 0,
   api_key VARCHAR(32) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-  access_token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-  refresh_token VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci,
-  expires_at DATETIME,
   signup_date DATETIME DEFAULT CURRENT_TIMESTAMP,
   last_login DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
