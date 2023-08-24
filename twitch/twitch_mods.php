@@ -62,7 +62,7 @@ if ($response === false) {
 $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 if ($httpCode !== 200) {
     // Handle non-successful HTTP response
-    echo 'HTTP error: ' . $httpCode;
+    $HTTPError = 'HTTP error: ' . $httpCode;
     exit;
 }
 
@@ -70,6 +70,19 @@ curl_close($curl);
 
 // Process and display moderator information
 $moderatorsData = json_decode($response, true);
+
+$existingNames = array();
+$existingNamesQuery = "SELECT twitch_display_name FROM users";
+$existingNamesResult = mysqli_query($conn, $existingNamesQuery);
+
+if ($existingNamesResult) {
+    while ($row = mysqli_fetch_assoc($existingNamesResult)) {
+        $existingNames[$row['twitch_display_name']] = true;
+    }
+} else {
+    echo "Failed to fetch existing names from the database.";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -145,16 +158,18 @@ $moderatorsData = json_decode($response, true);
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$twitch_profile_image_url' width='50px' height='50px' alt='$twitchDisplayName Profile Image'>$twitchDisplayName!"; ?></h1>
 <br>
-<?php if (isset($moderatorsData['data'])) : ?>
+<?php if ($httpCode !== 200) { echo $HTTPError; exit; } else { ?>
     <h1>Your Moderators:</h1>
     <ul>
-        <?php foreach ($moderatorsData['data'] as $moderator) : ?>
-            <li><?= $moderator['user_name'] ?></li>
+        <?php foreach ($moderatorsData['data'] as $moderator) : 
+            $modDisplayName = $moderator['user_name']; // Change to 'user_name'
+        ?>
+            <li <?php if (isset($existingNames[$modDisplayName])) echo 'style="color: green;"'; ?>>
+                <?= $modDisplayName ?>
+            </li>
         <?php endforeach; ?>
     </ul>
-<?php else : ?>
-    <h1>No moderators found.</h1>
-<?php endif; ?>
+<?php } ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
