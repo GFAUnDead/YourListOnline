@@ -23,7 +23,7 @@ if (!isset($_SESSION['access_token']) && !isset($_GET['code'])) {
         '?client_id=' . $clientID .
         '&redirect_uri=' . $redirectURI .
         '&response_type=code' .
-        '&scope=' . $IDScope .);
+        '&scope=' . $IDScope);
     exit;
 }
 
