@@ -3,6 +3,7 @@
 $clientID = ''; // CHANGE TO MAKE THIS WORK
 $redirectURI = ''; // CHANGE TO MAKE THIS WORK
 $clientSecret = ''; // CHANGE TO MAKE THIS WORK
+$IDScope = 'openid moderation:read';
 
 // Database credentials
 require_once "db_connect.php";
@@ -22,7 +23,7 @@ if (!isset($_SESSION['access_token']) && !isset($_GET['code'])) {
         '?client_id=' . $clientID .
         '&redirect_uri=' . $redirectURI .
         '&response_type=code' .
-        '&scope=openid moderation:read');
+        '&scope=' . $IDScope .);
     exit;
 }
 
@@ -61,11 +62,9 @@ if (isset($_GET['code'])) {
 
     curl_close($curl);
 
-    // Extract the access token from the response
+    // Extract the access token from the response & Store in session
     $responseData = json_decode($response, true);
     $accessToken = $responseData['access_token'];
-
-    // Store the access token in the session
     $_SESSION['access_token'] = $accessToken;
 
     // Fetch the user's Twitch username and profile image URL
