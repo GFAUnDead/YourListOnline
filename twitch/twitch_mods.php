@@ -162,10 +162,10 @@ if ($existingNamesResult) {
     <h1>Your Moderators:</h1>
     <ul>
         <?php foreach ($moderatorsData['data'] as $moderator) : 
-            $modDisplayName = $moderator['user_name']; // Change to 'user_name'
+            $modDisplayName = $moderator['user_name'];
         ?>
             <li <?php if (isset($existingNames[$modDisplayName])) echo 'style="color: green;"'; ?>>
-                <?= $modDisplayName ?>
+                <?= $modDisplayName ?> <?php if (isset($existingNames[$modDisplayName])) echo "(Active)"; ?>
             </li>
         <?php endforeach; ?>
     </ul>
