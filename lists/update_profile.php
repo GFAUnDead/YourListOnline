@@ -11,16 +11,9 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
-// Get the current hour in 24-hour format (0-23)
-$currentHour = date('G');
-// Initialize the greeting variable
-$greeting = '';
-// Check if it's before 12 PM (noon)
-if ($currentHour < 12) {
-    $greeting = "Good morning";
-} else {
-    $greeting = "Good afternoon";
-}
+// Default Timezone Settings
+$defaultTimeZone = 'Etc/UTC';
+$user_timezone = $defaultTimeZone;
 
 // Get user information from the database
 $user_id = $_SESSION['user_id'];
@@ -30,9 +23,41 @@ $user_data = mysqli_fetch_assoc($result);
 $is_admin = $user_data['is_admin'];
 $username = $user_data['username'];
 $change_password = $user_data['change_password'];
+$user_timezone = $user['timezone'];
+date_default_timezone_set($user_timezone);
+
+// Determine the greeting based on the user's local time
+$currentHour = date('G');
+$greeting = '';
+
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $selectedTimeZone = $_POST["timezone"];
+
+    // Update the user's time zone in the database
+    $stmt = $conn->prepare("UPDATE users SET timezone = ? WHERE id = ?");
+    $stmt->bind_param("si", $selectedTimeZone, $user_id);
+    $stmt->execute();
+
+    // Update the user's time zone in the current session
+    $user_timezone = $selectedTimeZone;
+}
+
+$timezones_query = $conn->query("SELECT * FROM timezones");
+$timezones = [];
+
+while ($row = $timezones_query->fetch_assoc()) {
+    $timezones[] = $row['name'];
+}
 
 // Get user's Twitch profile image URL
 $url = 'https://decapi.me/twitch/avatar/' . $username;
+$twitch_profile_image_error = "";
 
 // Initialize cURL session
 $curl = curl_init();
@@ -43,10 +68,29 @@ curl_setopt_array($curl, array(
 ));
 // Execute cURL request and get response
 $response = curl_exec($curl);
-// Close cURL session
-curl_close($curl);
-// Set Twitch profile image URL to the response
-$twitch_profile_image_url = trim($response);
+
+// Check for errors during the cURL request
+if (curl_errno($curl)) {
+    // Handle cURL errors, e.g., display an error message
+    $errorMessage = "Error fetching Twitch profile image: " . curl_error($curl);
+    // Close cURL session
+    curl_close($curl);
+
+    // You can display the error message to the user or handle it in another way
+    $twitch_profile_image_error = $errorMessage;
+} else {
+    // Close cURL session
+    curl_close($curl);
+    
+    // Check if the response contains "User not found" message
+    if (stripos($response, "User not found") !== false) {
+        // Display an error message to the user
+        $twitch_profile_image_error = "User not found: $username";
+    } else {
+        // Set Twitch profile image URL to the response
+        $twitch_profile_image_url = trim($response);
+    }
+}
 
 // Check if form has been submitted to update the username
 if (isset($_POST['update_username'])) {
@@ -170,15 +214,36 @@ $conn->close();
             </form>
         </td>
         <td>
-            <form id="update-profile-image-form" action="update_profile.php" method="POST">
-            <div><img id="profile-image" src="<?php echo $twitch_profile_image_url; ?>" width="100px" height="100px" alt="New Profile Image"></div>
-            <div>
-            <input type="hidden" name="twitch_profile_image_url" value="<?php echo $twitch_profile_image_url; ?>">
-            <button class="save-button" id="update-profile-image-button" name="update_profile_image">Update New Profile Image</button>
-            </div>
-            </form>
+        <?php
+          if (!empty($twitch_profile_image_error)) {
+              // Display the error message to the user
+              echo "<p>Error: $twitch_profile_image_error </p>";
+              echo "<p>Please update your Username to match your Twitch Username before setting your iamge.</p>";
+          } else {
+              // Display the form
+          ?>
+          <form id="update-profile-image-form" action="update_profile.php" method="POST">
+              <div><img id="profile-image" src="<?php echo $twitch_profile_image_url; ?>" width="100px" height="100px" alt="<?php echo $username; ?> New Profile Image"></div>
+              <div>
+                  <input type="hidden" name="twitch_profile_image_url" value="<?php echo $twitch_profile_image_url; ?>">
+                  <button class="save-button" id="update-profile-image-button" name="update_profile_image">Update New Profile Image</button>
+              </div>
+          </form>
+          <?php
+          }
+          ?>
         </td>
     </tr>
+    <th><p>Choose your time zone:</p></th>
+    <td><form action="" method="post">
+    <select name="timezone">
+    <?php foreach ($timezones as $timezone) {
+        $selected = ($timezone == $user_timezone) ? 'selected' : ''; // Compare with user's timezone
+        echo "<option value='$timezone'$selected>$timezone</option>
+             "; } ?>
+        </select>
+        </td><td><input type="submit" value="Submit" class="button">
+    </form></td>
     </tbody>
 </table>
 <div class="row column">
