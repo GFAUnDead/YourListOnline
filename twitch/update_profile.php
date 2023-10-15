@@ -1,3 +1,4 @@
+<?php ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); ?>
 <?php
 // Initialize the session
 session_start();
@@ -8,19 +9,12 @@ if (!isset($_SESSION['access_token'])) {
     exit();
 }
 
-// Connect to database
+// Require database connection
 require_once "db_connect.php";
 
-// Get the current hour in 24-hour format (0-23)
-$currentHour = date('G');
-// Initialize the greeting variable
-$greeting = '';
-// Check if it's before 12 PM (noon)
-if ($currentHour < 12) {
-    $greeting = "Good morning";
-} else {
-    $greeting = "Good afternoon";
-}
+// Default Timezone Settings
+$defaultTimeZone = 'Etc/UTC';
+$user_timezone = $defaultTimeZone;
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
@@ -34,6 +28,57 @@ $user_id = $user['id'];
 $username = $user['username'];
 $twitchDisplayName = $user['twitch_display_name'];
 $is_admin = ($user['is_admin'] == 1);
+$user_timezone = $user['timezone'];
+date_default_timezone_set($user_timezone);
+
+// Determine the greeting based on the user's local time
+$currentHour = date('G');
+$greeting = '';
+
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $selectedTimeZone = $_POST["timezone"];
+
+    // Update the user's time zone in the database
+    $stmt = $conn->prepare("UPDATE users SET timezone = ? WHERE access_token = ?");
+    $stmt->bind_param("si", $selectedTimeZone, $access_token);
+    $stmt->execute();
+
+    // Update the user's time zone in the current session
+    $user_timezone = $selectedTimeZone;
+}
+
+// Prepare to get all the timezones
+$timezone_prepare = $conn->prepare("SELECT * FROM timezones");
+if (!$timezone_prepare) {
+    die("Error in preparing the statement: " . $conn->error);
+}
+
+// Execute the prepared statement
+if ($timezone_prepare->execute()) {
+    // Bind the result to variables matching the columns
+    $timezone_prepare->bind_result($timezone_id, $timezone_name);
+
+    // Fetch the timezones into an array
+    $timezones = [];
+
+    while ($timezone_prepare->fetch()) {
+        $timezones[] = [
+            'id' => $timezone_id,
+            'name' => $timezone_name,
+        ];
+    }
+
+    // Close the statement
+    $timezone_prepare->close();
+} else {
+    die("Error in executing the statement: " . $timezone_prepare->error);
+}
 
 // Construct the URL for the Twitch profile image
 $url = 'https://decapi.me/twitch/avatar/' . $username;
@@ -59,7 +104,7 @@ if (isset($_POST['update_profile_image'])) {
 
     // Update user's profile image URL in database
     $stmt = $conn->prepare("UPDATE users SET profile_image = ? WHERE access_token = ?");
-    $stmt->bind_param("ss", $twitch_profile_image_url, $_SESSION['access_token']);
+    $stmt->bind_param("ss", $twitch_profile_image_url, $access_token);
     $stmt->execute();
     // Redirect to profile page
     header("Location: profile.php");
@@ -140,17 +185,33 @@ $conn->close();
 
 <div class="row column">
 <br>
-<h1><?php echo "$greeting, $twitchDisplayName!"; ?></h1>
+<h1><?php echo "$greeting, $username!"; ?></h1>
 <br>
-<h3>Update Profile Image:</h3>
-<form id="update-profile-image-form" action="update_profile.php" method="POST">
-<div><img id="profile-image" src="<?php echo $twitch_profile_image_url; ?>" width="200px" height="200px" alt="New Profile Image"></div>
-<br>
-<div>
-<input type="hidden" name="twitch_profile_image_url" value="<?php echo $twitch_profile_image_url; ?>">
-<button class="save-button" id="update-profile-image-button" name="update_profile_image">Update New Profile Image</button>
-</div>
-</form>
+<table>
+  <tr>
+    <th>Update Profile Image</th>
+    <th>Choose your time zone</th>
+  </tr>
+  <tbody>
+  <tr>
+    <td>
+      <form id="update-profile-image-form" action="update_profile.php" method="POST">
+        <div><img id="profile-image" src="<?php echo $twitch_profile_image_url; ?>" width="100px" height="100px" alt="<?php echo $username; ?> New Profile Image"></div>
+        <div>
+          <input type="hidden" name="twitch_profile_image_url" value="<?php echo $twitch_profile_image_url; ?>">
+          <button class="save-button" id="update-profile-image-button" name="update_profile_image">Update New Profile Image</button>
+        </div>
+      </form>
+    </td>
+    <td>
+      <form action="" method="post">
+        <select name="timezone"><?php foreach ($timezones as $timezone) { $selected = ($timezone['name'] == $user_timezone) ? 'selected' : ''; echo "<option value='{$timezone['name']}'$selected>{$timezone['name']}</option>"; } ?></select>
+        <input type="submit" value="Submit" class="save-button">
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
