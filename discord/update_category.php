@@ -8,19 +8,12 @@ if (!isset($_SESSION['access_token'])) {
     exit();
 }
 
-// Connect to database
+// Require database connection
 require_once "db_connect.php";
 
-// Get the current hour in 24-hour format (0-23)
-$currentHour = date('G');
-// Initialize the greeting variable
-$greeting = '';
-// Check if it's before 12 PM (noon)
-if ($currentHour < 12) {
-    $greeting = "Good morning";
-} else {
-    $greeting = "Good afternoon";
-}
+// Default Timezone Settings
+$defaultTimeZone = 'Etc/UTC';
+$user_timezone = $defaultTimeZone;
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
@@ -33,10 +26,23 @@ $user_id = $user['id'];
 $username = $user['username'];
 $discord_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
+$user_timezone = $user['timezone'];
+date_default_timezone_set($user_timezone);
+
+// Determine the greeting based on the user's local time
+$currentHour = date('G');
+$greeting = '';
+
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
 
 // Get user's to-do list
 $sql = "SELECT * FROM todos WHERE user_id = $user_id ORDER BY id DESC";
 $result = $conn->query($sql);
+$num_rows = mysqli_num_rows($result);
 
 if ($result) {
   $rows = $result->fetch_all(MYSQLI_ASSOC);
@@ -84,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="dashboard.php">Dashboard</a></li>
       <li><a href="insert.php">Add</a></li>
       <li><a href="remove.php">Remove</a></li>
@@ -106,8 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <li>
         <a>Profile</a>
         <ul class="vertical menu" data-dropdown-menu>
-					<li><a href="profile.php">View Profile</a></li>
-					<li><a href="update_profile.php">Update Profile</a></li>
+          <li><a href="profile.php">View Profile</a></li>
+          <li><a href="update_profile.php">Update Profile</a></li>
           <li><a href="obs_options.php">OBS Viewing Options</a></li>
           <li><a href="logout.php">Logout</a></li>
         </ul>
@@ -124,20 +130,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
   <div class="top-bar-right">
     <ul class="menu">
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
       <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
 </nav>
 <!-- /Navigation -->
+
 <div class="row column">
 <br>
 <h1><?php echo "$greeting, <img id='profile-image' src='$discord_profile_image_url' width='50px' height='50px' alt='$username Profile Image'>$username!"; ?></h1>
 <br>
-<h2>Please pick which row to update on your list:</h2>
 <form method="POST">
-<?php $num_rows = mysqli_num_rows($result); if ($num_rows > 0) { echo '<button type="submit" name="submit" class="save-button">Update All</button>'; } ?>
-<?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } ?>
-<table class="sortable">
+<?php if ($num_rows < 1) { echo '<h3 style="color: red;">There are no rows to edit</h3>'; } else { echo "<h2>Please pick which row to update on your list:</h2>"; ?>
+<button type="submit" name="submit" class="save-button">Update All</button>
+<table class="sortable dark-mode-table">
     <thead>
         <tr>
             <th width="500">Objective</th>
@@ -179,10 +186,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </tbody>
 </table>
+<?php } ?>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
 <script>
   // JavaScript function to handle the category filter change
