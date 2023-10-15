@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // Require database connection
 require_once "lists/db_connect.php";
 
@@ -16,6 +20,14 @@ $api_key = $_GET['api'];
 // Check if API key is valid
 $stmt = $conn->prepare("SELECT id FROM users WHERE api_key = ?");
 $stmt->bind_param("s", $api_key);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$user_id = $user['id'];
+
+// Retrieve font, color, list, shadow, and font_size data for the user from the showobs table
+$stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $settings = $result->fetch_assoc();
@@ -81,8 +93,8 @@ if ($result->num_rows > 0) {
                 </style>
             </head>
             <body>
-                <h1>$category List:</h1>
-                <$listType>";
+                <h1><?php echo $category; ?> List:</h1>
+                <<?php echo $listType; ?>>";
 
         foreach ($tasks as $task) {
             $task_id = $task['id'];
