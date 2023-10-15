@@ -11,6 +11,10 @@ if (!isset($_SESSION['loggedin'])) {
 // Require database connection
 require_once "db_connect.php";
 
+// Default Timezone Settings
+$defaultTimeZone = 'Etc/UTC';
+$user_timezone = $defaultTimeZone;
+
 // Get user information from the database
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
@@ -19,12 +23,13 @@ $user_data = mysqli_fetch_assoc($result);
 $is_admin = $user_data['is_admin'];
 $username = $user_data['username'];
 $change_password = $user_data['change_password'];
+$user_timezone = $user['timezone'];
+date_default_timezone_set($user_timezone);
 
-// Get the current hour in 24-hour format (0-23)
+// Determine the greeting based on the user's local time
 $currentHour = date('G');
-// Initialize the greeting variable
 $greeting = '';
-// Check if it's before 12 PM (noon)
+
 if ($currentHour < 12) {
     $greeting = "Good morning";
 } else {
