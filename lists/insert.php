@@ -22,11 +22,11 @@ $user_timezone = $defaultTimeZone;
 $user_id = $_SESSION['user_id'];
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
 $result = mysqli_query($conn, $sql);
-$user_data = mysqli_fetch_assoc($result);
-$is_admin = $user_data['is_admin'];
-$username = $user_data['username'];
-$change_password = $user_data['change_password'];
-$user_timezone = $user_data['timezone'];
+$user = mysqli_fetch_assoc($result);
+$is_admin = $user['is_admin'];
+$username = $user['username'];
+$change_password = $user['change_password'];
+$user_timezone = $user['timezone'];
 date_default_timezone_set($user_timezone);
 
 // Determine the greeting based on the user's local time
