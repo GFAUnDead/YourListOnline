@@ -23,7 +23,7 @@ $user_data = mysqli_fetch_assoc($result);
 $is_admin = $user_data['is_admin'];
 $username = $user_data['username'];
 $change_password = $user_data['change_password'];
-$user_timezone = $user['timezone'];
+$user_timezone = $user_data['timezone'];
 date_default_timezone_set($user_timezone);
 
 // Determine the greeting based on the user's local time
@@ -234,15 +234,11 @@ $conn->close();
           ?>
         </td>
     </tr>
+    <br>
     <th><p>Choose your time zone:</p></th>
     <td><form action="" method="post">
-    <select name="timezone">
-    <?php foreach ($timezones as $timezone) {
-        $selected = ($timezone == $user_timezone) ? 'selected' : ''; // Compare with user's timezone
-        echo "<option value='$timezone'$selected>$timezone</option>
-             "; } ?>
-        </select>
-        </td><td><input type="submit" value="Submit" class="button">
+    <select name="timezone"><?php foreach ($timezones as $timezone) { $selected = ($timezone == $user_timezone) ? 'selected' : ''; echo "<option value='$timezone'$selected>$timezone</option>"; } ?></select>
+    </td><td><input type="submit" value="Submit" class="button">
     </form></td>
     </tbody>
 </table>
