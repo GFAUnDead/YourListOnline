@@ -141,6 +141,7 @@ if ($alpha_user_flag && $beta_user_flag) {
     <p><strong>Display Name:</strong> <?php echo $twitchDisplayName; ?></p>
     <p><strong>You Joined:</strong> <span id="localSignupDate"></span></p>
     <p><strong>Your Last Login:</strong> <span id="localLastLogin"></span></p>
+    <p><strong>Your Time Zone:</strong> <?php echo $user_timezone; ?></p>
     <p><strong>Tester Status:</strong> <?php echo $tester_status; ?></p>
     <p><strong>Your API Key:</strong> <span class="api-key-wrapper api-text-black" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
