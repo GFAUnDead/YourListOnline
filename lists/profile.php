@@ -12,16 +12,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 // Require database connection
 require_once "db_connect.php";
 
-// Get the current hour in 24-hour format (0-23)
-$currentHour = date('G');
-// Initialize the greeting variable
-$greeting = '';
-// Check if it's before 12 PM (noon)
-if ($currentHour < 12) {
-    $greeting = "Good morning";
-} else {
-    $greeting = "Good afternoon";
-}
+// Default Timezone Settings
+$defaultTimeZone = 'Etc/UTC';
+$user_timezone = $defaultTimeZone;
 
 // Get user information from the database
 $user_id = $_SESSION['user_id'];
@@ -35,6 +28,18 @@ $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $change_password = $user['change_password'];
 $twitch_profile_image_url = $user['profile_image'];
+$user_timezone = $user['timezone'];
+date_default_timezone_set($user_timezone);
+
+// Determine the greeting based on the user's local time
+$currentHour = date('G');
+$greeting = '';
+
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
 
 // Convert the stored date and time to UTC using Sydney time zone (AEST/AEDT)
 date_default_timezone_set('Australia/Sydney');
@@ -134,6 +139,7 @@ if ($alpha_user_flag && $beta_user_flag) {
     <p><strong>Your Username:</strong> <?php echo $username; ?></p>
     <p><strong>You Joined:</strong> <span id="localSignupDate"></span></p>
     <p><strong>Your Last Login:</strong> <span id="localLastLogin"></span></p>
+    <p><strong>Your Time Zone:</strong> <?php echo $user_timezone; ?></p>
     <p><strong>Tester Status:</strong> <?php echo $tester_status; ?></p>
     <p><strong>Your API Key:</strong> <span class="api-key-wrapper api-text-black" style="display: none;"><?php echo $api_key; ?></span></p>
     <button type="button" class="defult-button" id="show-api-key">Show API Key</button>
