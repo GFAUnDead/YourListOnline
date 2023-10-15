@@ -18,6 +18,14 @@ $stmt = $conn->prepare("SELECT id FROM users WHERE api_key = ?");
 $stmt->bind_param("s", $api_key);
 $stmt->execute();
 $result = $stmt->get_result();
+$settings = $result->fetch_assoc();
+$font = isset($settings['font']) ? $settings['font'] : null;
+$color = isset($settings['color']) ? $settings['color'] : null;
+$list = isset($settings['list']) ? $settings['list'] : null;
+$shadow = isset($settings['shadow']) ? $settings['shadow'] : null;
+$font_size = isset($settings['font_size']) ? $settings['font_size'] : null;
+$listType = ($list === 'Numbered') ? 'ol' : 'ul';
+$bold = isset($settings['bold']) ? $settings['bold'] : null;
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
@@ -41,8 +49,6 @@ if ($result->num_rows > 0) {
         $result = $stmt->get_result();
         $tasks = $result->fetch_all(MYSQLI_ASSOC);
 
-        $listType = ($list === 'Numbered') ? 'ol' : 'ul';
-
         echo "<!DOCTYPE html>
             <html>
             <head>
@@ -54,8 +60,23 @@ if ($result->num_rows > 0) {
                 <meta http-equiv='refresh' content='10'>
                 <style>
                     body {
-                        font-family: $font;
-                        color: $color;
+                        <?php
+                        if ($font) {
+                            echo "font-family: $font; ";
+                        }
+                        if ($color) {
+                            echo "color: $color;";
+                            if ($shadow && $shadow == 1) {
+                                if ($color === 'Black') {
+                                    echo "text-shadow: 0px 0px 6px White;";
+                                } elseif ($color === 'White') {
+                                    echo "text-shadow: 0px 0px 6px Black;";
+                                } else {
+                                    echo "text-shadow: 0px 0px 6px Black;";
+                                }
+                            }
+                        }
+                        ?>
                     }
                 </style>
             </head>
