@@ -8,19 +8,12 @@ if (!isset($_SESSION['access_token'])) {
     exit();
 }
 
-// Connect to database
+// Require database connection
 require_once "db_connect.php";
 
-// Get the current hour in 24-hour format (0-23)
-$currentHour = date('G');
-// Initialize the greeting variable
-$greeting = '';
-// Check if it's before 12 PM (noon)
-if ($currentHour < 12) {
-    $greeting = "Good morning";
-} else {
-    $greeting = "Good afternoon";
-}
+// Default Timezone Settings
+$defaultTimeZone = 'Etc/UTC';
+$user_timezone = $defaultTimeZone;
 
 // Fetch the user's data from the database based on the access_token
 $access_token = $_SESSION['access_token'];
@@ -33,6 +26,18 @@ $user_id = $user['id'];
 $username = $user['username'];
 $discord_profile_image_url = $user['profile_image'];
 $is_admin = ($user['is_admin'] == 1);
+$user_timezone = $user['timezone'];
+date_default_timezone_set($user_timezone);
+
+// Determine the greeting based on the user's local time
+$currentHour = date('G');
+$greeting = '';
+
+if ($currentHour < 12) {
+    $greeting = "Good morning";
+} else {
+    $greeting = "Good afternoon";
+}
 
 // Retrieve font, color, list, shadow, bold, and font_size data for the user from the showobs table
 $stmt = $conn->prepare("SELECT * FROM showobs WHERE user_id = ?");
@@ -113,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <nav class="top-bar stacked-for-medium" id="mobile-menu">
   <div class="top-bar-left">
     <ul class="dropdown vertical medium-horizontal menu" data-responsive-menu="drilldown medium-dropdown hinge-in-from-top hinge-out-from-top">
-      <li class="menu-text">YourListOnline</li>
+      <li class="menu-text menu-text-black">YourListOnline</li>
       <li><a href="dashboard.php">Dashboard</a></li>
       <li><a href="insert.php">Add</a></li>
       <li><a href="remove.php">Remove</a></li>
@@ -135,10 +140,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <li>
         <a>Profile</a>
         <ul class="vertical menu" data-dropdown-menu>
-			<li><a href="profile.php">View Profile</a></li>
-		    <li class="is-active"><a href="update_profile.php">Update Profile</a></li>
-            <li><a href="obs_options.php">OBS Viewing Options</a></li>
-            <li><a href="logout.php">Logout</a></li>
+          <li><a href="profile.php">View Profile</a></li>
+          <li><a href="update_profile.php">Update Profile</a></li>
+          <li><a href="obs_options.php">OBS Viewing Options</a></li>
+          <li><a href="logout.php">Logout</a></li>
         </ul>
       </li>
       <?php if ($is_admin) { ?>
@@ -153,6 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
   <div class="top-bar-right">
     <ul class="menu">
+      <li><button id="dark-mode-toggle"><i class="icon-toggle-dark-mode"></i></button></li>
       <li><a class="popup-link" onclick="showPopup()">&copy; 2023 YourListOnline. All rights reserved.</a></li>
     </ul>
   </div>
@@ -165,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <br>
 <h3>Font & Color Settings:</h3>
 <?php if ($font !== '' || $color !== '') { ?>
-<table>
+<table class="dark-mode-table">
     <tr>
         <th style="width: 15%; height: 20%;">Setting</th>
         <th style="width: 25%; height: 20%;">Value</th>
@@ -267,6 +273,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
 </body>
 </html>
