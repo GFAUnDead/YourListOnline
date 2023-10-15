@@ -27,7 +27,7 @@ $last_login = $user['last_login'];
 $api_key = $user['api_key'];
 $change_password = $user['change_password'];
 $twitch_profile_image_url = $user['profile_image'];
-$user_timezone = $user_data['timezone'];
+$user_timezone = $user['timezone'];
 date_default_timezone_set($user_timezone);
 
 // Determine the greeting based on the user's local time
