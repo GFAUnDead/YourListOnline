@@ -67,7 +67,12 @@ if ($user_id) {
 
     if ($result->num_rows > 0) {
         $category = $result->fetch_assoc()['category'];
-        // Rest of your code for displaying the category list
+
+        $stmt = $conn->prepare("SELECT * FROM todos WHERE user_id = ? AND category = ? ORDER BY id ASC");
+            $stmt->bind_param("is", $user_id, $category_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $tasks = $result->fetch_all(MYSQLI_ASSOC);
     } else {
         echo "</head>";
         echo "<body>";
