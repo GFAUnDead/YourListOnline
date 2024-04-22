@@ -92,11 +92,11 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YourListOnline - Completed</title>
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
-    <script src="https://cdn.yourlist.online/js/about.js"></script>
-    <script src="https://cdn.yourlist.online/js/sorttable.js"></script>
-  	<link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-  	<link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+    <link rel="stylesheet" href="https://cdn.yourlistonline.com.au/css/custom.css">
+    <script src="https://cdn.yourlistonline.com.au/js/about.js"></script>
+    <script src="https://cdn.yourlistonline.com.au/js/sorttable.js"></script>
+  	<link rel="icon" href="https://cdn.yourlistonline.com.au/img/logo.png" type="image/png" />
+  	<link rel="apple-touch-icon" href="https://cdn.yourlistonline.com.au/img/logo.png">
   </head>
 <body>
 <!-- Navigation -->
@@ -220,7 +220,7 @@ $categoryFilter = isset($_GET['category']) ? $_GET['category'] : 'all';
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
-<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
+<script src="https://cdn.yourlistonline.com.au/js/darkmode.js"></script>
 <script>$(document).foundation();</script>
 <script>
   // JavaScript function to handle the category filter change
