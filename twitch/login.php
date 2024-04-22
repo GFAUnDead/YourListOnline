@@ -134,10 +134,10 @@ if (isset($_GET['code'])) {
 <html>
 <head>
     <title>YourListOnline - Twitch Login</title>
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" sizes="32x32" />
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" sizes="192x192" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png" />
-    <meta name="msapplication-TileImage" content="https://cdn.yourlist.online/img/logo.png" />
+    <link rel="icon" href="https://cdn.yourlistonline.com.au/img/logo.png" sizes="32x32" />
+    <link rel="icon" href="https://cdn.yourlistonline.com.au/img/logo.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="https://cdn.yourlistonline.com.au/img/logo.png" />
+    <meta name="msapplication-TileImage" content="https://cdn.yourlistonline.com.au/img/logo.png" />
 </head>
 <body>
     <p>Please wait while we redirect you to Twitch for authorization...</p>
