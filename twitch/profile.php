@@ -70,9 +70,9 @@ if ($alpha_user_flag && $beta_user_flag) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YourListOnline - Profile</title>
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
-    <link rel="stylesheet" href="https://cdn.yourlist.online/css/custom.css">
-    <link rel="icon" href="https://cdn.yourlist.online/img/logo.png" type="image/png" />
-    <link rel="apple-touch-icon" href="https://cdn.yourlist.online/img/logo.png">
+    <link rel="stylesheet" href="https://cdn.yourlistonline.com.au/css/custom.css">
+    <link rel="icon" href="https://cdn.yourlistonline.com.au/img/logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="https://cdn.yourlistonline.com.au/img/logo.png">
 </head>
 <body>
 <!-- Navigation -->
@@ -149,20 +149,20 @@ if ($alpha_user_flag && $beta_user_flag) {
     <br><br>
     <button type="button" class="defult-button" onclick="showOBSInfo()">HOW TO PUT ON YOUR STREAM</button>
     <br><br>
-    <?php if ($is_admin) { ?><a href="https://payments.yourlist.online" type="button" class="defult-button">Payments</a>
+    <?php if ($is_admin) { ?><a href="https://payments.yourlistonline.com.au" type="button" class="defult-button">Payments</a>
     <br><br><?php } ?>
     
     <a href="logout.php" type="button" class="logout-button">Logout</a>
 </div>
 <!-- Include the JavaScript files -->
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://cdn.yourlist.online/js/profile.js"></script>
-<script src="https://cdn.yourlist.online/js/about.js" defer></script>
-<script src="https://cdn.yourlist.online/js/obsbutton.js" defer></script>
-<script src="https://cdn.yourlist.online/js/darkmode.js"></script>
+<script src="https://cdn.yourlistonline.com.au/js/profile.js"></script>
+<script src="https://cdn.yourlistonline.com.au/js/about.js" defer></script>
+<script src="https://cdn.yourlistonline.com.au/js/obsbutton.js" defer></script>
+<script src="https://cdn.yourlistonline.com.au/js/darkmode.js"></script>
 <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
 <script>$(document).foundation();</script>
-<script src="https://cdn.yourlist.online/js/timezone.js"></script>
+<script src="https://cdn.yourlistonline.com.au/js/timezone.js"></script>
 
 <!-- JavaScript code to convert and display the dates -->
 <script>
